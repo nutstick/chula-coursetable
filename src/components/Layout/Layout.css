@@ -14,6 +14,8 @@ html {
   font-size: 1em; /* ~16px; */
   font-family: var(--font-family-base);
   line-height: 1.375; /* ~22px */
+  height: 100%;
+  background: #f6f9fc;
 }
 
 a {

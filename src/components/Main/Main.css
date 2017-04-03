@@ -1,0 +1,10 @@
+.root {
+  height: 100%;
+  margin-left: 180px;
+  box-sizing: border-box;
+}
+
+.scroll {
+  position: relative;
+  overflow: hidden;
+}

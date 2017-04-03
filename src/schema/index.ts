@@ -1,4 +1,4 @@
-import { GraphQLSchema } from 'graphql';
+import { buildSchema, GraphQLSchema } from 'graphql';
 import * as GraphQLDate from 'graphql-date';
 import { makeExecutableSchema } from 'graphql-tools';
 import * as SchemaType from './schema.gql';
@@ -13,7 +13,7 @@ const modules = [Query, User, IntlMessage];
 const resolvers = Object.assign({ Date: GraphQLDate }, ...(modules.map((m) => m.resolver).filter((res) => res)));
 const typeDefs = schema.concat(modules.map((m) => m.type).filter((res) => !!res));
 
-const Schema: GraphQLSchema = makeExecutableSchema({
+const Schema = makeExecutableSchema({
   logger: console,
   resolverValidationOptions: {
     requireResolversForNonScalar: false,

@@ -5,12 +5,12 @@ type Account {
   googleAccessCode: String
 }
 
+# A user
 type User {
   _id: String
   name: String
   avatar: String
   createAt: Date
   updateAt: Date
-  account: Account
-  threads: String
+  coursetables(cursor: $cursor): [CourseTable]
 }

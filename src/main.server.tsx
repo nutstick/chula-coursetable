@@ -102,6 +102,7 @@ database.connect((databaseError) => {
     rootValue: { request: req },
     debug: __DEV__,
   })));
+
   if (process.env.NODE_ENV !== 'production') {
     app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
   }

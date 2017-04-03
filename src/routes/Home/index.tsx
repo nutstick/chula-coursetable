@@ -1,19 +1,15 @@
 import * as fetch from 'isomorphic-fetch';
 import * as React from 'react';
 import { injectAsyncReducer } from '../../redux/reducers';
+import { errorLoading } from '../../routes';
 
-const errorLoading = (err) => {
-  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
-};
-
-const loadModule = (cb) => (componentModule) => {
+const loadModule = (cb) => async (componentModule) => {
   cb(null, componentModule.default);
 };
 
 export default {
   path: '/',
   getComponent (nextState, cb) {
-    console.log('222')
     _import('./Home')
       .then(loadModule(cb))
       .catch(errorLoading);

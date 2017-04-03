@@ -7,7 +7,7 @@
 import { createNetworkInterface } from 'apollo-client';
 import * as FastClick from 'fastclick';
 import * as FontFaceObserver from 'fontfaceobserver';
-import { createPath } from 'history/PathUtils';
+import { createPath } from 'history/lib/PathUtils';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import * as ReactDOM from 'react-dom';
@@ -121,7 +121,7 @@ let onRenderComplete = function initialRenderComplete(route?, location?) {
 (FastClick as any).attach(document.body);
 
 let appInstance;
-let currentLocation = history.location;
+let currentLocation = history.getCurrentLocation();
 
 // Re-render the app when window.location changes
 async function onLocationChange(location?, action?) {
@@ -154,7 +154,7 @@ async function onLocationChange(location?, action?) {
 export default function main() {
   // Handle client-side navigation by using HTML5 History API
   // For more information visit https://github.com/mjackson/history#readme
-  currentLocation = history.location;
+  currentLocation = history.getCurrentLocation();
   history.listen(onLocationChange);
   onLocationChange(currentLocation);
 }
@@ -174,7 +174,7 @@ if (module.hot) {
   module.hot.accept('./routes', async () => {
     const routes = createRoutes(store);
 
-    currentLocation = history.location;
+    currentLocation = history.getCurrentLocation();
     await onLocationChange(currentLocation);
     if (appInstance) {
       try {

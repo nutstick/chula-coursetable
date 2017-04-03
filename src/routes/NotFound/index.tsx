@@ -13,7 +13,6 @@ const loadModule = (cb) => (componentModule) => {
 export default {
   path: '*',
   getComponent (nextState, cb) {
-    console.log('asds')
     _import('./NotFound')
       .then(loadModule(cb))
       .catch(errorLoading);

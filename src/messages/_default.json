@@ -70,5 +70,32 @@
     "files": [
       "src/components/Navigation/Navigation.tsx"
     ]
+  },
+  {
+    "id": "sidebar.menu.coursetables",
+    "description": "My Course tables menu",
+    "defaultMessage": "Course Tables",
+    "message": "",
+    "files": [
+      "src/components/Sidebar/Sidebar.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.menu.search",
+    "description": "Search menu",
+    "defaultMessage": "Search",
+    "message": "",
+    "files": [
+      "src/components/Sidebar/Sidebar.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.menu.courses",
+    "description": "My Courses Menu",
+    "defaultMessage": "My Courses",
+    "message": "",
+    "files": [
+      "src/components/Sidebar/Sidebar.tsx"
+    ]
   }
 ]

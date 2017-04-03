@@ -1,0 +1,4 @@
+type CourseTable {
+  _id: String!
+  course: [Course]
+}

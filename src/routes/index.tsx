@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import Home from './Home';
 import NotFound from './NotFound';
 
-const errorLoading = (err) => {
+export const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
 

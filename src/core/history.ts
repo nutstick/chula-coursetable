@@ -1,4 +1,4 @@
-import createBrowserHistory from 'history/createBrowserHistory';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 // Navigation manager, e.g. history.push('/home')
 // https://github.com/mjackson/history

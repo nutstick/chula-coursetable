@@ -5,7 +5,7 @@ export const mongodb = process.env.MONGODB || `gcguide`;
 
 
 // default locale is the first one
-export const locales = ['en-US', 'cs-CZ'];
+export const locales = ['en-US', 'cs-CZ', 'th-TH'];
 
 export const analytics = {
 
