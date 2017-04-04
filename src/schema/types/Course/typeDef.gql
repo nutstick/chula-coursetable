@@ -1,10 +1,3 @@
-interface Course {
-  courseID: String!
-  name: String!
-  credit: Number!
-  exam: [Date]!
-}
-
 enum GenedType {
   # Science Gened
   SC
@@ -16,17 +9,42 @@ enum GenedType {
   SO
 }
 
-type SectionQuery implements Query {
-  totalCount: Int
-  edges: [SectionEdges]
+interface Course {
+  courseID: String!
+  name: String!
+  credit: Number!
+  exam: [Date]
 }
 
-type NormalCourse implements Course {
-  sections(first: Int, after: ID): SectionQuery
+type NormalCourse implements Course, Node {
+  _id: ID!
+  courseID: String!
+  name: String!
+  credit: Number!
+  exam: [Date]
+
+  sections(first: Int, after: ID): SectionPage
 }
 
-type GenedCourse implements Course {
+type GenedCourse implements Course, Node {
+  _id: ID!
+  courseID: String!
+  name: String!
+  credit: Number!
+  exam: [Date]
+
   type: GenedType!
+  genedSections(first: Int, after: ID): SectionPage
 }
 
-type Approve implements
+type ApprovedCourse implements Course, Node {
+  _id: ID!
+  courseID: String!
+  name: String!
+  credit: Number!
+  exam: [Date]
+
+  faculty: String!
+  department: String!
+  approvedSections(first: Int, after: ID): SectionPage
+}

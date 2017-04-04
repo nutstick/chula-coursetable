@@ -1,5 +1,0 @@
-# PageInfo
-type PageInfo {
-  endCursor: ID
-  hasNextPage: Boolean
-}

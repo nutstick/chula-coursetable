@@ -1,32 +1,18 @@
+# Account type
 type Account {
-  id: String
   email: String
   facebookAccessCode: String
   googleAccessCode: String
 }
-
-# Edges for CourseTableQuery
-type CourseTableEdges {
-  node: CourseTable
-  cursor: ID
-}
-
-# Course table relay-style pagination query
-type CourseTablePage implements Page {
-  totalCount: Int
-  edges: [CourseTableEdges]
-  pageInfo: PageInfo
-}
-
 # A user
-type User {
-  _id: String
-  name: String
+type User implements Node {
+  _id: ID!
+  name: String!
   avatar: String
-  createAt: Date
-  updateAt: Date
+  createAt: Date!
+  updateAt: Date!
   account: Account
 
-  coursetables(first: Int, after: ID): CourseTableQuery
+  coursetables(first: Int, after: ID): CourseTablePage
   coursetable(id: ID!): CourseTable
 }

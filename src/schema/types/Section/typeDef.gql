@@ -1,10 +1,22 @@
+type SectionEdges implements Edges {
+  node: Section!
+  cursor: ID!
+}
+
+type SectionPage implements Page {
+  totalCount: Int!
+  edges: [SectionEdges]
+  pageInfo: PageInfo
+}
+# Section Type
 enum SectionType {
   NORMAL
   GENED
   APPROVE
 }
-
-type Section {
+# Section
+type Section implements Node {
+  _id: ID!
   timeIntervals: [TimeInterval]!
   teachers: [Teacher]
   building: String

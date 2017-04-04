@@ -1,4 +1,17 @@
-type CourseTable {
-  _id: String!
+# Edges for CourseTableQuery
+type CourseTableEdges implements Edges {
+  node: CourseTable!
+  cursor: ID!
+}
+
+# Course table relay-style pagination query
+type CourseTablePage implements Page {
+  totalCount: Int
+  edges: [CourseTableEdges]
+  pageInfo: PageInfo
+}
+# Course table
+type CourseTable implements Node {
+  _id: ID!
   course: [Section]!
 }

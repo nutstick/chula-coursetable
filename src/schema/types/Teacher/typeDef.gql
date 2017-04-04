@@ -1,5 +1,6 @@
 # Root Query
-type Teacher {
+type Teacher implements Node {
+  _id: ID!
   name: String!
   abbreviated: String!
   shortDescription: String
