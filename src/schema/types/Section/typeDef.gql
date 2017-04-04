@@ -1,0 +1,13 @@
+enum SectionType {
+  NORMAL
+  GENED
+  APPROVE
+}
+
+type Section {
+  timeIntervals: [TimeInterval]!
+  teachers: [Teacher]
+  building: String
+  classroom: String
+  type: SectionType!
+}

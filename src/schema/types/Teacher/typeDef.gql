@@ -1,0 +1,6 @@
+# Root Query
+type Teacher {
+  name: String!
+  abbreviated: String!
+  shortDescription: String
+}

@@ -1,0 +1,17 @@
+scalar Time
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+type TimeInterval {
+  day: DayOfWeek!
+  start: Time!
+  end: Time!
+}

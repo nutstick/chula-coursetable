@@ -5,6 +5,19 @@ type Account {
   googleAccessCode: String
 }
 
+# Edges for CourseTableQuery
+type CourseTableEdges {
+  node: CourseTable
+  cursor: ID
+}
+
+# Course table relay-style pagination query
+type CourseTablePage implements Page {
+  totalCount: Int
+  edges: [CourseTableEdges]
+  pageInfo: PageInfo
+}
+
 # A user
 type User {
   _id: String
@@ -12,5 +25,8 @@ type User {
   avatar: String
   createAt: Date
   updateAt: Date
-  coursetables(cursor: $cursor): [CourseTable]
+  account: Account
+
+  coursetables(first: Int, after: ID): CourseTableQuery
+  coursetable(id: ID!): CourseTable
 }

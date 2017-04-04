@@ -1,0 +1,32 @@
+interface Course {
+  courseID: String!
+  name: String!
+  credit: Number!
+  exam: [Date]!
+}
+
+enum GenedType {
+  # Science Gened
+  SC
+  # Interdisciplinary Gened
+  IN
+  # Human Gened
+  HU
+  # Social Science Gened
+  SO
+}
+
+type SectionQuery implements Query {
+  totalCount: Int
+  edges: [SectionEdges]
+}
+
+type NormalCourse implements Course {
+  sections(first: Int, after: ID): SectionQuery
+}
+
+type GenedCourse implements Course {
+  type: GenedType!
+}
+
+type Approve implements
