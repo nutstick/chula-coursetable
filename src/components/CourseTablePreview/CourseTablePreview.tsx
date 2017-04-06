@@ -23,7 +23,11 @@ class CourseTablePreview extends React.Component<void, void> {
   public render () {
     console.log(this.props)
     return (
-      <div className={s.root}></div>
+      <div className={s.root}>
+        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => {
+          
+        })}
+      </div>
     );
   }
 }
