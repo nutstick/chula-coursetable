@@ -22,6 +22,7 @@
     "graphql-date": "^1.0.3",
     "graphql-server-express": "^0.6.0",
     "graphql-subscriptions": "^0.3.0",
+    "graphql-tag": "^2.0.0",
     "graphql-tools": "^0.11.0",
     "helmet": "^3.2.0",
     "immutable": "^3.8.1",
@@ -65,7 +66,8 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^3.0.0",
     "semantic-ui-css": "^2.2.10",
-    "semantic-ui-react": "^0.67.2"
+    "semantic-ui-react": "^0.67.2",
+    "serve-favicon": "^2.4.2"
   },
   "devDependencies": {
     "@types/babel-core": "^6.7.14",

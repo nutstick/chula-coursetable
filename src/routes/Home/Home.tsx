@@ -5,10 +5,23 @@ import { compose, graphql } from 'react-apollo';
 import { FormattedRelative } from 'react-intl';
 import CourseTablePreview from '../../components/CourseTablePreview';
 import { ICourseTablePreview } from '../../components/CourseTablePreview/CourseTablePreview';
+import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
 import * as s from './Home.css';
 
 interface IHome extends React.Props<any> {
   coursetables: ICourseTablePreview[];
+  data: {
+    me: {
+      coursetables: {
+        edges: Array<{
+          node: ICourseTablePreview,
+        }>,
+        pageInfo: {
+          endCursor: string,
+        },
+      },
+    },
+  };
 }
 
 class Home extends React.Component<IHome, void> {
@@ -17,24 +30,23 @@ class Home extends React.Component<IHome, void> {
   }
 
   public render() {
+    const { data: { me: { coursetables } } } = this.props;
+    console.log(coursetables.edges);
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.props.coursetables.map((item) => (
-            <CourseTablePreview {...item} />
-          ))}
+          {
+            coursetables.edges.map((item) => (
+              <CourseTablePreview {...item.node} />
+            ))
+          }
         </div>
       </div>
     );
   }
 }
 
-const CourseTablePreviews = gql`
-  query Me {
-    coursetable {
-      preview
-    }
-  }
-`;
-
-export default graphql(CourseTablePreviews)(withStyles(s)(Home));
+export default compose(
+  withStyles(s),
+  graphql(COURSETABLEPREVIEWQUERY),
+)(Home);

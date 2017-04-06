@@ -22,7 +22,6 @@ interface IOptions {
 function createGraphqlRequest(apolloClient) {
   return async function graphqlRequest(queryOrString, variables, options: IOptions = {}) {
     if (__DEV__) {
-      // eslint-disable-next-line no-console
       console.error(graphqlRequestDeprecatedMessage);
     }
 

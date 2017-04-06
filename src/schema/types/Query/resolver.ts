@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { locales } from '../../../config';
 
+import * as mock from '../../../../mockData.json';
+
 const CONTENT_DIR = join(__dirname, './messages');
 
 const readFile = BluebirdPromise.promisify(fs.readFile);
@@ -12,8 +14,8 @@ const resolver = {
     helloworld() {
       return 'Hello Word';
     },
-    me(root, args, { user }) {
-      return user;
+    me(root, args, context) {
+      return mock.users['58e27f900000000000000000'];
     },
     async intl({ request }, { locale }) {
       if (!locales.includes(locale)) {

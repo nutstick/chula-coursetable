@@ -1,0 +1,21 @@
+query ($first: Int, $after: ID) {
+    me {
+      coursetables(first: $first, after: $after) {
+        edges {
+          node {
+            _id
+            courses {
+              timeIntervals {
+                day
+                start
+                end
+              }
+            }
+          }
+        }
+        pageInfo {
+          endCursor
+        }
+      }
+    }
+  }

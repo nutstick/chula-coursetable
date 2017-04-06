@@ -107,10 +107,11 @@ const config: Configuration = {
       },
       {
         test: /\.(graphql|gql)$/,
-        include: [
-          path.resolve(__dirname, '../src'),
-        ],
-        loader: 'raw-loader',
+        // include: [
+        //   path.resolve(__dirname, '../src'),
+        // ],
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
       },
     ],
   },

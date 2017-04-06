@@ -12,11 +12,10 @@ import * as jwt from 'jsonwebtoken';
 import * as path from 'path';
 import * as PrettyError from 'pretty-error';
 import * as React from 'react';
-import { ApolloProvider, getDataFromTree } from 'react-apollo';
+import { getDataFromTree } from 'react-apollo';
 import * as ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { createMemoryHistory, match, RouterContext } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
 import App from './components/App';
 import Html, { IHtmlProps } from './components/Html';
 import { auth, locales, port } from './config';
@@ -26,7 +25,7 @@ import ServerInterface from './core/ServerInterface';
 import { configureStore } from './redux/configureStore';
 import { setLocale } from './redux/intl/actions';
 import { setRuntimeVariable } from './redux/runtime/actions';
-import routes from './routes';
+import createRoutes from './routes';
 import ErrorPage from './routes/Error/ErrorPage';
 import * as errorPageStyle from './routes/error/ErrorPage.css';
 import { Schema } from './schema';
@@ -93,6 +92,7 @@ database.connect((databaseError) => {
   /**
    * GraphQL Initialize
    */
+
   app.use('/graphql', bodyParser.json(), graphqlExpress((req) => ({
     context: {
       database,
@@ -115,11 +115,21 @@ database.connect((databaseError) => {
     const memoryHistory = createMemoryHistory(req.originalUrl);
 
     const apolloClient = createApolloClient({
-      ssrMode: true,
+      // ssrMode: true,
       networkInterface: new ServerInterface({
         schema: Schema,
         rootValue: { request: req },
       }),
+
+      // networkInterface: createNetworkInterface({
+      //   uri: '/graphql',
+      //   opts: {
+      //     credentials: 'same-origin',
+      //     // transfer request headers to networkInterface so that they're accessible to proxy server
+      //     // Addresses this issue: https://github.com/matthew-andrews/isomorphic-fetch/issues/83
+      //     headers: req.headers,
+      //   },
+      // }),
     });
 
     const store = configureStore({
@@ -160,7 +170,7 @@ database.connect((databaseError) => {
       client: apolloClient,
     };
 
-    match ({ history: memoryHistory, routes: routes(store), location: req.url },
+    match ({ history: memoryHistory, routes: createRoutes(store), location: req.url },
       (error, redirectLocation, renderProps) => {
       if (error) {
         return res.status(500).send(error.message);
@@ -179,22 +189,26 @@ database.connect((databaseError) => {
           </App>
         );
 
-        // set children to match context
-        const children = ReactDOM.renderToString(component);
+        getDataFromTree(component).then(() => {
+          // set children to match context
+          const children = ReactDOM.renderToString(component);
 
-        const data: IHtmlProps = {
-          title: 'React Starter Kit',
-          description: 'React starter kit using Typescript 2 and Webpack 2.',
-          children,
-          state: context.store.getState(),
-          styles: [
-            { id: 'css', cssText: [...css].join('') },
-          ],
-        };
+          const data: IHtmlProps = {
+            title: 'React Starter Kit',
+            description: 'React starter kit using Typescript 2 and Webpack 2.',
+            children,
+            state: context.store.getState(),
+            styles: [
+              { id: 'css', cssText: [...css].join('') },
+            ],
+          };
 
-        // rendering html components
-        const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-        res.status(200).send(`<!doctype html>${html}`);
+          // rendering html components
+          const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
+          res.status(200).send(`<!doctype html>${html}`);
+        }).catch((error) => {
+          return res.status(500).send(error);
+        });
       } else {
         res.status(404).send('Not found');
       }
@@ -208,8 +222,8 @@ database.connect((databaseError) => {
   pe.skipNodeFiles();
   pe.skipPackage('express');
 
-  app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-    console.log(pe.render(err)); // eslint-disable-line no-console
+  app.use((err, req, res, next) => {
+    console.log(pe.render(err));
     const html = ReactDOM.renderToStaticMarkup(
       <Html
         title="Internal Server Error"

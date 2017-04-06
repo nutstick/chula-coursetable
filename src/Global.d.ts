@@ -1,6 +1,7 @@
 /**
  * Type declerations for global development variables
  */
+
 declare var __DEV__: boolean;
 
 interface Window {
@@ -39,13 +40,13 @@ interface ObjectConstructor {
 }
 
 declare module '*.graphql' {
-  var _: string;
+  var _: any;
   export = _;
   // export default  _;
 }
 
 declare module '*.gql' {
-  var _: string;
+  var _: DocumentNode;
   export = _;
   // export default  _;
 }

@@ -1,10 +1,5 @@
 import * as React from 'react';
-
-const title = 'Page not found';
-
-const errorLoading = (err) => {
-  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
-};
+import { errorLoading } from '../../routes';
 
 const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);

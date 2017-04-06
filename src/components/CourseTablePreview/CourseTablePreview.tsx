@@ -3,19 +3,25 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import * as s from './CourseTablePreview.css';
 
-export interface ICourse {
+interface ITimeIntervals {
+  day: string;
   start: Date;
   end: Date;
 }
 
+interface ICourse {
+  timeIntervals: ITimeIntervals[];
+}
+
 export interface ICourseTablePreview {
-  id: string;
-  course: ICourse[];
+  _id: string;
+  courses: ICourse[];
 }
 
 
 class CourseTablePreview extends React.Component<void, void> {
   public render () {
+    console.log(this.props)
     return (
       <div className={s.root}></div>
     );

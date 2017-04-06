@@ -6,12 +6,12 @@ type CourseTableEdges implements Edges {
 
 # Course table relay-style pagination query
 type CourseTablePage implements Page {
-  totalCount: Int
+  totalCount: Int!
   edges: [CourseTableEdges]
   pageInfo: PageInfo
 }
 # Course table
 type CourseTable implements Node {
   _id: ID!
-  course: [Section]!
+  courses: [Section]!
 }

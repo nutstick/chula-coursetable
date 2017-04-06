@@ -1,17 +1,39 @@
-import { buildSchema, GraphQLSchema } from 'graphql';
+import { GraphQLSchema, GraphQLString } from 'graphql';
+import { print } from 'graphql/language';
 import * as GraphQLDate from 'graphql-date';
 import { makeExecutableSchema } from 'graphql-tools';
 import * as SchemaType from './schema.gql';
+import * as Course from './types/Course';
+import * as CourseTable from './types/CourseTable';
 import * as IntlMessage from './types/IntlMessage';
 import * as Mutation from './types/Mutation';
+import * as Pagination from './types/Pagination';
 import * as Query from './types/Query';
+import * as Section from './types/Section';
+import * as Teacher from './types/Teacher';
+import * as TimeInterval from './types/TimeInterval';
 import * as User from './types/User';
 
-const schema = [SchemaType];
-const modules = [Query, User, IntlMessage];
+const schema = [print(SchemaType)];
+const modules = [
+  Pagination,
+  User,
+  IntlMessage,
+  Teacher,
+  TimeInterval,
+  Section,
+  Course,
+  CourseTable,
+  Query,
+];
 
-const resolvers = Object.assign({ Date: GraphQLDate }, ...(modules.map((m) => m.resolver).filter((res) => res)));
-const typeDefs = schema.concat(modules.map((m) => m.type).filter((res) => !!res));
+const resolvers = Object.assign({
+    Date: GraphQLDate,
+    Time: GraphQLString,
+  },
+  ...(modules.map((m) => m.resolver).filter((res) => res)),
+);
+const typeDefs = schema.concat(modules.map((m) => print(m.type)).filter((res) => !!res));
 
 const Schema = makeExecutableSchema({
   logger: console,

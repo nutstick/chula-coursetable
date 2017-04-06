@@ -1,0 +1,34 @@
+{
+  "users": {
+    "58e27f900000000000000000": {
+      "_id": "58e27f900000000000000000",
+      "name": "Test bot",
+      "avatar": "http://1.gravatar.com/avatar/767fc9c115a1b989744c755db47feb60",
+      "createAt": 1491282349,
+      "updateAt": 1491282349,
+
+      "coursetables": [
+        {
+          "_id": "581cbecc0000000000000000",
+          "courses": [
+            {
+              "_id": "581cbf800000000000000000",
+              "timeIntervals": [
+                {
+                  "day": "MONDAY",
+                  "start": "9:30",
+                  "end": "11:00"
+                }, {
+                  "day": "WEDNESDAY",
+                  "start": "9:30",
+                  "end": "11:00"
+                }
+              ],
+              "type": "NORMAL"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

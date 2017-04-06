@@ -1,7 +1,7 @@
 const resolver = {
   User: {
-    threads() {
-      return 'Thread';
+    coursetables(root, args) {
+      return root.coursetables;
     },
   },
 };
