@@ -50,7 +50,11 @@ module.exports = () => ({
     // Add vendor prefixes to CSS rules using values from caniuse.com
     // https://github.com/postcss/autoprefixer
     require('autoprefixer')(/* package.json/browserslist */),
-
-    // require('postcss-modules'),
+    // Allows an author to store a set of properties in a named variable, then reference them in other style rules.
+    // https://github.com/pascalduez/postcss-apply
+    require('postcss-apply')(),
+    // Create stunning grids based on fractions you define without having to pass a lot of options.
+    // https://github.com/peterramsing/lost
+    require('lost')(),
   ],
 });

@@ -17,19 +17,20 @@
 }
 
 .wrap {
-  composes: flex-vertical from '../variables.css';
-  
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
 }
 
 .logo-wrapper {
-  composes: flex-center from '../variables.css';
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   flex: 1;
   padding: 1rem 0.5rem 0;
   font-size: 0.75rem;
-  justify-content: center;
 }
 .logo-wrapper > .logo {
   width: 140px;
@@ -41,8 +42,10 @@
 }
 
 .profile-wrapper {
-  composes: flex-center from '../variables.css';
-  composes: flex-vertical from '../variables.css';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   flex: 1;
   justify-content: space-around;
@@ -51,7 +54,8 @@
   border-top: 1px solid rgba(99,114,130,0.15);
 }
 .profile {
-  composes: flex-vertical from '../variables.css';
+  display: flex;
+  flex-direction: column;
 
   text-align: center;
   align-items: center;
@@ -72,8 +76,10 @@
   color: var(--grey);
 }
 .action-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 -2rem;
-  /*composes: flex from '../variables.css';*/
 }
 .profile-wrapper > .action-holder > * {
   justify-content: space-between;

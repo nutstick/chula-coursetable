@@ -1,4 +1,90 @@
+@import '../variables.css';
+
+:root {
+  --light-color: rgba(112, 128, 144, 0.2);
+  --dark-color: #f2f2f2;
+}
+
 .root {
-  width: 480px;
-  height: 360px;
+  position: relative;
+}
+
+.fix-aspect {
+  padding-bottom: 66.666%;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.day {
+  font-size: 60%;
+  height: calc(100% / 6);
+  &-label {
+    width: 2rem;
+    height: 100%;
+    text-align: center;
+    @media (--small-sm) {
+      border: 1px solid var(--light-color);
+      padding: 0.5em;
+      &:before { content: none; }
+    }
+  }
+}
+
+.time-wrapper {
+  width: 120px;
+  height: 100%;
+  flex: 1;
+}
+
+.table {
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  border: 1px solid var(--dark-color);
+  font-size: 1rem;
+  line-height: 1.5;
+
+  &-header {
+    display: none;
+    @media (--small-sm) {
+      font-weight: 700;
+      background-color: var(--dark-color);
+    }
+  }
+  &-row {
+    width: 100%;
+    &:nth-of-type(even) { background-color: var(--dark-color); }
+    &:nth-of-type(odd) { background-color: var(--light-color); }
+    @media (--small-sm) {
+      display: flex;
+      flex-flow: row nowrap;
+      &:nth-of-type(even) { background-color: var(--light-color); }
+      &:nth-of-type(odd) { background-color: var(--dark-color); }
+    }
+    &-item {
+      display: flex;
+      flex-flow: row nowrap;
+      flex-grow: 1;
+      flex-basis: 0;
+      padding: 0.5em;
+      word-break: break-word;
+      &:before {
+        content: attr(data-header);
+        width: 30%;
+        font-weight: 700;
+      }
+      @media (--small-sm) {
+        border: 1px solid var(--light-color);
+        padding: 0.5em;
+        &:before { content: none; }
+      }
+    }
+  }
 }

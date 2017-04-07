@@ -31,13 +31,12 @@ class Home extends React.Component<IHome, void> {
 
   public render() {
     const { data: { me: { coursetables } } } = this.props;
-    console.log(coursetables.edges);
     return (
       <div className={s.root}>
         <div className={s.container}>
           {
             coursetables.edges.map((item) => (
-              <CourseTablePreview {...item.node} />
+              <CourseTablePreview key={item.node._id} className={s.courseTable}{...item.node} />
             ))
           }
         </div>

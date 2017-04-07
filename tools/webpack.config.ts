@@ -60,7 +60,7 @@ const config: Configuration = {
               localIdentName: isDebug ? '[name]-[local]-[hash:base64:5]' : '[hash:base64:5]',
               minimize: isDebug,
               discardComments: { removeAll: true },
-              camelCase: 'dashes',
+              camelCase: 'dashesOnly',
             },
           },
           {

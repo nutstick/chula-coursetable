@@ -22,57 +22,15 @@
 
   --dark-grey: #2d2d2d;
   --grey: #b2b2b2;
+  --light-color: #ffffff;
+  --dark-color: #f2f2f2;
+
+@custom-media --small-xs (width >= 480px);
+@custom-media --small-sm (width >= 768px);
+
+  --flex {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  }
 }
-
-.flex {
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-.flex-horizontal {
-  composes: flex;
-
-  -ms-flex-direction: row;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-}
-
-.flex-horizontal-reverse {
-  composes: flex;
-
-  -ms-flex-direction: row-reverse;
-  -webkit-flex-direction: row-reverse;
-  flex-direction: row-reverse;
-}
-
-.flex-vertical {
-  composes: flex;
-
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-}
-
-.flex-vertical-reverse {
-  composes: flex;
-
-  -ms-flex-direction: column-reverse;
-  -webkit-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-}
-
-.flex-center {
-  composes: flex;
-
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.flex-child: {
-  -ms-flex: 1 1 0.000000001px;
-  -webkit-flex: 1;
-  flex: 1;
-  -webkit-flex-basis: 0.000000001px;
-  flex-basis: 0.000000001px;
-};

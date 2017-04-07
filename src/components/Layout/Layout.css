@@ -18,6 +18,10 @@ html {
   background: #f6f9fc;
 }
 
+body {
+  height: 100%;
+}
+
 a {
   color: #0074c2;
 }
