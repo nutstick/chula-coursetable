@@ -32,7 +32,8 @@
     "message": "O nás",
     "description": "About link in header",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -41,7 +42,8 @@
     "message": "Kontakt",
     "description": "Contact link in header",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -50,7 +52,8 @@
     "message": "Přihlásit",
     "description": "Log in link in header",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -59,7 +62,8 @@
     "message": "Registrace",
     "description": "Sign up link in header",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -68,7 +72,8 @@
     "message": "nebo",
     "description": "Last separator in list, lowercase \"or\"",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {

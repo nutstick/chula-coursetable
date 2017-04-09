@@ -1,0 +1,13 @@
+.root {
+  position: absolute;
+  background-color: rgba(8, 115, 120, 0.30);
+}
+
+.root:before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: .1rem;
+  background-color: rgba(8, 115, 120, 1.0);
+}

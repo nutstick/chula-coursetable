@@ -206,8 +206,8 @@ database.connect((databaseError) => {
           // rendering html components
           const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
           res.status(200).send(`<!doctype html>${html}`);
-        }).catch((error) => {
-          return res.status(500).send(error);
+        }).catch((_error) => {
+          console.log(_error);
         });
       } else {
         res.status(404).send('Not found');

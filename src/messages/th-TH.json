@@ -59,7 +59,8 @@
     "defaultMessage": "About",
     "message": "",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -68,7 +69,8 @@
     "defaultMessage": "Contact",
     "message": "",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -77,7 +79,8 @@
     "defaultMessage": "Log in",
     "message": "",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -86,7 +89,8 @@
     "defaultMessage": "or",
     "message": "",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   },
   {
@@ -95,7 +99,8 @@
     "defaultMessage": "Sign up",
     "message": "",
     "files": [
-      "src/components/Navigation/Navigation.tsx"
+      "src/components/Navigation/Navigation.tsx",
+      "src/components/TimeInterval/TimeInterval.tsx"
     ]
   }
 ]

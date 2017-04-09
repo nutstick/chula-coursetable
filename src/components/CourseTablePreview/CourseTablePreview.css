@@ -37,9 +37,9 @@
 }
 
 .time-wrapper {
-  width: 120px;
   height: 100%;
   flex: 1;
+  position: relative;
 }
 
 .table {

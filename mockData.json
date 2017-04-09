@@ -25,6 +25,70 @@
                 }
               ],
               "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000001",
+              "timeIntervals": [
+                {
+                  "day": "MONDAY",
+                  "start": "8:00",
+                  "end": "9:30"
+                }, {
+                  "day": "WEDNESDAY",
+                  "start": "13:00",
+                  "end": "16:00"
+                }
+              ],
+              "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000002",
+              "timeIntervals": [
+                {
+                  "day": "TUESDAY",
+                  "start": "8:00",
+                  "end": "12:00"
+                }
+              ],
+              "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000003",
+              "timeIntervals": [
+                {
+                  "day": "FRIDAY",
+                  "start": "9:00",
+                  "end": "12:00"
+                }
+              ],
+              "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000004",
+              "timeIntervals": [
+                {
+                  "day": "FRIDAY",
+                  "start": "8:00",
+                  "end": "9:00"
+                }
+              ],
+              "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000004",
+              "timeIntervals": [
+                {
+                  "day": "FRIDAY",
+                  "start": "8:30",
+                  "end": "10:30"
+                }
+              ],
+              "type": "NORMAL"
+            }, {
+              "_id": "581cbf800000000000000004",
+              "timeIntervals": [
+                {
+                  "day": "FRIDAY",
+                  "start": "10:00",
+                  "end": "12:00"
+                }
+              ],
+              "type": "NORMAL"
             }
           ]
         }, {
