@@ -1,0 +1,15 @@
+query ($id: ID!) {
+    me {
+      coursetable(id: $id) {
+        _id
+        courses {
+          timeIntervals {
+            day
+            start
+            end
+          }
+          color
+        }
+      }
+    }
+  }

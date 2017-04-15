@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as deepForceUpdate from 'react-deep-force-update';
 import { IntlProvider } from 'react-intl';
-import { ApolloProvider } from 'react-apollo';
 
 interface IContext {
   insertCss: any;
@@ -77,7 +76,6 @@ class App extends React.Component<IAppProps, any> {
     const { initialNow, locale, messages } = this.intl;
     const localeMessages = (messages && messages[locale]) || {};
     return (
-      // <ApolloProvider client={client}>
       <IntlProvider
         initialNow={initialNow}
         locale={locale}
@@ -86,7 +84,6 @@ class App extends React.Component<IAppProps, any> {
       >
         {React.Children.only(this.props.children)}
       </IntlProvider>
-      // </ApolloProvider>
     );
   }
 }

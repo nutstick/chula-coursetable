@@ -4,7 +4,9 @@ import Main from '../Main';
 import Sidebar from '../Sidebar';
 import * as s from './Layout.css';
 
-interface ILayoutProps extends React.Props<any> {}
+interface ILayoutProps extends React.Props<any> {
+  children?: React.ReactNode;
+}
 
 class Layout extends React.Component<ILayoutProps, void> {
   public render() {

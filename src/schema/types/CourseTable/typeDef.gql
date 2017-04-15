@@ -13,5 +13,5 @@ type CourseTablePage implements Page {
 # Course table
 type CourseTable implements Node {
   _id: ID!
-  courses: [Section]!
+  courses: [CourseTableSection]!
 }

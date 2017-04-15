@@ -53,4 +53,4 @@ export function configureStore(initialState: IState, helpersConfig?: IHelperConf
   }
 
   return store;
-};
+}

@@ -1,7 +1,7 @@
 import { GraphQLSchema, GraphQLString } from 'graphql';
-import { print } from 'graphql/language';
 import * as GraphQLDate from 'graphql-date';
 import { makeExecutableSchema } from 'graphql-tools';
+import { print } from 'graphql/language';
 import * as SchemaType from './schema.gql';
 import * as Course from './types/Course';
 import * as CourseTable from './types/CourseTable';

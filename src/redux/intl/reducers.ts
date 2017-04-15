@@ -1,7 +1,7 @@
 import {
+  SET_LOCALE_ERROR,
   SET_LOCALE_START,
   SET_LOCALE_SUCCESS,
-  SET_LOCALE_ERROR,
 } from './constants';
 
 export const intlReducers = function intl(state = null, action) {
@@ -44,4 +44,4 @@ export const intlReducers = function intl(state = null, action) {
       return state;
     }
   }
-}
+};

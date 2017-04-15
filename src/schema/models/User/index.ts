@@ -1,21 +1,17 @@
 import * as Iridium from 'iridium';
 import { Collection, Index, Instance, Model, ObjectID, Property } from 'iridium';
+import { CourseTable, ICourseTableDocument } from '../CourseTable';
 import { Account, IAccountDocument } from './account';
-import { GuideDetail, IGuideDetailDocument } from './guide';
-import { IPermissionTypeDocument, PermissionType } from './permissionType';
 
 interface IUserDocument {
   _id?: string;
   name: string;
   account: IAccountDocument;
   avatar: string;
-  gender?: string;
-  locale?: string;
-  timezone?: number;
   createAt?: Date;
   updateAt?: Date;
-  type?: IPermissionTypeDocument;
-  guide?: IGuideDetailDocument;
+
+  coursetables: ICourseTableDocument[];
 }
 
 @Index({
@@ -35,21 +31,13 @@ class User extends Instance<IUserDocument, User> implements IUserDocument {
 
   @Property(String, true)
   avatar: string;
-  @Property(/^(Male|Female|Other)$/, false)
-  gender: string;
-  @Property(/^.+$/, false)
-  locale: string;
-  @Property(Number, false)
-  timezone: number;
   @Property(Date, false)
   createAt: Date;
   @Property(Date, false)
   updateAt: Date;
 
-  @Property(PermissionType, false)
-  type: IPermissionTypeDocument;
-  @Property(GuideDetail, false)
-  guide: IGuideDetailDocument;
+  @Property([CourseTable], false)
+  coursetables: ICourseTableDocument[];
 
   static onCreating(user: IUserDocument) {
     user.createAt = new Date();

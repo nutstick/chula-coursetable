@@ -8,7 +8,7 @@ interface IAvatarProps {
   className?: string;
   size?: number;
   src: string;
-};
+}
 
 interface IDefaultStyle {
   height: number;
@@ -34,7 +34,7 @@ class Avartar extends React.Component<IAvatarProps, any> {
           style={this.style}
         />
       </div>
-    )
+    );
   }
 }
 

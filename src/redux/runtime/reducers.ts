@@ -10,4 +10,4 @@ export const runtimeReducers = function runtime(state = {}, action) {
     default:
       return state;
   }
-}
+};

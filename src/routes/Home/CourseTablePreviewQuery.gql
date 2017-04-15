@@ -9,7 +9,8 @@ query ($first: Int, $after: ID) {
                 day
                 start
                 end
-              }
+              },
+              color
             }
           }
         }

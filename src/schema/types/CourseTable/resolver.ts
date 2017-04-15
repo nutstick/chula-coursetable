@@ -5,7 +5,7 @@ const resolver = {
     },
     cursor(root) {
       return root._id;
-    }
+    },
   },
   CourseTablePage: {
     totalCount(root) {

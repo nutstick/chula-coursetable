@@ -3,4 +3,4 @@ export const userReducers = function user(state = {}, action) {
     default:
       return state;
   }
-}
+};

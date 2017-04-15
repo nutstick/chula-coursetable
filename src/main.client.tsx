@@ -76,10 +76,10 @@ let onRenderComplete = function initialRenderComplete(route?, location?) {
   if (elem) {
     elem.parentNode.removeChild(elem);
   }
-  onRenderComplete = function renderComplete(route, location) {
-    document.title = route.title;
+  onRenderComplete = function renderComplete(route_, location_) {
+    document.title = route_.title;
 
-    updateMeta('description', route.description);
+    updateMeta('description', route_.description);
     // Update necessary tags in <head> at runtime here, ie:
     // updateMeta('keywords', route.keywords);
     // updateCustomMeta('og:url', route.canonicalUrl);
@@ -89,12 +89,12 @@ let onRenderComplete = function initialRenderComplete(route?, location?) {
 
     let scrollX = 0;
     let scrollY = 0;
-    const pos = scrollPositionsHistory[location.key];
+    const pos = scrollPositionsHistory[location_.key];
     if (pos) {
       scrollX = pos.scrollX;
       scrollY = pos.scrollY;
     } else {
-      const targetHash = location.hash.substr(1);
+      const targetHash = location_.hash.substr(1);
       if (targetHash) {
         const target = document.getElementById(targetHash);
         if (target) {
@@ -111,7 +111,7 @@ let onRenderComplete = function initialRenderComplete(route?, location?) {
     // Google Analytics tracking. Don't send 'pageview' event after
     // the initial rendering, as it was already sent
     if (window.ga) {
-      window.ga('send', 'pageview', createPath(location));
+      window.ga('send', 'pageview', createPath(location_));
     }
   };
 };

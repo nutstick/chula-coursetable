@@ -10,7 +10,7 @@ interface IConfig {
   method?: string;
   headers?: {
     [key: string]: string,
-  }
+  };
   body?: string;
   credentials?: string;
 }
@@ -37,7 +37,8 @@ function createGraphqlRequest(apolloClient) {
 
     let isMutation = false;
     if (query.definitions) {
-      isMutation = query.definitions.some(definition => definition && (definition.operation === 'mutation'));
+      isMutation = query.definitions.some((definition) =>
+        (definition && (definition.operation === 'mutation')));
     }
     if (isMutation) {
       return apolloClient.mutate({ mutation: query, variables });

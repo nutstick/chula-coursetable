@@ -2,8 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "noImplicitAny": false,
     "lib": ["es2017", "dom"],
     "moduleResolution": "node",
@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "baseUrl": "src"
   },
-  "compileOnSave": true,
+  "include": [
+    "src/**.ts",
+    "src/**.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

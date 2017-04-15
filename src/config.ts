@@ -3,7 +3,6 @@ export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
 export const mongodb = process.env.MONGODB || `gcguide`;
 
-
 // default locale is the first one
 export const locales = ['en-US', 'cs-CZ', 'th-TH'];
 

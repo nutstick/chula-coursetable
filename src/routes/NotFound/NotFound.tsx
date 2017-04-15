@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface INotFound extends React.Props<any> {
-  title: String;
+  title: string;
 }
 
 export default class NotFound extends React.Component<INotFound, void> {

@@ -6,11 +6,6 @@ import TimeInterval from '../TimeInterval';
 import { ITimeInterval } from '../TimeInterval/TimeInterval';
 import * as s from './CourseTablePreview.css';
 
-
-interface ICourse {
-  timeIntervals: ITimeIntervals[];
-}
-
 interface IEventPoint {
   // Interval Index in Day base list
   index: number;
@@ -26,22 +21,31 @@ interface ITimeIntervals {
   end: string;
 }
 
-export interface ICourseTablePreview {
-  _id: string;
-  className: string;
-  courses: ICourse[];
+export interface ICourse {
+  timeIntervals: ITimeIntervals[];
 }
 
+export interface ICourseTablePreview<T extends ICourse> {
+  _id: string;
+  className: string;
+  courses: T[];
+}
 
-class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
-  private coursetable: Array<Seq.Indexed<ITimeInterval>>;
-  private maxTime: number;
+export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
+  extends React.Component<P, void> {
+  public coursetable: Array<Seq.Indexed<ITimeInterval>>;
+  public maxTime: number;
 
-  public render () {
+  public componentWillMount() {
     this.generateCourseTable();
+  }
 
+  public componentWillUpdate() {
+    this.generateCourseTable();
+  }
+
+  public render() {
     const maxTime = this.maxTime;
-
     return (
       <div className={cx(s.root, s.table, this.props.className)}>
         <div className={s.fixAspect} />
@@ -65,27 +69,27 @@ class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
     );
   }
 
-  /* 
-    Calculate interval size for rendering cousetable correctly */
-  private generateCourseTable () {
+  /* Calculate interval size for rendering cousetable correctly */
+  public generateCourseTable() {
     // Day list
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     // Day base course list
     const ct: ITimeInterval[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
-    this.props.courses.forEach(((course) => {
-      course.timeIntervals.forEach(((time) => {
+    this.props.courses.forEach((({ timeIntervals, ...course }) => {
+      timeIntervals.forEach(((time) => {
         const matchedDay = days.findIndex((day) => day === time.day.toLowerCase());
         ct[matchedDay].push({
           start: this.convertTimeToInt(time.start),
           end: this.convertTimeToInt(time.end),
+          ...course,
         });
       }).bind(this));
     }).bind(this));
 
     // Find Max Time
-    this.maxTime = ct.reduce((m, d) => Math.max(m, d.reduce((_m, p) => Math.max(_m, p.start), -1)), -1)
+    this.maxTime = ct.reduce((m, d) => Math.max(m, d.reduce((_m, p) => Math.max(_m, p.start), -1)), -1);
 
     // Convert time interval into event points list.
     const pointList = ct.map((d) => d.reduce((points, {start, end}, index) => (
@@ -94,7 +98,7 @@ class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
           .push({ index, type: 1, timestamp: end })
       ), List<IEventPoint>())
       .sort((a, b) => (a.timestamp !== b.timestamp ?
-        a.timestamp - b.timestamp : (a.type !== b.type ? b.type - a.type : 0)))
+        a.timestamp - b.timestamp : (a.type !== b.type ? b.type - a.type : 0))),
     );
 
     // Calculate interval size for rendering cousetable correctly
@@ -116,12 +120,14 @@ class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
         // If end point set position index to avaliable
         if (point.type === 0) {
           const position = avaliablePosition.isEmpty() ? maxTop : avaliablePosition.first();
+          const { start, end, ...course } = ct[day][point.index];
 
           return {
             avaliablePosition: avaliablePosition.isEmpty() ? avaliablePosition : avaliablePosition.shift(),
             positionIndex: positionIndex.set(point.index, {
-              start: ct[day][point.index].start,
-              end: ct[day][point.index].end,
+              start,
+              end,
+              ...course,
               position,
             }),
           };
@@ -159,7 +165,7 @@ class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
     });
   }
 
-  private convertTimeToInt (time: string) {
+  public convertTimeToInt(time: string) {
     const [h, m] = time.split(':');
     return parseInt(h, 10) * 60 + parseInt(m, 10);
   }

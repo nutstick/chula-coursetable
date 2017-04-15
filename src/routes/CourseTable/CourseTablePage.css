@@ -1,0 +1,8 @@
+.root {
+  padding: 1.5rem;
+}
+
+.course-table {
+  height: calc(100vh - 3rem);
+  lost-utility: clearfix;
+}
