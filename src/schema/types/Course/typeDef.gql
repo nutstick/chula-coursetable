@@ -9,15 +9,7 @@ enum GenedType {
   SO
 }
 
-interface ICourse {
-  courseID: String!
-  name: String!
-  shortName: String!
-  credit: Float!
-  exam: [Date]
-}
-
-type NormalCourse implements ICourse, Node {
+interface Course {
   _id: ID!
   courseID: String!
   name: String!
@@ -28,7 +20,7 @@ type NormalCourse implements ICourse, Node {
   sections(first: Int, after: ID): SectionPage
 }
 
-type GenedCourse implements ICourse, Node {
+type NormalCourse implements Course, Node {
   _id: ID!
   courseID: String!
   name: String!
@@ -36,21 +28,35 @@ type GenedCourse implements ICourse, Node {
   credit: Float!
   exam: [Date]
 
+  sections(first: Int, after: ID): SectionPage
+}
+
+type GenedCourse implements Course, Node {
+  _id: ID!
+  courseID: String!
+  name: String!
+  shortName: String!
+  credit: Float!
+  exam: [Date],
+  type: String!,
+
+  sections(first: Int, after: ID): SectionPage
+  
   type: GenedType!
   genedSections(first: Int, after: ID): SectionPage
 }
 
-type ApprovedCourse implements ICourse, Node {
+type ApprovedCourse implements Course, Node {
   _id: ID!
   courseID: String!
   name: String!
   shortName: String!
   credit: Float!
   exam: [Date]
+
+  sections(first: Int, after: ID): SectionPage
 
   faculty: String!
   department: String!
   approvedSections(first: Int, after: ID): SectionPage
 }
-
-union Course = NormalCourse | GenedCourse | ApprovedCourse

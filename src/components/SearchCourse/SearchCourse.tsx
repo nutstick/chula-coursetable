@@ -55,6 +55,9 @@ class SearchCourse extends React.Component<ISearchCourse, void> {
               onChange={this.onSearch.bind(this)}
             />
           </div>
+          <div>
+            <CoursesList search={this.state.search} />
+          </div>
         </div>
       </div>
     );

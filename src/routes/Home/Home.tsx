@@ -36,7 +36,6 @@ class Home extends React.Component<IHome, void> {
   }
 
   public render() {
-    console.log(this.props);
     const { data: { me: { coursetables } } } = this.props;
     return (
       <div className={s.root}>
