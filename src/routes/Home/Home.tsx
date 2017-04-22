@@ -2,8 +2,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { FormattedRelative } from 'react-intl';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
+import { setFloatingButtonDeactive } from '../../redux/ui/actions';
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
 import * as s from './Home.css';
 
@@ -28,7 +29,14 @@ class Home extends React.Component<IHome, void> {
     super(props);
   }
 
+  public async componentWillMount() {
+    if (this.context.store) {
+      this.context.store.dispatch(setFloatingButtonDeactive());
+    }
+  }
+
   public render() {
+    console.log(this.props);
     const { data: { me: { coursetables } } } = this.props;
     return (
       <div className={s.root}>

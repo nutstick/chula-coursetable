@@ -1,15 +1,3 @@
-import * as React from 'react';
-import { errorLoading } from '../../routes';
+import AsyncComponents from '../../components/AsyncComponents';
 
-const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default);
-};
-
-export default {
-  path: '*',
-  getComponent(nextState, cb) {
-    _import('./NotFound')
-      .then(loadModule(cb))
-      .catch(errorLoading);
-  },
-};
+export default AsyncComponents(() => _import('./NotFound'));

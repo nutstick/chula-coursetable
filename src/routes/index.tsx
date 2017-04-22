@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IndexRoute, Route } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseTable from './CourseTable';
 import Home from './Home';
@@ -13,11 +13,13 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default (store) => ({
-  component: Layout,
-  childRoutes: [
-    Home,
-    CourseTable,
-    NotFound,
-  ],
-});
+export default (props) => (
+  <Layout>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/coursetable/:id" component={CourseTable} />
+      <Route component={NotFound} />
+    </Switch>
+  </Layout>
+);
+

@@ -32,7 +32,7 @@
     "defaultMessage": "My Courses",
     "message": "วิชา",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -41,7 +41,7 @@
     "defaultMessage": "Course Tables",
     "message": "ตารางสอน",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -50,7 +50,7 @@
     "defaultMessage": "Search",
     "message": "ค้นหา",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -96,6 +96,24 @@
     "message": "",
     "files": [
       "src/components/Navigation/Navigation.tsx"
+    ]
+  },
+  {
+    "id": "searchcourse.header",
+    "description": "Courses",
+    "defaultMessage": "Courses",
+    "message": "",
+    "files": [
+      "src/components/SearchCourse/SearchCourse.tsx"
+    ]
+  },
+  {
+    "id": "searchcourse.input",
+    "description": "My Course tables menu",
+    "defaultMessage": "Type to search",
+    "message": "",
+    "files": [
+      "src/components/SearchCourse/SearchCourse.tsx"
     ]
   }
 ]

@@ -7,23 +7,22 @@
 import { createNetworkInterface } from 'apollo-client';
 import * as FastClick from 'fastclick';
 import * as FontFaceObserver from 'fontfaceobserver';
-import { createPath } from 'history/lib/PathUtils';
+import { createPath } from 'history/PathUtils';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import * as ReactDOM from 'react-dom';
 import { addLocaleData } from 'react-intl';
 import cs from 'react-intl/locale-data/cs';
 import en from 'react-intl/locale-data/en';
-import { match, Router } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import App from './components/App';
 import createApolloClient from './core/createApolloClient';
 import { deepForceUpdate, ErrorReporter } from './core/devUtils';
 import { updateMeta } from './core/DOMUtils';
 import history from './core/history';
 import { configureStore } from './redux/configureStore';
-import createRoutes from './routes';
-
+import Routes from './routes';
 const apolloClient = createApolloClient({
   networkInterface: createNetworkInterface({
     uri: '/graphql',
@@ -32,6 +31,7 @@ const apolloClient = createApolloClient({
       credentials: 'include',
     },
   }),
+  ssrForceFetchDelay: 100,
 });
 
 [en, cs].forEach(addLocaleData);
@@ -120,7 +120,7 @@ let onRenderComplete = function initialRenderComplete(route?, location?) {
 (FastClick as any).attach(document.body);
 
 let appInstance;
-let currentLocation = history.getCurrentLocation();
+let currentLocation = history.location;
 
 // Re-render the app when window.location changes
 async function onLocationChange(location?, action?) {
@@ -129,34 +129,31 @@ async function onLocationChange(location?, action?) {
     scrollX: window.pageXOffset,
     scrollY: window.pageYOffset,
   };
+
   // Delete stored scroll position for next page if any
   if (action === 'PUSH') {
     delete scrollPositionsHistory[location.key];
   }
   currentLocation = location;
 
-  const routes = createRoutes(store);
-  match({ history, routes }, (error, redirectLocation, renderProps) => {
-    ReactDOM.render(
-      <App context={context}>
-        <Router
-          {...renderProps}
-        >
-        </Router>
-      </App>,
-      document.getElementById('app'),
-      () => onRenderComplete(renderProps, location),
-    );
-  });
+  ReactDOM.render(
+    <App context={context}>
+      <BrowserRouter>
+        <ConnectedRouter history={history}>
+          <Routes />
+        </ConnectedRouter>
+      </BrowserRouter>
+    </App>,
+    document.getElementById('app'),
+    // TODO
+    () => onRenderComplete({ title: 'Coursetable' }, location),
+  );
 }
 
-export default function main() {
-  // Handle client-side navigation by using HTML5 History API
-  // For more information visit https://github.com/mjackson/history#readme
-  currentLocation = history.getCurrentLocation();
-  history.listen(onLocationChange);
-  onLocationChange(currentLocation);
-}
+// Handle client-side navigation by using HTML5 History API
+// For more information visit https://github.com/mjackson/history#readme
+history.listen(onLocationChange);
+onLocationChange(currentLocation);
 
 // Handle errors that might happen after rendering
 // Display the error in full-screen for development mode
@@ -171,9 +168,7 @@ if (__DEV__) {
 // Enable Hot Module Replacement (HMR)
 if (module.hot) {
   module.hot.accept('./routes', async () => {
-    const routes = createRoutes(store);
-
-    currentLocation = history.getCurrentLocation();
+    currentLocation = history.location;
     await onLocationChange(currentLocation);
     if (appInstance) {
       try {

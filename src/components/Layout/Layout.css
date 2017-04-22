@@ -176,3 +176,18 @@ textarea {
     page-break-after: avoid;
   }
 }
+
+
+/*:global .headroom {
+  transition: transform 200ms linear;
+  position: fixed;
+  right: -20px;
+  bottom: -50px;
+  zIndex: 1;
+}
+:global .headroom--pinned {
+  transform: translateY(-100%);
+}
+:global .headroom--unpinned {
+  transform: translateY(0%);
+}*/

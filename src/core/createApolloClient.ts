@@ -1,10 +1,10 @@
 import ApolloClient from 'apollo-client';
 
 export default function createApolloClient(options?) {
-  return new ApolloClient(Object.assign({}, {
+  return new ApolloClient(Object.assign({
     dataIdFromObject: (result) => {
-      if (result.id && result.__typename) {
-        return result.__typename + result.id;
+      if (result._id && result.__typename) {
+        return result.__typename + result._id;
       }
       return null;
     },

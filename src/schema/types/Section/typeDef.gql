@@ -31,7 +31,8 @@ type CourseTableSection implements Node {
   building: String
   classroom: String
   type: SectionType!
-  course: Course
+  course: Course!
+  section: Int!
 
   color: String!
 }

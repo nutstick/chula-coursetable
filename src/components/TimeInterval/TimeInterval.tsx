@@ -17,7 +17,6 @@ export interface ITimeInterval {
 
 class TimeInterval extends React.Component<ITimeInterval, void> {
   render() {
-    console.log(this.props)
     // Extract variable
     const { start, end, size, position } = this.props;
     let { maxTime } = this.props;

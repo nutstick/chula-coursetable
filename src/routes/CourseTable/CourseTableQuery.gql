@@ -3,12 +3,16 @@ query ($id: ID!) {
       coursetable(id: $id) {
         _id
         courses {
+          section
+          course {
+            _id
+            name
+          }
           timeIntervals {
             day
             start
             end
           }
-          color
         }
       }
     }

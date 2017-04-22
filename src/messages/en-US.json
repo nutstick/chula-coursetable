@@ -77,7 +77,7 @@
     "defaultMessage": "Course Tables",
     "message": "",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -86,7 +86,7 @@
     "defaultMessage": "Search",
     "message": "",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -95,7 +95,25 @@
     "defaultMessage": "My Courses",
     "message": "",
     "files": [
-      "src/components/Sidebar/Sidebar.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
+    ]
+  },
+  {
+    "id": "searchcourse.header",
+    "description": "Courses",
+    "defaultMessage": "Courses",
+    "message": "",
+    "files": [
+      "src/components/SearchCourse/SearchCourse.tsx"
+    ]
+  },
+  {
+    "id": "searchcourse.input",
+    "description": "My Course tables menu",
+    "defaultMessage": "Type to search",
+    "message": "",
+    "files": [
+      "src/components/SearchCourse/SearchCourse.tsx"
     ]
   }
 ]

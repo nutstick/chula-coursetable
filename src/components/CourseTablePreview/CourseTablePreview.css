@@ -50,38 +50,22 @@
 
   &-header {
     display: none;
-    @media (--small-sm) {
-      font-weight: 700;
-      background-color: var(--dark-color);
-    }
+    font-weight: 700;
+    background-color: var(--dark-color);
   }
   &-row {
-    width: 100%;
-    &:nth-of-type(even) { background-color: var(--dark-color); }
-    &:nth-of-type(odd) { background-color: var(--light-color); }
-    /* @media (--small-sm) { */
     display: flex;
     flex-flow: row nowrap;
     &:nth-of-type(even) { background-color: var(--light-color); }
     &:nth-of-type(odd) { background-color: var(--dark-color); }
-    /* } */
     &-item {
       display: flex;
       flex-flow: row nowrap;
       flex-grow: 1;
       flex-basis: 0;
-      padding: 0.5em;
       word-break: break-word;
-      &:before {
-        content: attr(data-header);
-        width: 30%;
-        font-weight: 700;
-      }
-      /* @media (--small-sm) { */
       border: 1px solid var(--light-color);
       padding: 0.5em;
-      &:before { content: none; }
-      /* } */
     }
   }
 }

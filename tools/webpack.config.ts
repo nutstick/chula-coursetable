@@ -18,6 +18,8 @@ const isVerbose = process.argv.includes('--verbose');
 // client-side (client.js) and server-side (server.js) bundles
 // -----------------------------------------------------------------------------
 
+console.log(path.resolve(__dirname, '../node_modules/react-icons'));
+
 const config: Configuration = {
   context: path.resolve(__dirname, '../src'),
 
@@ -44,6 +46,13 @@ const config: Configuration = {
           'awesome-typescript-loader?useBabel=true&useCache=true',
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /react-icons\/(.)*(.js)$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react'],
+        },
       },
       {
         test: /\.css$/,

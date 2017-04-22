@@ -7,15 +7,14 @@ import * as express from 'express';
 import * as expressJwt from 'express-jwt';
 import { graphiqlExpress, graphqlExpress } from 'graphql-server-express';
 import * as helmet from 'helmet';
-import * as history from 'history';
 import * as jwt from 'jsonwebtoken';
 import * as path from 'path';
 import * as PrettyError from 'pretty-error';
 import * as React from 'react';
-import { getDataFromTree } from 'react-apollo';
+import { renderToStringWithData } from 'react-apollo';
 import * as ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { createMemoryHistory, match, RouterContext } from 'react-router';
+import { StaticRouter } from 'react-router';
 import App from './components/App';
 import Html, { IHtmlProps } from './components/Html';
 import { auth, locales, port } from './config';
@@ -25,7 +24,7 @@ import ServerInterface from './core/ServerInterface';
 import { configureStore } from './redux/configureStore';
 import { setLocale } from './redux/intl/actions';
 import { setRuntimeVariable } from './redux/runtime/actions';
-import createRoutes from './routes';
+import Routes from './routes';
 import ErrorPage from './routes/Error/ErrorPage';
 import * as errorPageStyle from './routes/error/ErrorPage.css';
 import { Schema } from './schema';
@@ -111,10 +110,9 @@ database.connect((databaseError) => {
    */
   app.get('*', async (req, res, next) => {
     const location = req.url;
-    const memoryHistory = createMemoryHistory(req.originalUrl);
 
     const apolloClient = createApolloClient({
-      // ssrMode: true,
+      ssrMode: true,
       networkInterface: new ServerInterface({
         schema: Schema,
         rootValue: { request: req },
@@ -134,7 +132,7 @@ database.connect((databaseError) => {
     const store = configureStore({
       user: req.user || null,
     }, {
-      history: memoryHistory,
+      history: null,
       cookie: req.cookies,
       apolloClient,
     });
@@ -169,49 +167,30 @@ database.connect((databaseError) => {
       client: apolloClient,
     };
 
-    match ({ history: memoryHistory, routes: createRoutes(store), location: req.url },
-      (error, redirectLocation, renderProps) => {
-      if (error) {
-        return res.status(500).send(error.message);
-      } else if (redirectLocation) {
-        return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-      } else if (renderProps) {
-        /*console.log(ReactDOM.renderToString());
-        const component = (
-          <ApolloProvider client={apolloClient}>
-            <RouterContext {...renderProps} />
-          </ApolloProvider>
-        );*/
-        const component = (
-          <App context={context}>
-            <RouterContext {...renderProps} />
-          </App>
-        );
+    const component = (
+      <App context={context}>
+        <StaticRouter location={req.url} context={context}>
+          <Routes />
+        </StaticRouter>
+      </App>
+    );
+    // set children to match context
+    const children = await renderToStringWithData(component);
+    // const children = ReactDOM.renderToString(component);
 
-        getDataFromTree(component).then(() => {
-          // set children to match context
-          const children = ReactDOM.renderToString(component);
+    const data: IHtmlProps = {
+      title: 'React Starter Kit',
+      description: 'React starter kit using Typescript 2 and Webpack 2.',
+      children,
+      state: context.store.getState(),
+      styles: [
+        { id: 'css', cssText: [...css].join('') },
+      ],
+    };
 
-          const data: IHtmlProps = {
-            title: 'React Starter Kit',
-            description: 'React starter kit using Typescript 2 and Webpack 2.',
-            children,
-            state: context.store.getState(),
-            styles: [
-              { id: 'css', cssText: [...css].join('') },
-            ],
-          };
-
-          // rendering html components
-          const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-          res.status(200).send(`<!doctype html>${html}`);
-        }).catch((_error) => {
-          console.log(_error);
-        });
-      } else {
-        res.status(404).send('Not found');
-      }
-    });
+    // rendering html components
+    const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
+    res.status(200).send(`<!doctype html>${html}`);
   });
 
   /**

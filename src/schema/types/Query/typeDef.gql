@@ -1,6 +1,9 @@
 # Root Query
 type Query {
   helloworld: String
+
   me: User
+  courses(search: String!): [Course]
+
   intl(locale: String!): [IntlMessage]
 }

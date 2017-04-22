@@ -1,17 +1,8 @@
 import * as fetch from 'isomorphic-fetch';
 import * as React from 'react';
+import { Route } from 'react-router';
+import AsyncComponents from '../../components/AsyncComponents';
 import { injectAsyncReducer } from '../../redux/reducers';
 import { errorLoading } from '../../routes';
 
-const loadModule = (cb) => async (componentModule) => {
-  cb(null, componentModule.default);
-};
-
-export default {
-  path: '/',
-  getComponent(nextState, cb) {
-    _import('./Home')
-      .then(loadModule(cb))
-      .catch(errorLoading);
-  },
-};
+export default AsyncComponents(() => _import('./Home'));

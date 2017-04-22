@@ -1,8 +1,11 @@
 .root {
   padding: 1.5rem;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
 }
 
 .course-table {
-  height: calc(100vh - 3rem);
-  lost-utility: clearfix;
+  max-width: 800px;
+  margin: auto;
 }

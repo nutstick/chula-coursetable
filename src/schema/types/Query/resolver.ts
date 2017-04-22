@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { locales } from '../../../config';
 
+import * as course from '../../../../courseMock.json';
 import * as mock from '../../../../mockData.json';
 
 const CONTENT_DIR = join(__dirname, './messages');
@@ -16,6 +17,9 @@ const resolver = {
     },
     me(root, args, context) {
       return mock.users['58e27f900000000000000000'];
+    },
+    async courses(_, { search }) {
+      return [course.T3, course.T4, course.T7];
     },
     async intl({ request }, { locale }) {
       if (!locales.includes(locale)) {
