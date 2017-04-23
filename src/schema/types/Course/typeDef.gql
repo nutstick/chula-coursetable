@@ -13,7 +13,6 @@ interface Course {
   _id: ID!
   courseID: String!
   name: String!
-  shortName: String!
   credit: Float!
   exam: [Date]
 
@@ -24,7 +23,6 @@ type NormalCourse implements Course, Node {
   _id: ID!
   courseID: String!
   name: String!
-  shortName: String!
   credit: Float!
   exam: [Date]
 
@@ -35,7 +33,6 @@ type GenedCourse implements Course, Node {
   _id: ID!
   courseID: String!
   name: String!
-  shortName: String!
   credit: Float!
   exam: [Date],
 
@@ -49,7 +46,6 @@ type ApprovedCourse implements Course, Node {
   _id: ID!
   courseID: String!
   name: String!
-  shortName: String!
   credit: Float!
   exam: [Date]
 

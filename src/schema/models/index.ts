@@ -1,12 +1,11 @@
 import { Core, Model } from 'iridium';
 import { mongodb } from '../../config';
+import { Course, ICourseDocument } from './Course';
+import { Section, ISectionDocument } from './Section';
 
 class Database extends Core {
-  // Test = new Model<ITestDocument, Test>(this, Test);
-
-  // User = new Model<IUserDocument, User>(this, User);
-  // Thread = new Model<IThreadDocument, Thread>(this, Thread);
-  // Review = new Model<IReviewDocument, Review>(this, Review);
+  Course = new Model<ICourseDocument, Course>(this, Course);
+  Section = new Model<ISectionDocument, Section>(this, Section);
 }
 
 const database = new Database({ database: mongodb });

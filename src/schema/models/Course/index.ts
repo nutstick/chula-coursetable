@@ -3,11 +3,10 @@ import { Collection, Index, Instance, Model, ObjectID, Property } from 'iridium'
 import { ApprovedCourse, IApprovedCourseDocument } from './ApprovedCourse';
 import { GenedCourse, IGenedCourseDocument } from './GenedCourse';
 
-interface ICourse {
+interface ICourseDocument {
   _id?: string;
   courseID: string;
   name: string;
-  shortName: string;
   credit: number;
   exam?: Date[];
 
@@ -23,15 +22,13 @@ interface ICourse {
   courseId: 1,
 })
 @Collection('coursetable')
-class Course extends Instance<ICourse, Course> implements ICourse {
+class Course extends Instance<ICourseDocument, Course> implements ICourseDocument {
   @ObjectID
   _id: string;
   @Property(String, true)
   courseID: string;
   @Property(String, true)
   name: string;
-  @Property(String, true)
-  shortName: string;
   @Property(Number, true)
   credit: number;
   @Property([Date], false)
@@ -49,4 +46,4 @@ class Course extends Instance<ICourse, Course> implements ICourse {
   owner: string;
 }
 
-export { Course, ICourse };
+export { Course, ICourseDocument };

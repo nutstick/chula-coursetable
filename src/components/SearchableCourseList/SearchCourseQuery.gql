@@ -1,7 +1,12 @@
 query ($search: String!) {
   courses(search: $search) {
-    _id,
-    name,
-    shortName,
+    _id
+    name
+    shortName
+    sections {
+      teachers
+      timeInterval
+      type
+    }
   }
 }
