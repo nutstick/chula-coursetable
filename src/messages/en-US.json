@@ -104,7 +104,7 @@
     "defaultMessage": "Courses",
     "message": "",
     "files": [
-      "src/components/SearchCourse/SearchCourse.tsx"
+      "src/components/SearchCoursePanel/SearchCourse.tsx"
     ]
   },
   {
@@ -113,7 +113,7 @@
     "defaultMessage": "Type to search",
     "message": "",
     "files": [
-      "src/components/SearchCourse/SearchCourse.tsx"
+      "src/components/SearchCoursePanel/SearchCourse.tsx"
     ]
   }
 ]

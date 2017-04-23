@@ -7,6 +7,23 @@ const resolver = {
         return 'ApprovedCourse';
       }
       return 'NormalCourse';
+    },
+    sections() {
+      return [{
+        _id: 's1',
+        timeIntervals: [
+          {
+            day: "MONDAY",
+            start: "9:30",
+            end: "11:00"
+          }, {
+            day: "WEDNESDAY",
+            start: "9:30",
+            end: "11:00"
+          },
+        ],
+        type: "NORMAL",
+      }];
     }
   }
 };

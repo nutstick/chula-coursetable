@@ -6,8 +6,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { IFullCourse } from '../CourseTable';
 import * as s from './SearchableCourseList.css';
 import * as SEARCHCOURSEQUERY from './SearchCourseQuery.gql';
-import { Accordion } from 'semantic-ui-react'
-import { List, Item } from '../List';
+import { Accordion, Button } from 'semantic-ui-react'
 
 // TODO use import
 // tslint:disable-next-line:no-var-requires
@@ -22,7 +21,7 @@ interface ICourse {
   name: string;
   shortName: string;
 
-  sections: any;
+  sections: any[];
 }
 
 interface ISearchableCourseListProps extends React.Props<any> {
@@ -32,6 +31,23 @@ interface ISearchableCourseListProps extends React.Props<any> {
   loading: boolean;
 }
 
+const CourseItem = ({ name, shortName}) => (
+  <div>
+    <div className={s.header}>{shortName}</div>
+    <div className={s.subHeader}>{name}</div>
+  </div>
+);
+
+const SectionItem = ({ index, teachers, timeInterval, type, onClick }) => (
+  <div>
+    #{index}
+    <div>{teachers}</div>
+    <div>{timeInterval}</div>
+    <div>{type}</div>
+    <Button onClick={onClick}>Apply</Button>
+  </div>
+)
+
 class SearchableCourseList extends React.Component<ISearchableCourseListProps, void> {
   constructor(props) {
     super(props);
@@ -40,13 +56,16 @@ class SearchableCourseList extends React.Component<ISearchableCourseListProps, v
   public render() {
     const renderPanels = this.props.courses && this.props.courses.map((c) => ({
       key: `search-${c._id}`,
-      title: (<List />),
+      title: (<CourseItem name={c.name} shortName={c.shortName} />),
       content: (
-        <Message
-          info
-          header={faker.lorem.sentence()}
-          content={faker.lorem.paragraph()}
-        />
+        <div>
+          {c.sections.map((s, i) => (
+            <SectionItem
+              index={i}
+              {...s}
+            />
+          ))}
+        </div>
       ),
     }))
     return (

@@ -5,7 +5,6 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import Avartar from '../Avartar';
-import SearchCourse from '../SearchCourse';
 import Sidebar from '../Sidebar';
 import { ISidebarProps } from '../Sidebar';
 import * as logoUrl from './Logo-Black.png';
