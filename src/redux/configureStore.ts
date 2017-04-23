@@ -43,10 +43,11 @@ export function configureStore(initialState: IState, helpersConfig?: IHelperConf
     ),
   );
 
-  store.asyncReducers = {};
+  store.asyncReducers = { apollo: apolloClient.reducer() };
   store.injectAsyncReducer = injectAsyncReducer.bind(null, store);
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
+    // FIXME reducer
     (module as any).hot.accept('./reducers', () => {
       store.replaceReducer((require('./reducers')));
     });

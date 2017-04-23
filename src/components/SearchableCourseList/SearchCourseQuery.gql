@@ -1,0 +1,7 @@
+query ($search: String!) {
+  courses(search: $search) {
+    _id,
+    name,
+    shortName,
+  }
+}

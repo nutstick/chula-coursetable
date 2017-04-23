@@ -47,7 +47,7 @@ export const asyncRoute = (getComponent: () => Promise<any>) => (
       if ( Component !== null ) {
         return (<Component {...this.props} />);
       }
-      return (<div>Loading..</div>); // or <div /> with a loading spinner, etc..
+      return (<div>Loading..</div>);
     }
   }
 );

@@ -1,5 +1,0 @@
-query ($search: String!) {
-  couses(search: $search) {
-    _id
-  }
-}

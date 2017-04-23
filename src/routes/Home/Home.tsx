@@ -31,6 +31,10 @@ class Home extends React.Component<IHome, void> {
     super(props);
   }
 
+  public shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  }
+
   public async componentWillMount() {
     if (this.context.store) {
       this.context.store.dispatch(setFloatingButtonDeactive());

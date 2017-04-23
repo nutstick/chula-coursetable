@@ -4,9 +4,9 @@ import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Button, Input } from 'semantic-ui-react';
+import SearchableCourseList from '../SearchableCourseList';
 import { rightSidebarExpand } from '../../redux/ui/actions';
 import * as s from './SearchCourse.css';
-import * as SEARCHCOURSEQUERY from './SearchCourseQuery.gql';
 
 // TODO use import
 // tslint:disable-next-line:no-var-requires
@@ -25,17 +25,24 @@ const messages = defineMessages({
   },
 });
 
-interface ISearchCourse extends React.Props<any> {
+interface ISearchCourseProps extends React.Props<any> {
   search: string;
 }
 
-class SearchCourse extends React.Component<ISearchCourse, void> {
+interface ISearchCourseState {
+  text: string;
+}
+
+class SearchCourse extends React.Component<ISearchCourseProps, ISearchCourseState> {
   constructor(props, context) {
     super(props);
+    this.state = {
+      text: '',
+    };
   }
 
   private onSearch(e, data) {
-    console.log(data);
+    this.setState({ text: data.value });
   }
 
   public render() {
@@ -55,21 +62,11 @@ class SearchCourse extends React.Component<ISearchCourse, void> {
               onChange={this.onSearch.bind(this)}
             />
           </div>
+          <SearchableCourseList text={this.state.text} />
         </div>
       </div>
     );
   }
 }
 
-export default compose(
-  withStyles(s),
-  graphql(SEARCHCOURSEQUERY, {
-    options(ownProps) {
-      return {
-        variables: {
-          search: ownProps.search,
-        },
-      };
-    },
-  }),
-)(SearchCourse);
+export default withStyles(s)(SearchCourse);
