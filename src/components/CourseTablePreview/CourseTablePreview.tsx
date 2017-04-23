@@ -71,6 +71,10 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
 
   /* Calculate interval size for rendering cousetable correctly */
   public generateCourseTable() {
+    if (!this.props.courses) {
+      this.coursetable = [null, null, null, null, null, null];
+      return;
+    }
     // Day list
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     // Day base course list

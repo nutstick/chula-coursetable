@@ -65,7 +65,6 @@ export default compose(
   withStyles(s),
   graphql(SEARCHCOURSEQUERY, {
     options(ownProps) {
-      console.log(ownProps);
       return {
         variables: {
           search: ownProps.search,

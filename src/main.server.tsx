@@ -26,7 +26,7 @@ import { setLocale } from './redux/intl/actions';
 import { setRuntimeVariable } from './redux/runtime/actions';
 import Routes from './routes';
 import ErrorPage from './routes/Error/ErrorPage';
-import * as errorPageStyle from './routes/error/ErrorPage.css';
+import * as errorPageStyle from './routes/Error/ErrorPage.css';
 import { Schema } from './schema';
 import { database } from './schema/models';
 
