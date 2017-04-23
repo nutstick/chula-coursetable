@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
 import { AsyncCourseList } from '../CourseList';
 import Main from '../Main';
-import { AsyncSearchCourse } from '../SearchCourse';
-import SearchCourse from '../SearchCourse';
+import { AsyncSearchCoursePanel } from '../SearchCoursePanel';
 import Sidebar from '../Sidebar';
 import SidebarMenu from '../SidebarMenu';
 import * as s from './Layout.css';
@@ -34,7 +33,7 @@ class Layout extends React.Component<ILayoutProps, void> {
         </Main>
         <Sidebar expanded={this.props.expand === 'right' || this.props.expand === 'both'} right>
           <Switch>
-            <Route exact path="/coursetable/:id/search" component={AsyncSearchCourse} />
+            <Route exact path="/coursetable/:id/search" component={AsyncSearchCoursePanel} />
             <Route component={AsyncCourseList} />
           </Switch>
         </Sidebar>

@@ -17,6 +17,8 @@ const MdAdd = require('react-icons/lib/md/add');
 
 interface ICourseTablePageProp extends React.Props<any> {
   coursetable: ICourseTable;
+  loading: boolean;
+  error: Error;
   match: any;
 }
 
@@ -49,6 +51,10 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
     this.state = { search: false };
   }
 
+  public shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  }
+
   private _onClickFloatingButton = (e) => {
     this.props.onSetSidebarRight(e);
   }
@@ -59,7 +65,8 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
     };
     return (
       <div className={s.root}>
-        <CourseTable className={s.courseTable} {...this.props.coursetable}></CourseTable>
+        {this.props.coursetable && <CourseTable className={s.courseTable} {...this.props.coursetable}></CourseTable>}
+        {this.props.loading && <div>Loading</div>}
         <BottomFloatingButton show={!this.state.search} onClick={this._onClickFloatingButton.bind(this)}>
           <MdAdd size={24}></MdAdd>
         </BottomFloatingButton>
@@ -80,21 +87,16 @@ export default compose(
       };
     },
     props(props) {
-      const { data: { me, err, loading } } = props;
-      try {
-        const { coursetable } = me;
-        return {
-          coursetable,
-          loading,
-          err,
-        };
-      } catch (err) {
-        return {
-          coursetable: null,
-          loading,
-          err,
-        };
+      const { data: { me, error, loading } } = props;
+      let coursetable = null;
+      if (!loading) {
+        coursetable = me.coursetable;
       }
+      return {
+        coursetable,
+        loading,
+        error,
+      };
     },
   }),
 )(CourseTablePage);

@@ -38,7 +38,6 @@ type GenedCourse implements Course, Node {
   shortName: String!
   credit: Float!
   exam: [Date],
-  type: String!,
 
   sections(first: Int, after: ID): SectionPage
   

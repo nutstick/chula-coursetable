@@ -37,14 +37,15 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
   public maxTime: number;
 
   public componentWillMount() {
-    this.generateCourseTable();
+    this.generateCourseTable(this.props.courses);
   }
 
-  public componentWillUpdate() {
-    this.generateCourseTable();
+  public componentWillReceiveProps({ courses }) {
+    this.generateCourseTable(courses);
   }
 
   public render() {
+    console.log('render');
     const maxTime = this.maxTime;
     return (
       <div className={cx(s.root, s.table, this.props.className)}>
@@ -70,14 +71,18 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
   }
 
   /* Calculate interval size for rendering cousetable correctly */
-  public generateCourseTable() {
+  public generateCourseTable(courses) {
+    if (!courses) {
+      this.coursetable = [null, null, null, null, null, null];
+      return;
+    }
     // Day list
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     // Day base course list
     const ct: ITimeInterval[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
-    this.props.courses.forEach((({ timeIntervals, ...course }) => {
+    courses.forEach((({ timeIntervals, ...course }) => {
       timeIntervals.forEach(((time) => {
         const matchedDay = days.findIndex((day) => day === time.day.toLowerCase());
         ct[matchedDay].push({

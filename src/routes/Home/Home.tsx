@@ -21,12 +21,18 @@ interface IHome extends React.Props<any> {
         },
       },
     },
+    error: any,
+    loading: boolean;
   };
 }
 
 class Home extends React.Component<IHome, void> {
   constructor(props) {
     super(props);
+  }
+
+  public shouldComponentUpdate(nextProps, nextState) {
+    return true;
   }
 
   public async componentWillMount() {
@@ -36,16 +42,17 @@ class Home extends React.Component<IHome, void> {
   }
 
   public render() {
-    const { data: { me: { coursetables } } } = this.props;
+    const { data: { me, error, loading } } = this.props;
+
     return (
       <div className={s.root}>
         <div className={s.container}>
           {
-            coursetables.edges.map((item) => (
+            me ? me.coursetables.edges.map((item) => (
               <Link key={item.node._id} className={s.item} to={`coursetable/${item.node._id}`}>
                 <CourseTablePreview className={s.courseTable} {...item.node} />
               </Link>
-            ))
+            )) : <div className={s.loading}>loading</div>
           }
         </div>
       </div>

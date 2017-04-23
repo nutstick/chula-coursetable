@@ -1,5 +1,6 @@
 import { createNetworkInterface } from 'apollo-client';
 import * as bodyParser from 'body-parser';
+import * as BluebirdPromise from 'bluebird';
 import * as chalk from 'chalk';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
@@ -11,7 +12,7 @@ import * as jwt from 'jsonwebtoken';
 import * as path from 'path';
 import * as PrettyError from 'pretty-error';
 import * as React from 'react';
-import { renderToStringWithData } from 'react-apollo';
+import { getDataFromTree } from 'react-apollo';
 import * as ReactDOM from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
@@ -26,7 +27,7 @@ import { setLocale } from './redux/intl/actions';
 import { setRuntimeVariable } from './redux/runtime/actions';
 import Routes from './routes';
 import ErrorPage from './routes/Error/ErrorPage';
-import * as errorPageStyle from './routes/error/ErrorPage.css';
+import * as errorPageStyle from './routes/Error/ErrorPage.css';
 import { Schema } from './schema';
 import { database } from './schema/models';
 
@@ -44,6 +45,7 @@ const app = express();
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
 // -----------------------------------------------------------------------------
+declare var global: any;
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
@@ -175,7 +177,9 @@ database.connect((databaseError) => {
       </App>
     );
     // set children to match context
-    const children = await renderToStringWithData(component);
+    await getDataFromTree(component);
+    await BluebirdPromise.delay(0);
+    const children = await ReactDOM.renderToString(component);
     // const children = ReactDOM.renderToString(component);
 
     const data: IHtmlProps = {
@@ -187,6 +191,10 @@ database.connect((databaseError) => {
         { id: 'css', cssText: [...css].join('') },
       ],
     };
+
+    if (__DEV__) {
+      console.log('Serializing store...');
+    }
 
     // rendering html components
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
