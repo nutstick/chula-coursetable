@@ -1,4 +1,57 @@
+# Course Type
+enum CourseType {
+  # Normal Course
+  NORMAL
+  # Gened Course
+  GENED
+  # Approved Couse
+  APPROVED
+}
+# Course Input
+input TimeIntervalInput {
+  date: DayOfWeek!
+  start: Time!
+  end: Time!
+}
+
 # Mutations
 type Mutation {
-  addOne(): Number
+  createCourseTable: CourseTable
+
+  # Create Course
+  createCourse(
+    # Course ID
+    courseID: String!
+    # Course name
+    name: String!
+    # Course credit
+    credit: Float!
+    # Exam date
+    exam: [Date]
+    # Course Type
+    type: CourseType!
+
+    # Gened Type
+    genedType: GenedType
+
+    # Approved's Faculty
+    approvedFaculty: String
+    # Approved's Faculty
+    approvedDepartment: String
+
+    # Sections
+    sections: [ID]!
+  ): Course
+  # Create Section
+  createSection(
+    sectionNo: Int!,
+    # TimeInterval list each need to correct with formated String
+    timeIntervals: [TimeIntervalInput]!
+    # Teach ID list
+    teachers: [ID]
+    building: String
+    classroom: String
+    # Section Type
+    type: SectionType!
+  ): Section
 }

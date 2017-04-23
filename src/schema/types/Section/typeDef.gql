@@ -12,7 +12,7 @@ type SectionPage implements Page {
 enum SectionType {
   NORMAL
   GENED
-  APPROVE
+  APPROVED
 }
 # Section
 type Section implements Node {

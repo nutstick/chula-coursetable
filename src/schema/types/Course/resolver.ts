@@ -1,4 +1,6 @@
-const resolver = {
+import { IResolver } from '../index';
+
+const resolver: IResolver<any, any> = {
   Course: {
     __resolveType({ type, faculty }, context, info) {
       if (type) {
@@ -8,22 +10,19 @@ const resolver = {
       }
       return 'NormalCourse';
     },
-    sections() {
-      return [{
-        _id: 's1',
-        timeIntervals: [
-          {
-            day: 'MONDAY',
-            start: '9:30',
-            end: '11:00',
-          }, {
-            day: 'WEDNESDAY',
-            start: '9:30',
-            end: '11:00',
-          },
-        ],
-        type: 'NORMAL',
-      }];
+  },
+  NormalCourse: {
+    async sections(root, args, { database }) {
+      const x = await root.sections.map((s) => database.Section.findOne({ _id: s }));
+      console.log(x);
+      return await root.sections.map((s) => database.Section.findOne({ _id: s }));
+    },
+  },
+  GenedCourse: {
+    async sections(root, args, { database }) {
+      console.log(root, args);
+      const sections = await Promise.all(root.sections.map((s) => database.Section.findOne({ _id: s })));
+      return sections;
     },
   },
 };

@@ -1,4 +1,6 @@
-const resolver = {
+import { IResolver } from '../index';
+
+const resolver: IResolver<any, any> = {
   CourseTableEdges: {
     node(root) {
       return root;

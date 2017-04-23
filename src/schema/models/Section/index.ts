@@ -4,21 +4,25 @@ import { ITimeInterval, TimeInterval } from './TimeInterval';
 
 interface ISectionDocument {
   _id?: string;
+  sectionNo: number;
   timeIntervals: ITimeInterval[];
   teachers?: string[];
   building?: string;
   classroom?: string;
-  type: string;
+  type: number;
 }
 
 @Index({
   courseId: 1,
 })
-@Collection('coursetable')
+@Collection('section')
 class Section extends Instance<ISectionDocument, Section> implements ISectionDocument {
   @ObjectID
   _id?: string;
 
+
+  @Property(Number, true)
+  sectionNo: number;
   @Property([TimeInterval])
   timeIntervals: ITimeInterval[];
   @Property([String], false)
@@ -27,8 +31,8 @@ class Section extends Instance<ISectionDocument, Section> implements ISectionDoc
   building?: string;
   @Property(String, false)
   classroom?: string;
-  @Property(String)
-  type: string;
+  @Property(Number)
+  type: number;
 }
 
 export { Section, ISectionDocument };

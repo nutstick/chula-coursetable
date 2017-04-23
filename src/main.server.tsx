@@ -29,7 +29,7 @@ import Routes from './routes';
 import ErrorPage from './routes/Error/ErrorPage';
 import * as errorPageStyle from './routes/Error/ErrorPage.css';
 import { Schema } from './schema';
-import { database } from './schema/models';
+import { database, InstallMockData } from './schema/models';
 
 /**
  * Load envirountment variables
@@ -56,6 +56,8 @@ database.connect((databaseError) => {
   if (databaseError) {
     console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   }
+
+  InstallMockData();
 
   //
   // Register Node.js middleware

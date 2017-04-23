@@ -2,11 +2,22 @@ query ($search: String!) {
   courses(search: $search) {
     _id
     name
-    shortName
     sections {
-      teachers
-      timeInterval
-      type
+      edges {
+        node {
+          timeIntervals {
+            day
+            start
+            end
+          }
+          teachers {
+            abbreviated
+          }
+          building
+          classroom
+          type
+        }
+      }
     }
   }
 }

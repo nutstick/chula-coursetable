@@ -11,7 +11,6 @@ export interface ITimeInterval {
   maxTime?: number;
   ID?: string;
   name?: string;
-  shortName?: string;
   section?: string;
 }
 

@@ -1,0 +1,25 @@
+mutation(
+  $courseID: String!,
+  $name: String!,
+  $credit: Float!,
+  $exam: [Date]!,
+  $type: CourseType!,
+  $genedType: GenedType!,
+  $approvedFaculty: String!,
+  $approvedDepartment: String!,
+  $sections: [ID]!
+) {
+  createCourse(
+    courseID: $courseID,
+    name: $name,
+    credit: $credit,
+    exam: $exam,
+    type: $type,
+    genedType: $genedType,
+    approvedFaculty: $approvedFaculty,
+    approvedDepartment: $approvedDepartment,
+    sections: $sections
+  ) {
+    _id
+  }
+}

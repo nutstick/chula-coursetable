@@ -1,7 +1,6 @@
 query ($search: String!) {
   couses(search: $search) {
-    _id,
-    name,
-    shortName,
+    _id
+    name
   }
 }

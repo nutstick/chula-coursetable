@@ -1,16 +1,16 @@
 import * as BluebirdPromise from 'bluebird';
 import * as fs from 'fs';
 import { join } from 'path';
-import { locales } from '../../../config';
-
 import * as course from '../../../../courseMock.json';
 import * as mock from '../../../../mockData.json';
+import { locales } from '../../../config';
+import { IResolver } from '../index';
 
 const CONTENT_DIR = join(__dirname, './messages');
 
 const readFile = BluebirdPromise.promisify(fs.readFile);
 
-const resolver = {
+const resolver: IResolver<any, any> = {
   Query: {
     helloworld() {
       return 'Hello Word';
@@ -19,7 +19,11 @@ const resolver = {
       return mock.users['58e27f900000000000000000'];
     },
     async courses(_, { search }, { database }) {
-      return database.Courses.get();
+      if (search) {
+        const courses = await database.Course.find().toArray();
+        return courses.map((c) => c.toJSON());
+      }
+      return null;
     },
     async intl({ request }, { locale }) {
       if (!locales.includes(locale)) {

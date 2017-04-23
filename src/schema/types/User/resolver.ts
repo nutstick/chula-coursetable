@@ -1,10 +1,16 @@
-const resolver = {
+import * as mock from '../../../../courseMock.json';
+import { IResolver } from '../index';
+
+const resolver: IResolver<any, any> = {
   User: {
-    coursetables(root, args) {
-      return root.coursetables;
+    async coursetables(root, args, { database }) {
+      return await database.CourseTable.find({ _id: { $in: root.coursetables } }).toArray();
     },
-    coursetable(root, { id }) {
-      return root.coursetables.find((ct) => ct._id === id);
+    async coursetable(root, { id }, { database }) {
+      if (root.coursetables.find((ct) => ct._id === id)) {
+        return await database.CourseTable.findOne({ _id: id });
+      }
+      return null;
     },
   },
 };

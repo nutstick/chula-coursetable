@@ -25,6 +25,7 @@ const modules = [
   Course,
   CourseTable,
   Query,
+  Mutation,
 ];
 
 const resolvers = Object.assign({

@@ -9,7 +9,6 @@ import * as s from './CourseTable.css';
 export interface ICourseDetail {
   _id?: string;
   name?: string;
-  shortName?: string;
 }
 export interface IFullCourse extends ICourse {
   course: ICourseDetail;

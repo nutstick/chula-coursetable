@@ -45,7 +45,6 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
   }
 
   public render() {
-    console.log('render');
     const maxTime = this.maxTime;
     return (
       <div className={cx(s.root, s.table, this.props.className)}>

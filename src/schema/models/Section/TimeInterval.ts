@@ -5,7 +5,7 @@ interface ITimeInterval {
 }
 
 const TimeInterval = {
-  type: String,
+  day: String,
   start: String,
   end: String,
 };

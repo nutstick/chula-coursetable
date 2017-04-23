@@ -3,10 +3,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Accordion, Button } from 'semantic-ui-react';
 import { IFullCourse } from '../CourseTable';
 import * as s from './SearchableCourseList.css';
 import * as SEARCHCOURSEQUERY from './SearchCourseQuery.gql';
-import { Accordion, Button } from 'semantic-ui-react'
 
 // TODO use import
 // tslint:disable-next-line:no-var-requires
@@ -15,13 +15,30 @@ const MdArrowBack = require('react-icons/lib/md/arrow-back');
 const messages = defineMessages({
 });
 
+interface ISectionPage {
+  edges: Array<{
+    node: {
+      timeIntervals: Array<{
+        day: string,
+        start: string,
+        end: string,
+      }>,
+      teachers: Array<{
+        abbreviated: string,
+      }>,
+      building: string,
+      classroom: string,
+      type: string,
+    },
+  }>;
+}
+
 interface ICourse {
   _id: string;
   courseID: string;
   name: string;
-  shortName: string;
 
-  sections: any[];
+  sections: ISectionPage;
 }
 
 interface ISearchableCourseListProps extends React.Props<any> {
@@ -31,22 +48,26 @@ interface ISearchableCourseListProps extends React.Props<any> {
   loading: boolean;
 }
 
-const CourseItem = ({ name, shortName}) => (
+const CourseItem = ({ courseID, name }) => (
   <div>
-    <div className={s.header}>{shortName}</div>
+    <div className={s.header}>{courseID}</div>
     <div className={s.subHeader}>{name}</div>
   </div>
 );
 
-const SectionItem = ({ index, teachers, timeInterval, type, onClick }) => (
+const SectionItem = ({ index, teachers, timeIntervals, type }) => (
   <div>
     #{index}
     <div>{teachers}</div>
-    <div>{timeInterval}</div>
+    <div>
+      {timeIntervals.map(({ day, start, end }) => (
+        <div key={`day:start:end`}>{day} {start} - {end}</div>
+      ))}
+    </div>
     <div>{type}</div>
-    <Button onClick={onClick}>Apply</Button>
+    {/*<Button onClick={onClick}>Apply</Button>*/}
   </div>
-)
+);
 
 class SearchableCourseList extends React.Component<ISearchableCourseListProps, void> {
   constructor(props) {
@@ -56,21 +77,22 @@ class SearchableCourseList extends React.Component<ISearchableCourseListProps, v
   public render() {
     const renderPanels = this.props.courses && this.props.courses.map((c) => ({
       key: `search-${c._id}`,
-      title: (<CourseItem name={c.name} shortName={c.shortName} />),
+      title: (<CourseItem name={c.name} courseID={c.courseID} />),
       content: (
         <div>
-          {c.sections.map((s, i) => (
+          {c.sections.edges.map((s, i) => (
             <SectionItem
               index={i}
-              {...s}
+              {...(s.node)}
             />
           ))}
         </div>
       ),
-    }))
+    }));
+
     return (
       <div className={cx(s.root)}>
-        {this.props.courses && <Accordion panels={renderPanels} styled />}
+        {this.props.courses && <Accordion panels={renderPanels} styled fluid />}
         {!this.props.courses && this.props.text && (
           <div>No results</div>
         )}
