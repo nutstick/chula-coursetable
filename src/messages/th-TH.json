@@ -93,7 +93,7 @@
     "id": "navigation.signup",
     "description": "Sign up link in header",
     "defaultMessage": "Sign up",
-    "message": "",
+    "message": "ลงทะเทียน",
     "files": [
       "src/components/Navigation/Navigation.tsx"
     ]
@@ -102,7 +102,7 @@
     "id": "searchcourse.header",
     "description": "Courses",
     "defaultMessage": "Courses",
-    "message": "",
+    "message": "ค้นหา",
     "files": [
       "src/components/SearchCoursePanel/SearchCourse.tsx"
     ]
@@ -120,7 +120,7 @@
     "id": "sidebar.courselist.header",
     "description": "List of courses in coursetable",
     "defaultMessage": "Courses",
-    "message": "",
+    "message": "คลอส",
     "files": [
       "src/components/CourseListPanel/CourseListPanel.tsx"
     ]
@@ -129,7 +129,7 @@
     "id": "sidebar.courselist.addcoursenoresult",
     "description": "Add courses in coursetable",
     "defaultMessage": "Add some?",
-    "message": "",
+    "message": "เพิ่ม",
     "files": [
       "src/components/CourseListPanel/CourseListPanel.tsx"
     ]
@@ -138,7 +138,7 @@
     "id": "sidebar.courselist.nocourse",
     "description": "No course found in coursetable",
     "defaultMessage": "No Course found.",
-    "message": "",
+    "message": "ไม่พบคลอส",
     "files": [
       "src/components/CourseListPanel/CourseListPanel.tsx"
     ]
