@@ -1,4 +1,67 @@
+@import '../variables.css';
+
 .root {
   width: 300px;
   min-height: 100vh;
+
+  > .wrap {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.75rem;
+
+    > .header {
+      width: 100%;
+
+      line-height: 1.25rem;
+      font-size: 1.25rem;
+
+      display: flex;
+
+      > * {
+        padding: .75rem;
+      }
+    }
+
+    > .body {
+      font-size: 0.75rem;
+      padding: 1rem;
+
+      > .add {
+        display: block;
+        text-align: center;
+        border-radius: 6px;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+        color: #fff;
+        background-color: var(--primary-color);
+      }
+    }
+  }
+}
+
+.course-item {
+  display: inline-block;
+}
+
+.section-item {
+  display: flex;
+
+  > .check-box {
+  }
+  > .section-content {
+    font-size: 0.8rem;
+    flex: 1;
+    
+    > div > .section-no {
+      display: inline-block;
+      font-size: 0.8rem;
+      margin-right: 1rem;
+      line-height: 100%;
+    }
+
+    > .tags {
+      float: right;
+    }
+  }
 }

@@ -3,9 +3,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { Button, Input } from 'semantic-ui-react';
-import SearchableCourseList from '../SearchableCourseList';
 import { rightSidebarExpand } from '../../redux/ui/actions';
+import SearchableCourseList from '../SearchableCourseList';
 import * as s from './SearchCourse.css';
 
 // TODO use import
@@ -15,18 +16,23 @@ const MdArrowBack = require('react-icons/lib/md/arrow-back');
 const messages = defineMessages({
   courseHeader: {
     id: 'searchcourse.header',
-    defaultMessage: 'Courses',
-    description: 'Courses',
+    defaultMessage: 'Search course',
+    description: 'Search course',
   },
   searchInput: {
     id: 'searchcourse.input',
     defaultMessage: 'Type to search',
-    description: 'My Course tables menu',
+    description: 'Type search text to search field',
   },
 });
 
 interface ISearchCourseProps extends React.Props<any> {
   search: string;
+  match: {
+    params: {
+      id: string,
+    },
+  };
 }
 
 interface ISearchCourseState {
@@ -50,9 +56,9 @@ class SearchCourse extends React.Component<ISearchCourseProps, ISearchCourseStat
       <div className={cx(s.root)}>
         <div className={s.wrap}>
           <div className={s.header}>
-            <a href="#" className={s.back}>
+            <Link to={`/coursetable/${this.props.match.params.id}`} className={s.back}>
               <MdArrowBack size={24}></MdArrowBack>
-            </a>
+            </Link>
             <p><FormattedMessage {...messages.courseHeader} /></p>
           </div>
           <div className={s.header}>

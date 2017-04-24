@@ -1,3 +1,9 @@
+export interface IAction {
+  type: string;
+  target: string;
+  to?: string;
+}
+
 export interface IPageInfo {
   endCurosr?: string;
   hasNextPage?: boolean;

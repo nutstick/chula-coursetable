@@ -100,8 +100,8 @@
   },
   {
     "id": "searchcourse.header",
-    "description": "Courses",
-    "defaultMessage": "Courses",
+    "description": "Search course",
+    "defaultMessage": "Search course",
     "message": "",
     "files": [
       "src/components/SearchCoursePanel/SearchCourse.tsx"
@@ -109,7 +109,7 @@
   },
   {
     "id": "searchcourse.input",
-    "description": "My Course tables menu",
+    "description": "Type search text to search field",
     "defaultMessage": "Type to search",
     "message": "",
     "files": [
@@ -138,6 +138,15 @@
     "id": "sidebar.courselist.nocourse",
     "description": "No course found in coursetable",
     "defaultMessage": "No Course found.",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.addcourse",
+    "description": "Add course",
+    "defaultMessage": "Add course",
     "message": "",
     "files": [
       "src/components/CourseListPanel/CourseListPanel.tsx"
