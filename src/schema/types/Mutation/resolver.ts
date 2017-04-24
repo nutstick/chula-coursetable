@@ -16,36 +16,40 @@ const resolver: IResolver<any, any> = {
       return coursetable;
     },
     async addCourseToCourseTable(_, { coursetable, section }, { database }) {
-      return await database.CourseTable.update({ _id: coursetable }, {
+      await database.CourseTable.update({ _id: coursetable }, {
         $push: {
           courses: section,
         },
       });
+      return await database.CourseTable.findOne({ _id: coursetable });
     },
     async addCoursesToCourseTable(_, { coursetable, sections }, { database }) {
-      return await database.CourseTable.update({ _id: coursetable }, {
+      await database.CourseTable.update({ _id: coursetable }, {
         $addToSet: {
           courses: {
             $each: sections,
           },
         },
       });
+      return await database.CourseTable.findOne({ _id: coursetable });
     },
     async removeCourseFromCourseTable(_, { coursetable, section }, { database }) {
-      return await database.CourseTable.update({ _id: coursetable }, {
+      await database.CourseTable.update({ _id: coursetable }, {
         $pull: {
           courses: {
             section,
           },
         },
       });
+      return await database.CourseTable.findOne({ _id: coursetable });
     },
     async changeSectionInCourseTable(_, { coursetable, section, to }, { database }) {
-      return await database.CourseTable.update({ '_id': coursetable, 'courses.section': section }, {
+      await database.CourseTable.update({ '_id': coursetable, 'courses.section': section }, {
         $set: {
           'courses.$.section': to,
         },
       });
+      return await database.CourseTable.findOne({ _id: coursetable });
     },
     async createCourse(_, { type, genedType, approvedFaculty, approvedDepartment, ...args },
                        { database }) {

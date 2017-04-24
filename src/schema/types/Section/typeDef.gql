@@ -24,15 +24,8 @@ type Section implements Node {
   type: SectionType!
 }
 # Section in CourseTabke 
-type CourseTableSection implements Node {
-  _id: ID!
-  timeIntervals: [TimeInterval]!
-  teachers: [Teacher]
-  building: String
-  classroom: String
-  type: SectionType!
-  course: Course!
-  section: Int!
-
+type CourseTableSection {
   color: String!
+  section: Section!
+  course: Course!
 }

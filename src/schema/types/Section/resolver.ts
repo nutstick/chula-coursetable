@@ -31,7 +31,6 @@ const resolver: IResolver<any, any> = {
   },
   Section: {
     type(root) {
-      console.log(root);
       switch (root.type) {
         case 1: return 'NORMAL';
         case 2: return 'GENED';
@@ -41,8 +40,15 @@ const resolver: IResolver<any, any> = {
     },
   },
   CourseTableSection: {
-    course({ course }) {
-      return mock[course];
+    async course({ section }, _, { database }) {
+      return await database.Course.findOne({
+        sections: section,
+      });
+    },
+    async section({ section }, _, { database }) {
+      return await database.Section.findOne({
+        _id: section,
+      });
     },
   },
 };

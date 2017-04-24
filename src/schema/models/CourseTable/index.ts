@@ -11,11 +11,11 @@ interface ICourseTableDocument {
 @Index({
   owner: 1,
 })
-@Collection('coursetable')
+@Collection('coursetables')
 class CourseTable extends Instance<ICourseTableDocument, CourseTable> implements ICourseTableDocument {
   @ObjectID
   _id: string;
-  @Property(CourseTableCourse, false)
+  @Property([CourseTableCourse], false)
   courses: ICourseTableCourse[];
   @Property(Date, false)
   createAt: Date;

@@ -18,7 +18,7 @@ const resolver: IResolver<any, any> = {
     },
     pageInfo(root) {
       return {
-        endCursor: root[root.length - 1]._id,
+        endCursor: root.length > 0 && root[root.length - 1]._id,
         hasNextPage: false,
       };
     },
