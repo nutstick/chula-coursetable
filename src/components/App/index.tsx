@@ -53,7 +53,6 @@ class App extends React.Component<IAppProps, any> {
         if (this.intl !== newIntl) {
           this.intl = newIntl;
           if (__DEV__) {
-            // eslint-disable-next-line no-console
             console.log('Intl changed — Force rendering');
           }
           deepForceUpdate(this);

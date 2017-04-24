@@ -1,10 +1,11 @@
-query ($search: String!) {
+query Courses($search: String!) {
   courses(search: $search) {
     _id
     name
     sections {
       edges {
         node {
+          _id
           timeIntervals {
             day
             start

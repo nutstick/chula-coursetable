@@ -1,0 +1,37 @@
+query MyCourses($coursetable: ID!) {
+  me {
+    _id
+    coursetable(id: $coursetable) {
+      _id
+      courses {
+        section {
+          _id
+        }
+        course {
+          _id
+          courseID
+          name
+          sections {
+            edges {
+              node {
+                _id
+                sectionNo
+                timeIntervals {
+                  day
+                  start
+                  end
+                }
+                teachers {
+                  abbreviated
+                }
+                building
+                classroom
+                type
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

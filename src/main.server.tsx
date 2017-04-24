@@ -122,6 +122,11 @@ database.connect((databaseError) => {
       networkInterface: new ServerInterface({
         schema: Schema,
         rootValue: { request: req },
+        context: {
+          database,
+          user: req.user,
+        },
+        debug: __DEV__,
       }),
 
       // networkInterface: createNetworkInterface({
@@ -154,7 +159,6 @@ database.connect((databaseError) => {
     }));
 
     const css = new Set();
-
     const locale = req.query.lang || req.acceptsLanguages(locales);
     await store.dispatch(setLocale({
       locale,
@@ -172,6 +176,7 @@ database.connect((databaseError) => {
       store,
       client: apolloClient,
     };
+
 
     const component = (
       <App context={context}>

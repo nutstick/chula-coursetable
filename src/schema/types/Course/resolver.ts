@@ -13,14 +13,11 @@ const resolver: IResolver<any, any> = {
   },
   NormalCourse: {
     async sections(root, args, { database }) {
-      const x = await root.sections.map((s) => database.Section.findOne({ _id: s }));
-      console.log(x);
       return await root.sections.map((s) => database.Section.findOne({ _id: s }));
     },
   },
   GenedCourse: {
     async sections(root, args, { database }) {
-      console.log(root, args);
       const sections = await Promise.all(root.sections.map((s) => database.Section.findOne({ _id: s })));
       return sections;
     },

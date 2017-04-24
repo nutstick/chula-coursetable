@@ -115,5 +115,32 @@
     "files": [
       "src/components/SearchCoursePanel/SearchCourse.tsx"
     ]
+  },
+  {
+    "id": "sidebar.courselist.header",
+    "description": "List of courses in coursetable",
+    "defaultMessage": "Courses",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.addcoursenoresult",
+    "description": "Add courses in coursetable",
+    "defaultMessage": "Add some?",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.nocourse",
+    "description": "No course found in coursetable",
+    "defaultMessage": "No Course found.",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
   }
 ]

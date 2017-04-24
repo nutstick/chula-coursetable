@@ -1,0 +1,13 @@
+mutation AddCourse($coursetable: ID!, $section: SectionInput!) {
+  addCourseToCourseTable(coursetable: $coursetable, section: $section) {
+    courses {
+      section {
+        timeIntervals {
+          day
+          start
+          end
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
-import { AsyncCourseList } from '../CourseList';
+import { AsyncCourseListPanel } from '../CourseListPanel';
 import Main from '../Main';
 import { AsyncSearchCoursePanel } from '../SearchCoursePanel';
 import Sidebar from '../Sidebar';
@@ -33,8 +33,8 @@ class Layout extends React.Component<ILayoutProps, void> {
         </Main>
         <Sidebar expanded={this.props.expand === 'right' || this.props.expand === 'both'} right>
           <Switch>
+            <Route exact path="/coursetable/:id" component={AsyncCourseListPanel} />
             <Route exact path="/coursetable/:id/search" component={AsyncSearchCoursePanel} />
-            <Route component={AsyncCourseList} />
           </Switch>
         </Sidebar>
       </div>

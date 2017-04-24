@@ -17,6 +17,7 @@ enum SectionType {
 # Section
 type Section implements Node {
   _id: ID!
+  sectionNo: Int!
   timeIntervals: [TimeInterval]!
   teachers: [Teacher]
   building: String
@@ -24,7 +25,8 @@ type Section implements Node {
   type: SectionType!
 }
 # Section in CourseTabke 
-type CourseTableSection {
+type CourseTableSection implements Node {
+  _id: ID!
   color: String!
   section: Section!
   course: Course!

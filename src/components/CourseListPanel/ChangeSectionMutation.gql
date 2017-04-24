@@ -1,0 +1,17 @@
+mutation ChangeSecton($coursetable: ID!, $section: ID!, $to: ID!) {
+  changeSectionInCourseTable(coursetable: $coursetable, section: $section, to: $to) {
+    courses {
+      section {
+        _id
+        timeIntervals {
+          day
+          start
+          end
+        }
+      }
+      course {
+        name
+      }
+    }
+  }
+}

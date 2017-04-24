@@ -15,13 +15,11 @@ const resolver: IResolver<any, any> = {
     helloworld() {
       return 'Hello Word';
     },
-    me(root, args, { database, user }) {
-      try {
-        return database.User.findOne({ _id: user._id });
-      } catch (err) {
-        console.log(err);
-        return null;
+    async me(_, __, { database, user }) {
+      if (user && user._id) {
+        return await database.User.findOne({ _id: user._id });
       }
+      return null;
     },
     async courses(_, { search }, { database }) {
       if (search) {
@@ -30,7 +28,7 @@ const resolver: IResolver<any, any> = {
       }
       return null;
     },
-    async intl({ request }, { locale }) {
+    async intl(_, { locale }) {
       if (!locales.includes(locale)) {
         throw new Error(`Locale '${locale}' not supported`);
       }

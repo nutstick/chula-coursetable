@@ -1,19 +1,27 @@
-query ($id: ID!) {
-    me {
-      coursetable(id: $id) {
-        _id
-        courses {
-          section
-          course {
-            _id
-            name
-          }
+query MyCourseTable($id: ID!) {
+  me {
+    _id
+    coursetable(id: $id) {
+      _id
+      courses {
+        section {
+          _id
           timeIntervals {
             day
             start
             end
           }
+          teachers {
+            abbreviated
+          }
         }
+        course {
+          _id
+          courseID
+          name
+        }
+        color
       }
     }
   }
+}

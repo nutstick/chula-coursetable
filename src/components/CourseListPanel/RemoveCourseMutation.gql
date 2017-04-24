@@ -1,0 +1,12 @@
+mutation DeleteCourse($coursetable: ID!, $section: ID!) {
+  removeCourseFromCourseTable(coursetable: $coursetable, section: $section) {
+    courses {
+      section {
+        _id
+      }
+      course {
+        name
+      }
+    }
+  }
+}

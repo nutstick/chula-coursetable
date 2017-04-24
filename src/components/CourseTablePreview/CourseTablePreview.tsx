@@ -81,7 +81,7 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
     const ct: ITimeInterval[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
-    courses.forEach((({ timeIntervals, ...course }) => {
+    courses.forEach((({ section: { timeIntervals, ...course } }) => {
       timeIntervals.forEach(((time) => {
         const matchedDay = days.findIndex((day) => day === time.day.toLowerCase());
         ct[matchedDay].push({

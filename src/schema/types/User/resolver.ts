@@ -8,7 +8,7 @@ const resolver: IResolver<any, any> = {
       return await database.CourseTable.find({ _id: { $in: root.coursetables.map(toObjectID) } }).toArray();
     },
     async coursetable(root, { id }, { database }) {
-      if (root.coursetables.find((ct) => ct._id === id)) {
+      if (root.coursetables.find((ct) => ct === id)) {
         return await database.CourseTable.findOne({ _id: id });
       }
       return null;
