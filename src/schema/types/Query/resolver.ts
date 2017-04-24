@@ -15,8 +15,13 @@ const resolver: IResolver<any, any> = {
     helloworld() {
       return 'Hello Word';
     },
-    me(root, args, context) {
-      return mock.users['58e27f900000000000000000'];
+    me(root, args, { database, user }) {
+      try {
+        return database.User.findOne({ _id: user._id });
+      } catch (err) {
+        console.log(err);
+        return null;
+      }
     },
     async courses(_, { search }, { database }) {
       if (search) {

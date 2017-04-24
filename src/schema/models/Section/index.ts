@@ -18,19 +18,18 @@ interface ISectionDocument {
 @Collection('section')
 class Section extends Instance<ISectionDocument, Section> implements ISectionDocument {
   @ObjectID
-  _id?: string;
-
+  _id: string;
 
   @Property(Number, true)
   sectionNo: number;
   @Property([TimeInterval])
   timeIntervals: ITimeInterval[];
   @Property([String], false)
-  teachers?: string[];
+  teachers: string[];
   @Property(String, false)
-  building?: string;
+  building: string;
   @Property(String, false)
-  classroom?: string;
+  classroom: string;
   @Property(Number)
   type: number;
 }

@@ -2,7 +2,9 @@ import { Database } from '../models';
 
 export interface IContext {
   database: Database;
-  user?: any;
+  user?: {
+    _id?: string,
+  };
 }
 
 export interface IResolver<R, A> {

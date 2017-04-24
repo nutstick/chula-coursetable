@@ -11,6 +11,9 @@ interface IUserDocument {
   createAt?: Date;
   updateAt?: Date;
 
+  faculty?: string;
+  department?: string;
+
   coursetables: ICourseTableDocument[];
 }
 
@@ -36,12 +39,20 @@ class User extends Instance<IUserDocument, User> implements IUserDocument {
   @Property(Date, false)
   updateAt: Date;
 
-  @Property([CourseTable], false)
+  @Property(String, false)
+  faculty: string;
+  @Property(String, false)
+  department: string;
+
+  @Property([CourseTable], true)
   coursetables: ICourseTableDocument[];
 
   static onCreating(user: IUserDocument) {
     user.createAt = new Date();
     user.updateAt = new Date();
+    if (!user.account.facebook && !user.account.password) {
+      return Promise.reject(new Error('expected one login method'));
+    }
   }
 
   static onSaving(user: User, changes: Iridium.Changes) {

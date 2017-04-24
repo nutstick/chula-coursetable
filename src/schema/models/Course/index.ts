@@ -39,20 +39,20 @@ class Course extends Instance<ICourseDocument, Course> implements ICourseDocumen
   @Property(Number, true)
   credit: number;
   @Property([Date], false)
-  exam?: Date[];
+  exam: Date[];
   @Property(Number, true)
   type: CourseType;
 
   @Property(GenedCourse, false)
-  gened?: IGenedCourseDocument;
+  gened: IGenedCourseDocument;
   @Property(ApprovedCourse, false)
-  approve?: IApprovedCourseDocument;
+  approve: IApprovedCourseDocument;
 
   @Property([String])
   sections: string[];
 
   @Property(String, false)
-  owner?: string;
+  owner: string;
 }
 
 export { Course, ICourseDocument };

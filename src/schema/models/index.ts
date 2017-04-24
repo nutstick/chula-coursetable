@@ -3,8 +3,10 @@ import { mongodb } from '../../config';
 import { Course, ICourseDocument } from './Course';
 import { CourseTable, ICourseTableDocument } from './CourseTable';
 import { ISectionDocument, Section } from './Section';
+import { IUserDocument, User } from './User';
 
 class Database extends Core {
+  User = new Model<IUserDocument, User>(this, User);
   Course = new Model<ICourseDocument, Course>(this, Course);
   CourseTable = new Model<ICourseTableDocument, CourseTable>(this, CourseTable);
   Section = new Model<ISectionDocument, Section>(this, Section);

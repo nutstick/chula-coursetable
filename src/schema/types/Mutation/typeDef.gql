@@ -14,9 +14,23 @@ input TimeIntervalInput {
   end: Time!
 }
 
+input SectionInput {
+  color: String,
+  section: ID!,
+}
+
 # Mutations
 type Mutation {
+  # Create CourseTable
   createCourseTable: CourseTable
+  # Add course
+  addCourseToCourseTable(coursetable: ID!, section: SectionInput!): CourseTable
+  # Add courses
+  addCoursesToCourseTable(coursetable: ID!, sections: [SectionInput]!): CourseTable
+  # Remove course
+  removeCourseFromCourseTable(coursetable: ID!, section: ID!): CourseTable
+  # Change section
+  changeSectionInCourseTable(coursetable: ID!, section: ID!, to: ID!): CourseTable
 
   # Create Course
   createCourse(
@@ -42,6 +56,7 @@ type Mutation {
     # Sections
     sections: [ID]!
   ): Course
+
   # Create Section
   createSection(
     sectionNo: Int!,
