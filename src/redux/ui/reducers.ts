@@ -1,6 +1,8 @@
 import {
   LEFT_SIDEBAR_EXPAND,
+  LEFT_SIDEBAR_TOGGLE,
   RIGHT_SIDEBAR_EXPAND,
+  RIGHT_SIDEBAR_TOGGLE,
   SET_FLOATING_BUTTON_ACTIVE,
   SET_FLOATING_BUTTON_DEACTIVE,
   SET_FLOATING_BUTTON_TARGET,
@@ -14,7 +16,10 @@ export interface IUIState {
     show: boolean,
   };
   sidebar: {
-    expand: string;
+    expand: {
+      left: boolean,
+      right: boolean,
+    };
   };
 }
 
@@ -27,7 +32,10 @@ export const uiReducers = function ui(state: IUIState = null, action) {
         show: false,
       },
       sidebar: {
-        expand: 'left',
+        expand: {
+          left: true,
+          right: false,
+        },
       },
     };
   }
@@ -71,7 +79,10 @@ export const uiReducers = function ui(state: IUIState = null, action) {
       return {
         ...state,
         sidebar: {
-          expand: action.payload,
+          expand: {
+            left: action.payload === 'left',
+            right: action.payload === 'right',
+          },
         },
       };
     }
@@ -80,7 +91,22 @@ export const uiReducers = function ui(state: IUIState = null, action) {
       return {
         ...state,
         sidebar: {
-          expand: state.sidebar.expand === 'right' ? 'both' : 'left',
+          expand: {
+            left: true,
+            right: state.sidebar.expand.right,
+          },
+        },
+      };
+    }
+
+    case LEFT_SIDEBAR_TOGGLE: {
+      return {
+        ...state,
+        sidebar: {
+          expand: {
+            left: true,
+            right: state.sidebar.expand.right,
+          },
         },
       };
     }
@@ -89,7 +115,22 @@ export const uiReducers = function ui(state: IUIState = null, action) {
       return {
         ...state,
         sidebar: {
-          expand: state.sidebar.expand === 'left' ? 'both' : 'right',
+          expand: {
+            left: state.sidebar.expand.left,
+            right: !state.sidebar.expand.right,
+          },
+        },
+      };
+    }
+
+    case RIGHT_SIDEBAR_TOGGLE: {
+      return {
+        ...state,
+        sidebar: {
+          expand: {
+            left: state.sidebar.expand.left,
+            right: !state.sidebar.expand.right,
+          },
         },
       };
     }

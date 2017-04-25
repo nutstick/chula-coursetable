@@ -2,6 +2,7 @@ import { fromJS, List, Map } from 'immutable';
 import {
   CLEAR_ACTIONS,
   EXEC_ACTIONS,
+  EXEC_ACTIONS_LOADING,
   PUSH_ADD_COURSE_ACTION,
   PUSH_CHANGE_SECTION_ACTION,
   PUSH_REMOVE_COURSE_ACTION,
@@ -24,6 +25,7 @@ export const actionReducers = function action(state: IActionState = Map<string, 
   }
   switch (type) {
     case CLEAR_ACTIONS:
+    case EXEC_ACTIONS_LOADING:
     case EXEC_ACTIONS:
       return state.update(payload.coursetable, (v) => v.clear());
     case PUSH_ADD_COURSE_ACTION:

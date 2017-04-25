@@ -11,8 +11,17 @@ export interface ITimeIntervalProps extends ITimeInterval {
   position?: number;
   maxTime?: number;
   ID?: string;
+
+  courseID?: string;
   name?: string;
-  section?: string;
+  credit?: string;
+
+  sectionNo?: string;
+  building?: string;
+  classroom?: string;
+  type?: string;
+
+  color: string;
 }
 
 class TimeInterval extends React.Component<ITimeIntervalProps, void> {
@@ -22,8 +31,9 @@ class TimeInterval extends React.Component<ITimeIntervalProps, void> {
   }
 
   public render() {
+    console.log(this.props)
     // Extract variable
-    const { start, end, size, position } = this.props;
+    const { start, end, size, position, color } = this.props;
     let { maxTime } = this.props;
     const start_ = this.convertTimeToInt(start);
     const end_ = this.convertTimeToInt(end);
@@ -42,8 +52,18 @@ class TimeInterval extends React.Component<ITimeIntervalProps, void> {
       top: `${(position - 1 || 0) * 100 / (size || 1)}%`,
     };
     return (
-      <div className={s.root} style={customStyle}>
-        {this.props.children}
+      <div className={cx(s.root, { [s.preview]: color === 'PREVIEW' })} style={customStyle}>
+        {this.props.name && (
+          <div className={s.wrap}>
+            <div className={s.name}>
+              {/*<b>{this.props.courseID}</b>*/}
+              {this.props.name} ({this.props.sectionNo})
+            </div>
+            <div className={s.classRoom}>
+              <span className={s.building}>{this.props.building}</span>{this.props.classroom}
+            </div>
+          </div>
+        )}
       </div>
     );
   }

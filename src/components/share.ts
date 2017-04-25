@@ -15,7 +15,7 @@ export interface IPage<T> {
 }
 
 export interface ITimeInterval {
-  date?: string;
+  day?: string;
   start?: string;
   end?: string;
 }

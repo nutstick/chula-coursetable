@@ -78,3 +78,7 @@
   text-decoration: none;
   padding: .5rem 2rem;
 }
+
+a.active {
+  color: var(--secondary-color);
+}

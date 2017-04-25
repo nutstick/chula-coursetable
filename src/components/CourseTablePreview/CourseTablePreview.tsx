@@ -77,13 +77,15 @@ export class CourseTablePreview extends React.Component<ICourseTablePreview, voi
     const ct: ITimeIntervalProps[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
-    courses.forEach((({ section: { timeIntervals, ...course } }) => {
+    courses.forEach((({ section: { timeIntervals, ...section }, course, color }) => {
       timeIntervals.forEach(((time) => {
         const matchedDay = days.findIndex((day) => day === time.day.toLowerCase());
         ct[matchedDay].push({
           start: time.start,
           end: time.end,
+          ...section,
           ...course,
+          color,
         });
       }).bind(this));
     }).bind(this));
@@ -121,14 +123,14 @@ export class CourseTablePreview extends React.Component<ICourseTablePreview, voi
         // If end point set position index to avaliable
         if (point.type === 0) {
           const position = avaliablePosition.isEmpty() ? maxTop : avaliablePosition.first();
-          const { start, end, ...course } = ct[day][point.index];
+          const { start, end, ...detail } = ct[day][point.index];
 
           return {
             avaliablePosition: avaliablePosition.isEmpty() ? avaliablePosition : avaliablePosition.shift(),
             positionIndex: positionIndex.set(point.index, {
               start,
               end,
-              ...course,
+              ...detail,
               position,
             }),
           };

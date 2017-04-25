@@ -1,5 +1,6 @@
 import * as BluebirdPromise from 'bluebird';
 import * as fs from 'fs';
+import { toObjectID } from 'iridium';
 import { join } from 'path';
 import * as course from '../../../../courseMock.json';
 import * as mock from '../../../../mockData.json';
@@ -28,15 +29,10 @@ const resolver: IResolver<any, any> = {
       }
       return null;
     },
-    async courses(_, { ids }, { database }) {
-      const sections = ids && await database.Section.find({ _id: { $in: ids } }).toArray();
-      sections.map(async (section) => {
-        const course = await database.Course.findOne({ section: section._id });
-        return {
-          section,
-          course,
-        };
-      });
+    async courses(_, { sectionIDs }, { database }) {
+      return sectionIDs && sectionIDs.map((id) => ({
+        section: id,
+      }));
     },
     async intl(_, { locale }) {
       if (!locales.includes(locale)) {

@@ -30,9 +30,7 @@ class CourseTable extends CourseTablePreview {
                     key={[day, m.start, m.position].join('-')}
                     maxTime={this.maxTime}
                     {...m}
-                  >
-                    <div className={s.timeInterval}></div>
-                  </TimeInterval>
+                  />
                 ))}
               </div>
             </div>

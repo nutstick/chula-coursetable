@@ -1,5 +1,41 @@
 [
   {
+    "id": "sidebar.courselist.addcourse",
+    "description": "Add course",
+    "defaultMessage": "Add course",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.addcoursenoresult",
+    "description": "Add courses in coursetable",
+    "defaultMessage": "Add some?",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.header",
+    "description": "List of courses in coursetable",
+    "defaultMessage": "Courses",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.nocourse",
+    "description": "No course found in coursetable",
+    "defaultMessage": "No Course found.",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
     "id": "header.banner.desc",
     "description": "Description in header",
     "defaultMessage": "Complex web apps made easy",
@@ -72,33 +108,6 @@
     ]
   },
   {
-    "id": "sidebar.menu.coursetables",
-    "description": "My Course tables menu",
-    "defaultMessage": "Course Tables",
-    "message": "",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.menu.search",
-    "description": "Search menu",
-    "defaultMessage": "Search",
-    "message": "",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.menu.courses",
-    "description": "My Courses Menu",
-    "defaultMessage": "My Courses",
-    "message": "",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
     "id": "searchcourse.header",
     "description": "Search course",
     "defaultMessage": "Search course",
@@ -117,39 +126,30 @@
     ]
   },
   {
-    "id": "sidebar.courselist.header",
-    "description": "List of courses in coursetable",
-    "defaultMessage": "Courses",
+    "id": "sidebar.menu.courses",
+    "description": "My Courses Menu",
+    "defaultMessage": "My Courses",
     "message": "",
     "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
-    "id": "sidebar.courselist.addcoursenoresult",
-    "description": "Add courses in coursetable",
-    "defaultMessage": "Add some?",
+    "id": "sidebar.menu.coursetables",
+    "description": "My Course tables menu",
+    "defaultMessage": "Course Tables",
     "message": "",
     "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
-    "id": "sidebar.courselist.nocourse",
-    "description": "No course found in coursetable",
-    "defaultMessage": "No Course found.",
+    "id": "sidebar.menu.search",
+    "description": "Search menu",
+    "defaultMessage": "Search",
     "message": "",
     "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.courselist.addcourse",
-    "description": "Add course",
-    "defaultMessage": "Add course",
-    "message": "",
-    "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   }
 ]

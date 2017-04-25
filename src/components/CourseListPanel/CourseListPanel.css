@@ -40,6 +40,15 @@
   }
 }
 
+.nocourse {
+  margin: auto;
+  text-align: center;
+
+  > .no-course-search {
+    padding-left: 3px;
+  }
+}
+
 .course-item {
   display: inline-block;
 }

@@ -1,25 +1,21 @@
 query CourseInActions($ids: [ID]) {
   courses(sectionIDs: $ids) {
-    _id
-    courseID
-    name
-    sections {
-      edges {
-        node {
-          _id
-          timeIntervals {
-            day
-            start
-            end
-          }
-          teachers {
-            abbreviated
-          }
-          building
-          classroom
-          type
-        }
+    section {
+      _id
+      sectionNo
+      timeIntervals {
+        day
+        start
+        end
       }
+      teachers {
+        abbreviated
+      }
+    }
+    course {
+      _id
+      courseID
+      name
     }
   }
 }

@@ -5,7 +5,7 @@ type Query {
   me: User
   search(search: String!): [Course]
 
-  courses(sectionID: [ID]): [CourseTableSection]
+  courses(sectionIDs: [ID]): [CourseTableSection]
 
   intl(locale: String!): [IntlMessage]
 }

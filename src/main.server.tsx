@@ -1,6 +1,6 @@
 import { createNetworkInterface } from 'apollo-client';
-import * as bodyParser from 'body-parser';
 import * as BluebirdPromise from 'bluebird';
+import * as bodyParser from 'body-parser';
 import * as chalk from 'chalk';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';

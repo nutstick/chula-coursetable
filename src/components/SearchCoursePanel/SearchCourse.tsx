@@ -68,7 +68,7 @@ class SearchCourse extends React.Component<ISearchCourseProps, ISearchCourseStat
               onChange={this.onSearch.bind(this)}
             />
           </div>
-          <SearchableCourseList text={this.state.text} />
+          <SearchableCourseList text={this.state.text} match={this.props.match} />
         </div>
       </div>
     );

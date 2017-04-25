@@ -1,5 +1,41 @@
 [
   {
+    "id": "sidebar.courselist.addcourse",
+    "description": "Add course",
+    "defaultMessage": "Add course",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.addcoursenoresult",
+    "description": "Add courses in coursetable",
+    "defaultMessage": "Add some?",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.header",
+    "description": "List of courses in coursetable",
+    "defaultMessage": "Courses",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.courselist.nocourse",
+    "description": "No course found in coursetable",
+    "defaultMessage": "No Course found.",
+    "message": "",
+    "files": [
+      "src/components/CourseListPanel/CourseListPanel.tsx"
+    ]
+  },
+  {
     "id": "header.banner.desc",
     "description": "Description in header",
     "defaultMessage": "Complex web apps made easy",
@@ -24,33 +60,6 @@
     "message": "",
     "files": [
       "src/components/Header/Header.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.menu.courses",
-    "description": "My Courses Menu",
-    "defaultMessage": "My Courses",
-    "message": "วิชา",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.menu.coursetables",
-    "description": "My Course tables menu",
-    "defaultMessage": "Course Tables",
-    "message": "ตารางสอน",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.menu.search",
-    "description": "Search menu",
-    "defaultMessage": "Search",
-    "message": "ค้นหา",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   },
   {
@@ -93,7 +102,7 @@
     "id": "navigation.signup",
     "description": "Sign up link in header",
     "defaultMessage": "Sign up",
-    "message": "ลงทะเทียน",
+    "message": "",
     "files": [
       "src/components/Navigation/Navigation.tsx"
     ]
@@ -102,7 +111,7 @@
     "id": "searchcourse.header",
     "description": "Search course",
     "defaultMessage": "Search course",
-    "message": "ค้นหา",
+    "message": "",
     "files": [
       "src/components/SearchCoursePanel/SearchCourse.tsx"
     ]
@@ -117,39 +126,30 @@
     ]
   },
   {
-    "id": "sidebar.courselist.header",
-    "description": "List of courses in coursetable",
-    "defaultMessage": "Courses",
-    "message": "คลอส",
-    "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.courselist.addcoursenoresult",
-    "description": "Add courses in coursetable",
-    "defaultMessage": "Add some?",
-    "message": "เพิ่ม",
-    "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.courselist.nocourse",
-    "description": "No course found in coursetable",
-    "defaultMessage": "No Course found.",
-    "message": "ไม่พบคลอส",
-    "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
-    ]
-  },
-  {
-    "id": "sidebar.courselist.addcourse",
-    "description": "Add course",
-    "defaultMessage": "Add course",
+    "id": "sidebar.menu.courses",
+    "description": "My Courses Menu",
+    "defaultMessage": "My Courses",
     "message": "",
     "files": [
-      "src/components/CourseListPanel/CourseListPanel.tsx"
+      "src/components/SidebarMenu/SidebarMenu.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.menu.coursetables",
+    "description": "My Course tables menu",
+    "defaultMessage": "Course Tables",
+    "message": "",
+    "files": [
+      "src/components/SidebarMenu/SidebarMenu.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.menu.search",
+    "description": "Search menu",
+    "defaultMessage": "Search",
+    "message": "",
+    "files": [
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   }
 ]

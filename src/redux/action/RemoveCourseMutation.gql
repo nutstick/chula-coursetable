@@ -1,0 +1,25 @@
+mutation RemoveCourseMutation($coursetable: ID!, $section: ID!) {
+  removeCourseFromCourseTable(coursetable: $coursetable, section: $section) {
+    _id
+    courses {
+      section {
+        _id
+        sectionNo
+        timeIntervals {
+          day
+          start
+          end
+        }
+        teachers {
+          abbreviated
+        }
+      }
+      course {
+        _id
+        courseID
+        name
+      }
+      color
+    }
+  }
+}

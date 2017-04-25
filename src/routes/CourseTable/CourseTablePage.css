@@ -9,3 +9,12 @@
   max-width: 800px;
   margin: auto;
 }
+
+.action-holder {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 0;
+  > .clear-button {
+    margin-right: 1rem;
+  }
+}

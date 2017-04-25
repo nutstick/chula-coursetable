@@ -99,10 +99,10 @@ const SectionItem = ({ index, teachers, timeIntervals, type, applied, onApply })
   </div>);
 };
 
-const NoCourse = () => (
-  <div>
+const NoCourse = ({ id }) => (
+  <div className={s.nocourse}>
     <FormattedMessage {...messages.noCourse} />
-    <Link to="/search">
+    <Link className={s.noCourseSearch} to={`/coursetable/${id}/search`}>
       <FormattedMessage {...messages.addCourseNoResult}/>
     </Link>
   </div>
@@ -139,8 +139,6 @@ class CourseListPanel extends React.Component<IConnectionState & IConnectedDispa
       ),
     }));
 
-    console.log(this.props.match.params.id);
-
     return (
       <div className={cx(s.root)}>
         <div className={s.wrap}>
@@ -149,13 +147,12 @@ class CourseListPanel extends React.Component<IConnectionState & IConnectedDispa
           </div>
           {
             this.props.loading ? <div className={s.loading}>loading...</div> :
-              !this.props.courses ? <NoCourse /> :
-              (<div className={s.body}>
+              this.props.courses && this.props.courses.length ? (<div className={s.body}>
                 <Accordion panels={renderPanels} styled fluid />
                 <Link className={s.add} to={`/coursetable/${this.props.match.params.id}/search`}>
                   <FormattedMessage {...messages.addCourse} />
                 </Link>
-              </div>)
+              </div>) : <NoCourse id={this.props.match.params.id} />
           }
         </div>
       </div>

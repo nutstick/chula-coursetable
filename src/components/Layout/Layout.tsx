@@ -15,7 +15,10 @@ const MdAdd = require('react-icons/lib/md/add');
 
 interface ILayoutProps extends React.Props<any> {
   children?: React.ReactNode;
-  expand: string;
+  expand: {
+    left: boolean,
+    right: boolean,
+  };
   floatingButton: {
     show: boolean,
     to?: string,
@@ -27,11 +30,11 @@ class Layout extends React.Component<ILayoutProps, void> {
   public render() {
     return (
       <div>
-        <SidebarMenu expanded={this.props.expand === 'left' ||  this.props.expand === 'both'} left></SidebarMenu>
+        <SidebarMenu expanded={this.props.expand.left} left></SidebarMenu>
         <Main expanded={this.props.expand}>
           {this.props.children}
         </Main>
-        <Sidebar expanded={this.props.expand === 'right' || this.props.expand === 'both'} right>
+        <Sidebar expanded={this.props.expand.right} right>
           <Switch>
             <Route exact path="/coursetable/:id" component={AsyncCourseListPanel} />
             <Route exact path="/coursetable/:id/search" component={AsyncSearchCoursePanel} />

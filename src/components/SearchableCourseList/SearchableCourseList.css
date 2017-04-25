@@ -1,3 +1,29 @@
 .root {
   padding: 1rem;
 }
+
+.course-item {
+  display: inline-block;
+}
+
+.section-item {
+  display: flex;
+
+  > .check-box {
+  }
+  > .section-content {
+    font-size: 0.8rem;
+    flex: 1;
+    
+    > div > .section-no {
+      display: inline-block;
+      font-size: 0.8rem;
+      margin-right: 1rem;
+      line-height: 100%;
+    }
+
+    > .tags {
+      float: right;
+    }
+  }
+}

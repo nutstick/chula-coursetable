@@ -2,7 +2,7 @@ import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import Avartar from '../Avartar';
 import Sidebar from '../Sidebar';
@@ -38,9 +38,9 @@ class SidebarMenu extends React.Component<ISidebarProps, void> {
           </div>
           <div className={s.menu}>
             <nav className={s.nav}>
-              <a href="/"><FormattedMessage {...messages.coursetables} /></a>
-              <a href="/search/"><FormattedMessage {...messages.search} /></a>
-              <a href="/courses/"><FormattedMessage {...messages.courses} /></a>
+              <NavLink to="/" activeClassName={s.active}><FormattedMessage {...messages.coursetables} /></NavLink>
+              <NavLink to="/search" activeClassName={s.active}><FormattedMessage {...messages.search} /></NavLink>
+              <NavLink to="/courses" activeClassName={s.active}><FormattedMessage {...messages.courses} /></NavLink>
             </nav>
           </div>
           <div className={s.profileWrapper}>

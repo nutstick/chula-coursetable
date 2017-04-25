@@ -1,6 +1,8 @@
 import {
   LEFT_SIDEBAR_EXPAND,
+  LEFT_SIDEBAR_TOGGLE,
   RIGHT_SIDEBAR_EXPAND,
+  RIGHT_SIDEBAR_TOGGLE,
   SET_FLOATING_BUTTON_ACTIVE,
   SET_FLOATING_BUTTON_DEACTIVE,
   SET_FLOATING_BUTTON_TARGET,
@@ -46,8 +48,20 @@ export function rightSidebarExpand() {
   };
 }
 
+export function rightSidebarToggle() {
+  return {
+    type: RIGHT_SIDEBAR_TOGGLE,
+  };
+}
+
 export function leftSidebarExpand() {
   return {
     type: LEFT_SIDEBAR_EXPAND,
+  };
+}
+
+export function leftSidebarToggle() {
+  return {
+    type: LEFT_SIDEBAR_TOGGLE,
   };
 }
