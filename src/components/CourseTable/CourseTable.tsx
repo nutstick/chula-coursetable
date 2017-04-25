@@ -1,21 +1,21 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { CourseTablePreview, ICourse, ICourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
+import { CourseTablePreview, ICourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
+import { ICourse } from '../share';
 import TimeInterval from '../TimeInterval';
-import { ITimeInterval } from '../TimeInterval/TimeInterval';
 import * as s from './CourseTable.css';
 
-export interface ICourseDetail {
-  _id?: string;
-  name?: string;
-}
-export interface IFullCourse extends ICourse {
-  course: ICourseDetail;
-  section: number;
-}
 
-class CourseTable extends CourseTablePreview<ICourseTablePreview<IFullCourse>> {
+class CourseTable extends CourseTablePreview {
+  public componentWillMount() {
+    this.generateCourseTable({ courses: this.props.courses });
+  }
+
+  public componentWillReceiveProps({ courses, actions }) {
+    this.generateCourseTable({ courses });
+  }
+
   public render() {
     return (
       <div className={cx(s.root, s.table, this.props.className)}>

@@ -1,5 +1,5 @@
-query Courses($search: String!) {
-  search(search: $search) {
+query CourseInActions($ids: [ID]) {
+  courses(sectionIDs: $ids) {
     _id
     courseID
     name

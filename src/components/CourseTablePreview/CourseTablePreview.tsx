@@ -2,8 +2,10 @@ import * as cx from 'classnames';
 import { List, Map, Seq } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
+import { IAction } from '../../redux/action/reducers';
+import { ICourseTableCourse, ITimeInterval } from '../share';
 import TimeInterval from '../TimeInterval';
-import { ITimeInterval } from '../TimeInterval/TimeInterval';
+import { ITimeIntervalProps } from '../TimeInterval/TimeInterval';
 import * as s from './CourseTablePreview.css';
 
 interface IEventPoint {
@@ -15,33 +17,22 @@ interface IEventPoint {
   timestamp: number;
 }
 
-interface ITimeIntervals {
-  day: string;
-  start: string;
-  end: string;
-}
-
-export interface ICourse {
-  timeIntervals: ITimeIntervals[];
-}
-
-export interface ICourseTablePreview<T extends ICourse> {
+export interface ICourseTablePreview {
   _id: string;
-  className: string;
-  courses: T[];
+  className?: string;
+  courses: ICourseTableCourse[];
 }
 
-export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
-  extends React.Component<P, void> {
-  public coursetable: Array<Seq.Indexed<ITimeInterval>>;
+export class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
+  public coursetable: Array<Seq.Indexed<ITimeIntervalProps>>;
   public maxTime: number;
 
   public componentWillMount() {
-    this.generateCourseTable(this.props.courses);
+    this.generateCourseTable({ courses: this.props.courses });
   }
 
   public componentWillReceiveProps({ courses }) {
-    this.generateCourseTable(courses);
+    this.generateCourseTable({ courses });
   }
 
   public render() {
@@ -69,8 +60,13 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
     );
   }
 
+  public convertTimeToInt(time: string) {
+    const [h, m] = time.split(':');
+    return parseInt(h, 10) * 60 + parseInt(m, 10);
+  }
+
   /* Calculate interval size for rendering cousetable correctly */
-  public generateCourseTable(courses) {
+  public generateCourseTable({ courses }: { courses: ICourseTableCourse[] }) {
     if (!courses) {
       this.coursetable = [null, null, null, null, null, null];
       return;
@@ -78,28 +74,29 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
     // Day list
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     // Day base course list
-    const ct: ITimeInterval[][] = [[], [], [], [], []];
+    const ct: ITimeIntervalProps[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
     courses.forEach((({ section: { timeIntervals, ...course } }) => {
       timeIntervals.forEach(((time) => {
         const matchedDay = days.findIndex((day) => day === time.day.toLowerCase());
         ct[matchedDay].push({
-          start: this.convertTimeToInt(time.start),
-          end: this.convertTimeToInt(time.end),
+          start: time.start,
+          end: time.end,
           ...course,
         });
       }).bind(this));
     }).bind(this));
 
     // Find Max Time
-    this.maxTime = ct.reduce((m, d) => Math.max(m, d.reduce((_m, p) => Math.max(_m, p.start), -1)), -1);
+    this.maxTime = ct.reduce((m, d) => Math.max(m, d.reduce((_m, p) =>
+      Math.max(_m, this.convertTimeToInt(p.start)), -1)), -1);
 
     // Convert time interval into event points list.
     const pointList = ct.map((d) => d.reduce((points, {start, end}, index) => (
         points
-          .push({ index, type: 0, timestamp: start })
-          .push({ index, type: 1, timestamp: end })
+          .push({ index, type: 0, timestamp: this.convertTimeToInt(start) })
+          .push({ index, type: 1, timestamp: this.convertTimeToInt(end) })
       ), List<IEventPoint>())
       .sort((a, b) => (a.timestamp !== b.timestamp ?
         a.timestamp - b.timestamp : (a.type !== b.type ? b.type - a.type : 0))),
@@ -162,16 +159,11 @@ export class CourseTablePreview<P extends ICourseTablePreview<ICourse>>
         }
       }, {
         avaliablePosition: List<number>(),
-        positionIndex: Map<number, ITimeInterval>(),
+        positionIndex: Map<number, ITimeIntervalProps>(),
       });
 
       return p.valueSeq();
     });
-  }
-
-  public convertTimeToInt(time: string) {
-    const [h, m] = time.split(':');
-    return parseInt(h, 10) * 60 + parseInt(m, 10);
   }
 }
 

@@ -21,12 +21,22 @@ const resolver: IResolver<any, any> = {
       }
       return null;
     },
-    async courses(_, { search }, { database }) {
+    async search(_, { search }, { database }) {
       if (search) {
         const courses = await database.Course.find().toArray();
         return courses.map((c) => c.toJSON());
       }
       return null;
+    },
+    async courses(_, { ids }, { database }) {
+      const sections = ids && await database.Section.find({ _id: { $in: ids } }).toArray();
+      sections.map(async (section) => {
+        const course = await database.Course.findOne({ section: section._id });
+        return {
+          section,
+          course,
+        };
+      });
     },
     async intl(_, { locale }) {
       if (!locales.includes(locale)) {

@@ -3,9 +3,14 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as Redux from 'redux';
 import { Accordion, Checkbox, Label } from 'semantic-ui-react';
-import { IAction, ICourseTableCourse } from '../share';
+import { pushChangeSectionAction, pushRemoveCourseAction } from '../../redux/action/actions';
+import { IAction } from '../../redux/action/reducers';
+import { IState } from '../../redux/IState';
+import { ICourseTableCourse } from '../share';
 import * as s from './CourseListPanel.css';
 import * as COURSELISTQUERY from './CoursesListQuery.gql';
 
@@ -25,8 +30,8 @@ interface IConnectionState {
 }
 
 interface IConnectedDispatch {
-  onChangeSectionActionTrigger?: (e) => void;
-  onRemoveCourseActionTrigger?: (e) => void;
+  onChangeSectionActionTrigger?: (coursetable: string, target, to) => void;
+  onRemoveCourseActionTrigger?: (coursetable: string, target) => void;
 }
 
 const messages = defineMessages({
@@ -54,10 +59,15 @@ const messages = defineMessages({
 
 const mapStateToProps = (state: IState): IConnectionState => ({});
 
-const mapDispatchToProps = (dispatch: redux.Dispatch<IState>): IConnectedDispatch => {
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
   return {
-    onSetSidebarRight: (e) => {
-      dispatch(rightSidebarExpand());
+    onChangeSectionActionTrigger: (coursetable, target, to) => {
+      const self: any = this;
+      dispatch(pushChangeSectionAction(coursetable, target, to));
+    },
+    onRemoveCourseActionTrigger: (coursetable, target) => {
+      const self: any = this;
+      dispatch(pushRemoveCourseAction(coursetable, target));
     },
   };
 };
@@ -98,7 +108,7 @@ const NoCourse = () => (
   </div>
 );
 
-class CourseList extends React.Component<ICourseList, void> {
+class CourseListPanel extends React.Component<IConnectionState & IConnectedDispatch & ICourseList, void> {
   constructor(props) {
     super(props);
 
@@ -120,7 +130,8 @@ class CourseList extends React.Component<ICourseList, void> {
               key={node._id}
               index={node.sectionNo}
               applied={c.section._id === node._id}
-              onApply={this.handleApplySection}
+              onApply={this.props.onChangeSectionActionTrigger
+                .bind(this, this.props.match.params.id, c.section._id, node._id)}
               {...node}
             />
           ))}
@@ -154,6 +165,7 @@ class CourseList extends React.Component<ICourseList, void> {
 
 export default compose(
   withStyles(s),
+  connect(mapStateToProps, mapDispatchToProps),
   graphql(COURSELISTQUERY, {
     options(props) {
       return {
@@ -171,4 +183,4 @@ export default compose(
       };
     },
   }),
-)(CourseList);
+)(CourseListPanel);

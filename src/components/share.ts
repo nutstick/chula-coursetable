@@ -1,9 +1,3 @@
-export interface IAction {
-  type: string;
-  target: string;
-  to?: string;
-}
-
 export interface IPageInfo {
   endCurosr?: string;
   hasNextPage?: boolean;
@@ -59,4 +53,9 @@ export interface ICourseTableCourse {
   course?: ICourse;
   section?: ISection;
   color?: string;
+}
+
+export interface ICourseTable {
+  _id?: string;
+  courses?: ICourseTableCourse[];
 }

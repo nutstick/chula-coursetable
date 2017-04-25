@@ -4,7 +4,6 @@ import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Accordion, Button } from 'semantic-ui-react';
-import { IFullCourse } from '../CourseTable';
 import * as s from './SearchableCourseList.css';
 import * as SEARCHCOURSEQUERY from './SearchCourseQuery.gql';
 
@@ -112,9 +111,9 @@ export default withStyles(s)(graphql(SEARCHCOURSEQUERY, {
     };
   },
   props(props) {
-    const { data: { courses, error, loading }, ...p } = props;
+    const { data: { search, error, loading }, ...p } = props;
     return {
-      courses,
+      search,
       error,
       loading,
       ...p,

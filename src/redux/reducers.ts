@@ -1,5 +1,6 @@
 import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
+import { actionReducers } from './action/reducers';
 import { intlReducers } from './intl/reducers';
 import { runtimeReducers } from './runtime/reducers';
 import { uiReducers } from './ui/reducers';
@@ -12,6 +13,7 @@ export const createReducer = (asyncReducers?: any) => {
     runtime: runtimeReducers,
     user: userReducers,
     ui: uiReducers,
+    action: actionReducers,
     ...asyncReducers,
   });
 };

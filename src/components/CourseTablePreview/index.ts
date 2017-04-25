@@ -1,5 +1,6 @@
+import { ICourse } from '../share';
 import { default as CourseTablePreview } from './CourseTablePreview';
 import * as t from './CourseTablePreview';
 
-export type ICourseTablePreview = t.ICourseTablePreview<t.ICourse>;
+export type ICourseTablePreview = t.ICourseTablePreview;
 export default CourseTablePreview;
