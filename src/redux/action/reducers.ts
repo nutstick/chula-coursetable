@@ -14,14 +14,15 @@ export interface IAction {
   to?: string;
 }
 
-export type IActionState = Map<string, List<IAction>>;
+export type IActionState = Map<string, Map<string, IAction>>;
 
-export const actionReducers = function action(state: IActionState = Map<string, List<IAction>>(), { type, payload }) {
+export const actionReducers = function action(state: IActionState = Map<string, Map<string, IAction>>(),
+                                              { type, payload }) {
   if (!(state instanceof Map))   {
     state = fromJS(state);
   }
   if (payload && payload.coursetable && !state.has(payload.coursetable)) {
-    state = state.set(payload.coursetable, List<IAction>());
+    state = state.set(payload.coursetable, Map<string, IAction>());
   }
   switch (type) {
     case CLEAR_ACTIONS:
@@ -29,22 +30,21 @@ export const actionReducers = function action(state: IActionState = Map<string, 
     case EXEC_ACTIONS:
       return state.update(payload.coursetable, (v) => v.clear());
     case PUSH_ADD_COURSE_ACTION:
-      return state.update(payload.coursetable, (v) => v.push({
+      return state.update(payload.coursetable, (v) => v.set(payload.targetCourse, {
         type: 'ADD',
         target: payload.targetSection,
       }));
     case PUSH_CHANGE_SECTION_ACTION:
-      return state.update(payload.coursetable, (v) => v.push({
+      return state.update(payload.coursetable, (v) => v.set(payload.targetCourse, {
         type: 'CHANGE',
         target: payload.targetSection,
         to: payload.toSection,
       }));
     case PUSH_REMOVE_COURSE_ACTION:
-      return state.update(payload.coursetable, (v) => v.push({
+      return state.update(payload.coursetable, (v) => v.set(payload.targetCourse, {
         type: 'REMOVE',
         target: payload.targetSection,
       }));
     default: return state;
   }
 };
-

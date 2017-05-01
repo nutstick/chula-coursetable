@@ -1,0 +1,23 @@
+# Edges for CourseGroupQuery
+type CourseGroupEdges implements Edges {
+  node: CourseGroup!
+  cursor: ID!
+}
+
+# Course Group relay-style pagination query
+type CourseGroupPage implements Page {
+  totalCount: Int!
+  edges: [CourseGroupEdges]
+  pageInfo: PageInfo
+}
+# Course Group
+type CourseGroup implements Node {
+  _id: ID!
+  name: String!
+  courses: [Course]!
+  owner: String
+
+  faculty: String
+  department: String
+  year: Int
+}

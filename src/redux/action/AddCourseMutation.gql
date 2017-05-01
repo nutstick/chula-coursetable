@@ -1,4 +1,4 @@
-mutation AddCourseMutation ($coursetable: ID!, $section: SectionInput) {
+mutation AddCourseMutation ($coursetable: ID!, $section: SectionInput!) {
   addCourseToCourseTable(coursetable: $coursetable, section: $section) {
     _id
     courses {

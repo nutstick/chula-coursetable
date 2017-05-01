@@ -4,11 +4,13 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { print } from 'graphql/language';
 import * as SchemaType from './schema.gql';
 import * as Course from './types/Course';
+import * as CourseGroup from './types/CourseGroup';
 import * as CourseTable from './types/CourseTable';
 import * as IntlMessage from './types/IntlMessage';
 import * as Mutation from './types/Mutation';
 import * as Pagination from './types/Pagination';
 import * as Query from './types/Query';
+import * as SearchResult from './types/SearchResult';
 import * as Section from './types/Section';
 import * as Teacher from './types/Teacher';
 import * as TimeInterval from './types/TimeInterval';
@@ -24,6 +26,8 @@ const modules = [
   Section,
   Course,
   CourseTable,
+  CourseGroup,
+  SearchResult,
   Query,
   Mutation,
 ];

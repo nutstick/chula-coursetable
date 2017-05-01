@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
@@ -24,7 +24,8 @@ const FaAngleRight = require('react-icons/lib/fa/angle-right');
 
 interface ICourseTablePageProp extends React.Props<any> {
   coursetable: ICourseTable;
-  actionCourses: ICourseTableCourse[];
+  courses?: Map<string, ICourseTableCourse>;
+  actionCourses?: Map<string, ICourseTableCourse>;
   loading: boolean;
   error: Error;
   match: {
@@ -97,23 +98,20 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
       marginRight: 20,
     };
 
-    const courses = this.props.coursetable && List<ICourseTableCourse>(this.props.coursetable.courses)
-      // Remove CourseTableCourse that tag REMOVE or CHANGE
-      .filter((c) => !this.props.actions || !(this.props.actions
-        .find((a) => (a.type === 'REMOVE' || a.type === 'CHANGE') && a.target === c.section._id)),
-      )
-      // ADD CourseTableCorses that tag CHANGE or ADD
-      .concat(this.props.actionCourses || [])
-      .toJS();
-
+    const courses = this.props.courses && this.props.courses
+      .merge(this.props.actionCourses)
+      .valueSeq();
 
     return (
       <div className={s.root}>
-        {this.props.coursetable && <CourseTable
-          className={s.courseTable}
-          _id={this.props.coursetable._id}
-          courses={courses}
-        ></CourseTable>}
+        {this.props.coursetable && <div>
+          <h2>{this.props.coursetable.name}</h2>
+          <CourseTable
+            className={s.courseTable}
+            _id={this.props.coursetable._id}
+            courses={courses}
+          ></CourseTable>
+        </div>}
         {this.props.loading && <div>Loading</div>}
         {this.props.actions && <div className={s.actionHolder}>
           <Button.Group>
@@ -142,32 +140,11 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
 export default compose(
   withStyles(s),
   connect(mapStateToProps, mapDispatchToProps),
-  graphql(COURSETABLEQUERY, {
-    options(props) {
-      return {
-        variables: {
-          id: props.match.params.id,
-        },
-      };
-    },
-    props(props) {
-      const { data: { me, error, loading } } = props;
-      let coursetable = null;
-      if (!loading) {
-        coursetable = me.coursetable;
-      }
-      return {
-        coursetable,
-        loading,
-        error,
-      };
-    },
-  }),
   graphql(COURSEINACTIONQUERY, {
     options(props) {
       return {
         variables: {
-          ids: props.actions && props.actions.filter((a) => a.type === 'ADD' || a.type === 'CHANGE')
+          ids: props.actions && props.actions.valueSeq().filter((a) => a.type === 'ADD' || a.type === 'CHANGE')
             .map((a) => (a.type === 'ADD' ? a.target : a.to)).toJS(),
         },
       };
@@ -177,10 +154,39 @@ export default compose(
       return {
         loading_: loading && props.loading,
         error,
-        actionCourses: courses && courses.map((c) => ({
+        actionCourses: courses && courses.reduce((m, c) => m.set(c.course._id, {
           color: 'PREVIEW',
           ...c,
-        })),
+        }), Map<string, ICourseTableCourse>()),
+      };
+    },
+  }),
+  graphql(COURSETABLEQUERY, {
+    options(props) {
+      return {
+        variables: {
+          id: props.match.params.id,
+        },
+      };
+    },
+    props(props) {
+      const { data: { me, error, loading }, actions } = props;
+      let coursetable = null;
+      if (!loading) {
+        coursetable = me.coursetable;
+      }
+      return {
+        coursetable,
+        courses: coursetable && coursetable.courses
+          .filter((c) => !actions || !(actions.valueSeq()
+            .find((a) => (a.type === 'REMOVE' || a.type === 'CHANGE') && a.target === c.section._id
+              && a.to !== c.section._id)),
+          )
+          .reduce((m, c) => m.set(c.course._id, {
+            ...c,
+          }), Map<string, ICourseTableCourse>()),
+        loading,
+        error,
       };
     },
   }),

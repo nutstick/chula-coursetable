@@ -10,11 +10,11 @@ export default function createApolloClient(options?) {
       } else if (result.__typename === 'CourseTableSection') {
         return `${result.course._id}.${result.section._id}`;
       } else if (/Page/.test(result.__typename)) {
-        return `${result.__typename}`;
+        return null;
       } else if (/Edges/.test(result.__typename)) {
         return `${result.__typename}.${result.node._id}`;
       }
-      console.log('NO ID from ', result);
+      // console.log('NO ID from ', result);
       return null;
     },
     queryDeduplication: true,

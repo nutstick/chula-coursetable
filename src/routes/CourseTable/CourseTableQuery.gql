@@ -3,6 +3,7 @@ query MyCourseTable($id: ID!) {
     _id
     coursetable(id: $id) {
       _id
+      name
       courses {
         section {
           _id

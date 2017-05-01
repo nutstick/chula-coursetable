@@ -23,6 +23,8 @@ input SectionInput {
 type Mutation {
   # Create CourseTable
   createCourseTable: CourseTable
+  # Change CourseTable Name
+  changeCourseTableName(coursetable: ID!, name: String!): CourseTable
   # Add course
   addCourseToCourseTable(coursetable: ID!, section: SectionInput!): CourseTable
   # Add courses
@@ -55,6 +57,9 @@ type Mutation {
 
     # Sections
     sections: [ID]!
+
+    # Creator
+    owner: ID
   ): Course
 
   # Create Section
@@ -69,4 +74,18 @@ type Mutation {
     # Section Type
     type: SectionType!
   ): Section
+
+  # Create Course Group
+  createCourseGroup(
+    # Course group name
+    name: String!
+    # Courses
+    courses: [ID]!
+    # Faculty
+    faculty: String!
+    # Department
+    department: String!
+    # Year
+    year: Int!
+  ): CourseGroup
 }

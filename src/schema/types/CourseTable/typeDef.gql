@@ -13,5 +13,6 @@ type CourseTablePage implements Page {
 # Course table
 type CourseTable implements Node {
   _id: ID!
+  name: String
   courses: [CourseTableSection]!
 }

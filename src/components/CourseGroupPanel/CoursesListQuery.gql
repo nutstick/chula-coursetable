@@ -1,0 +1,16 @@
+query MyCoursesSectionID($coursetable: ID!) {
+  me {
+    _id
+    coursetable(id: $coursetable) {
+      _id
+      courses {
+        section {
+          _id
+        }
+        course {
+          _id
+        }
+      }
+    }
+  }
+}

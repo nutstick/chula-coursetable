@@ -1,0 +1,31 @@
+query CourseInActions($ids: [ID]) {
+  courses(sectionIDs: $ids) {
+    section {
+      _id
+    }
+    course {
+      _id
+      courseID
+      name
+      sections {
+        edges {
+          node {
+            _id
+            sectionNo
+            timeIntervals {
+              day
+              start
+              end
+            }
+            teachers {
+              abbreviated
+            }
+            building
+            classroom
+            type
+          }
+        }
+      }
+    }
+  }
+}

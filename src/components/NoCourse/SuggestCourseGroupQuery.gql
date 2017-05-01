@@ -1,0 +1,17 @@
+query SuggestCourseGroup {
+  me {
+    _id
+    suggestCourseGroup {
+      _id
+      name
+      faculty
+      department
+      year
+      courses {
+        _id
+        name
+        courseID
+      }
+    }
+  }
+}

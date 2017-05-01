@@ -5,6 +5,7 @@ query MyCourseTables($first: Int, $after: ID) {
       edges {
         node {
           _id
+          name
           courses {
             section {
               _id

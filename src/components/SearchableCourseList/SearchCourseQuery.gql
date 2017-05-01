@@ -1,23 +1,66 @@
 query Courses($search: String!) {
   search(search: $search) {
-    _id
-    courseID
-    name
-    sections {
-      edges {
-        node {
+    edges {
+      node {
+        ... on NormalCourse {
           _id
-          timeIntervals {
-            day
-            start
-            end
+          courseID
+          name
+          sections {
+            edges {
+              node {
+                _id
+                timeIntervals {
+                  day
+                  start
+                  end
+                }
+                teachers {
+                  abbreviated
+                }
+                building
+                classroom
+                type
+              }
+            }
           }
-          teachers {
-            abbreviated
+        }
+        
+        ... on GenedCourse {
+          _id
+          courseID
+          name
+          sections {
+            edges {
+              node {
+                _id
+                timeIntervals {
+                  day
+                  start
+                  end
+                }
+                teachers {
+                  abbreviated
+                }
+                building
+                classroom
+                type
+              }
+            }
           }
-          building
-          classroom
-          type
+        }
+        
+        ... on CourseGroup {
+          _id
+          name
+          courses {
+            _id
+            courseID
+            name
+          }
+          faculty
+          department
+          year
         }
       }
     }

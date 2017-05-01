@@ -1,0 +1,15 @@
+# Edges for SearchResultQuery
+type SearchResultEdges {
+  node: SearchResult!
+  cursor: ID!
+}
+
+# SearchResult relay-style pagination query
+type SearchResultPage {
+  totalCount: Int!
+  edges: [SearchResultEdges]
+  pageInfo: PageInfo
+}
+
+# SearchResult
+union SearchResult = NormalCourse | GenedCourse | ApprovedCourse | CourseGroup

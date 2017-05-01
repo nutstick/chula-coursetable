@@ -1,11 +1,12 @@
+import { Section } from '../../models/Section';
 import { IResolver } from '../index';
 
 const resolver: IResolver<any, any> = {
   Course: {
     __resolveType({ type, faculty }, context, info) {
-      if (type) {
+      if (type === 2) {
         return 'GenedCourse';
-      } else if (faculty) {
+      } else if (type === 3) {
         return 'ApprovedCourse';
       }
       return 'NormalCourse';
@@ -13,12 +14,13 @@ const resolver: IResolver<any, any> = {
   },
   NormalCourse: {
     async sections(root, args, { database }) {
-      return await root.sections.map((s) => database.Section.findOne({ _id: s }));
+      const sections = await Promise.all<Section>(root.sections.map((s) => database.Section.findOne({ _id: s })));
+      return sections;
     },
   },
   GenedCourse: {
     async sections(root, args, { database }) {
-      const sections = await Promise.all(root.sections.map((s) => database.Section.findOne({ _id: s })));
+      const sections = await Promise.all<Section>(root.sections.map((s) => database.Section.findOne({ _id: s })));
       return sections;
     },
   },

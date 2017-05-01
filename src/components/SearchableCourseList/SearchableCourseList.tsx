@@ -9,7 +9,7 @@ import { Accordion, Button, Checkbox, Label } from 'semantic-ui-react';
 import { pushAddCourseAction } from '../../redux/action/actions';
 import { IAction } from '../../redux/action/reducers';
 import { IState } from '../../redux/IState';
-import { ICourse, ITeacher, ITimeInterval } from '../share';
+import { ICourse, ICourseGroup, IEdge, ITeacher, ITimeInterval } from '../share';
 import * as s from './SearchableCourseList.css';
 import * as SEARCHCOURSEQUERY from './SearchCourseQuery.gql';
 
@@ -25,23 +25,23 @@ interface IConnectionState {
 }
 
 interface IConnectedDispatch {
-  onAddCourseActionTrigger?: (coursetable: string, target) => void;
+  onAddCourseActionTrigger?: (coursetable: string, course, target) => void;
 }
 
 const mapStateToProps = (state: IState): IConnectionState => ({});
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
   return {
-    onAddCourseActionTrigger: (coursetable, target) => {
+    onAddCourseActionTrigger: (coursetable, course, target) => {
       const self: any = this;
-      dispatch(pushAddCourseAction(coursetable, target));
+      dispatch(pushAddCourseAction(coursetable, course, target));
     },
   };
 };
 
 interface ISearchableCourseListProps extends React.Props<any> {
   text: string;
-  search: ICourse[];
+  search: Array<IEdge<ICourse | ICourseGroup>>;
   error: any;
   loading: boolean;
   match: {
@@ -78,7 +78,7 @@ const SectionItem = ({ index, teachers, timeIntervals, type, applied, onApply }:
         <span>{teachers && `Teacher: ${teachers}`}</span>
         <span>
           {timeIntervals.map(({ day, start, end }) => (
-            <span key={`day:start:end`}>{day} {start} - {end}</span>
+            <span key={`${day}:${start}:${end}`}>{day} {start} - {end}</span>
           ))}
         </span>
       </div>
@@ -94,17 +94,23 @@ class SearchableCourseList extends
   }
 
   public render() {
-    const renderPanels = this.props.search && this.props.search.map((c) => ({
+    const renderPanels = this.props.search && this.props.search.filter((c) => (
+      c.node.__typename === 'NormalCourse' ||
+      c.node.__typename === 'GenedCourse' ||
+      c.node.__typename === 'ApprovedCourse'
+    ))
+    .map((c) => (c.node as ICourse))
+    .map((c) => ({
       key: `course-${c._id}`,
       title: (<CourseItem name={c.name} courseID={c.courseID} />),
       content: (
         <div>
           {c.sections.edges.map(({ node }) => (
             <SectionItem
-              key={node._id}
+              key={`${c._id} ${node._id}`}
               index={node.sectionNo}
               onApply={this.props.onAddCourseActionTrigger
-                .bind(this, this.props.match.params.id, node._id)}
+                .bind(this, this.props.match.params.id, c._id, node._id)}
               {...node}
             />
           ))}
@@ -139,7 +145,7 @@ export default withStyles(s)(
     props(props) {
       const { data: { search, error, loading }, ...p } = props;
       return {
-        search,
+        search: search && search.edges,
         error,
         loading,
         ...p,

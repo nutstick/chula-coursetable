@@ -3,9 +3,10 @@ type Query {
   helloworld: String
 
   me: User
-  search(search: String!): [Course]
+  search(search: String!): SearchResultPage
 
   courses(sectionIDs: [ID]): [CourseTableSection]
+  coursegroup(id: ID): CourseGroup
 
   intl(locale: String!): [IntlMessage]
 }

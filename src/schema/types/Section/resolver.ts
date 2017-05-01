@@ -41,7 +41,6 @@ const resolver: IResolver<any, any> = {
   },
   CourseTableSection: {
     _id(root) {
-      console.log(root);
       return null;
     },
     async course({ section }, _, { database }) {

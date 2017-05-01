@@ -1,15 +1,18 @@
 import * as BluebirdPromise from 'bluebird';
 import * as fs from 'fs';
-import { toObjectID } from 'iridium';
 import { join } from 'path';
 import * as course from '../../../../courseMock.json';
 import * as mock from '../../../../mockData.json';
 import { locales } from '../../../config';
+import { Course } from '../../models/Course';
+import { CourseGroup } from '../../models/CourseGroup';
 import { IResolver } from '../index';
 
 const CONTENT_DIR = join(__dirname, './messages');
 
 const readFile = BluebirdPromise.promisify(fs.readFile);
+
+type SearchResult = Course | CourseGroup;
 
 const resolver: IResolver<any, any> = {
   Query: {
@@ -23,16 +26,23 @@ const resolver: IResolver<any, any> = {
       return null;
     },
     async search(_, { search }, { database }) {
-      if (search) {
-        const courses = await database.Course.find().toArray();
-        return courses.map((c) => c.toJSON());
+      if (!search) {
+        return null;
       }
-      return null;
+      const courses = await database.Course.find({ name: { $regex: search, $options: 'i' } }).toArray();
+      const coursegroups = await database.CourseGroup.find({ name: { $regex: search, $options: 'i' } }).toArray();
+
+      const searchResult: SearchResult[] = [];
+      // return courses.map((c) => c.toJSON()).concat(coursegroups.map((cg) => cg.toJSON()));
+      return searchResult.concat(courses).concat(coursegroups);
     },
     async courses(_, { sectionIDs }, { database }) {
       return sectionIDs && sectionIDs.map((id) => ({
         section: id,
       }));
+    },
+    async coursegroup(_, { id }, { database }) {
+      return id && await database.CourseGroup.findOne({ _id: id });
     },
     async intl(_, { locale }) {
       if (!locales.includes(locale)) {

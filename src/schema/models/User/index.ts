@@ -13,6 +13,7 @@ interface IUserDocument {
 
   faculty?: string;
   department?: string;
+  enrollYear?: number;
 
   coursetables: ICourseTableDocument[];
 }
@@ -43,6 +44,8 @@ class User extends Instance<IUserDocument, User> implements IUserDocument {
   faculty: string;
   @Property(String, false)
   department: string;
+  @Property(Number, false)
+  enrollYear: number;
 
   @Property([CourseTable], true)
   coursetables: ICourseTableDocument[];

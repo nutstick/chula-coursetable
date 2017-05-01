@@ -1,0 +1,27 @@
+.nocourse {
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  padding: 1rem;
+
+  > .no-course-search {
+    padding-left: 3px;
+  }
+
+  > .suggest {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 1rem !important;
+  }
+}
+
+.card {
+  text-align: left;
+  > .content {
+    > .description {
+      font-size: 0.6rem;
+      line-height: 0.66rem;
+      font-family: "Open Sans", sans-serif;
+    }
+  }
+}

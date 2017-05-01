@@ -1,6 +1,7 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
+import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
@@ -9,6 +10,15 @@ import Sidebar from '../Sidebar';
 import { ISidebarProps } from '../Sidebar';
 import * as logoUrl from './Logo-Black.png';
 import * as s from './SidebarMenu.css';
+import * as USERQUERY from './UserQuery.gql';
+
+interface ISidebarMenuProps extends ISidebarProps {
+  name: string;
+  avatar: string;
+  faculty: string;
+  department: string;
+  enrollYear: string;
+}
 
 const messages = defineMessages({
   coursetables: {
@@ -28,7 +38,7 @@ const messages = defineMessages({
   },
 });
 
-class SidebarMenu extends React.Component<ISidebarProps, void> {
+class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
   public render() {
     return (
       <Sidebar {...this.props}>
@@ -47,13 +57,13 @@ class SidebarMenu extends React.Component<ISidebarProps, void> {
             <div className={s.profile}>
               <Avartar
                 className={s.avatar}
-                src="http://www.girardatlarge.com/wp-content/uploads/2013/05/gravatar-60-grey.jpg"
+                src={`${this.props.avatar}`}
                 alt="Cat"
                 size={60}>
               </Avartar>
               <div className={s.nameWrapper}>
-                <div className={s.firstLine}>Firstname</div>
-                <div className={s.secondLine}>Eng, 5731035121</div>
+                <div className={s.firstLine}>{this.props.name}</div>
+                <div className={s.secondLine}>{this.props.faculty}, {this.props.department}</div>
               </div>
             </div>
             <div className={s.actionHolder}>
@@ -67,4 +77,15 @@ class SidebarMenu extends React.Component<ISidebarProps, void> {
   }
 }
 
-export default withStyles(s)(SidebarMenu);
+export default withStyles(s)(compose(
+  graphql(USERQUERY, {
+    props(props) {
+      const { data: { me, error, loading } } = props;
+      return {
+        error,
+        loading,
+        ...me,
+      };
+    },
+  }),
+)(SidebarMenu));

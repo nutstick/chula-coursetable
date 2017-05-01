@@ -4,6 +4,7 @@ import { CourseTableCourse, ICourseTableCourse } from './CourseTableCourse';
 
 interface ICourseTableDocument {
   _id?: string;
+  name?: string;
   courses?: ICourseTableCourse[];
   owner: string;
 }
@@ -17,6 +18,8 @@ class CourseTable extends Instance<ICourseTableDocument, CourseTable> implements
   _id: string;
   @Property([CourseTableCourse], false)
   courses: ICourseTableCourse[];
+  @Property(String, false)
+  name: string;
   @Property(Date, false)
   createAt: Date;
   @Property(Date, false)

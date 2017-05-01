@@ -26,7 +26,8 @@ interface ICourseDocument {
 }
 
 @Index({
-  courseId: 1,
+  courseID: 1,
+  name: 1,
 })
 @Collection('courses')
 class Course extends Instance<ICourseDocument, Course> implements ICourseDocument {

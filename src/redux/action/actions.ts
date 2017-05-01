@@ -31,7 +31,7 @@ export function execActions(coursetable) {
       },
     });
 
-    const mutations = actions.map((a) => {
+    const mutations = actions.valueSeq().map((a) => {
       switch (a.type) {
         case 'ADD':
           const section = {
@@ -56,9 +56,7 @@ export function execActions(coursetable) {
           return false;
       }
     }).toJS();
-    console.log('m', mutations);
     const result = await Promise.all(mutations);
-    console.log('r', result);
 
     dispatch({
       type: EXEC_ACTIONS,
@@ -69,32 +67,35 @@ export function execActions(coursetable) {
   };
 }
 
-export function pushAddCourseAction(coursetable, targetSection) {
+export function pushAddCourseAction(coursetable, targetCourse, targetSection) {
   return {
     type: PUSH_ADD_COURSE_ACTION,
     payload: {
       coursetable,
+      targetCourse,
       targetSection,
     },
   };
 }
 
-export function pushChangeSectionAction(coursetable, targetSection, toSection) {
+export function pushChangeSectionAction(coursetable, targetCourse, targetSection, toSection) {
   return {
     type: PUSH_CHANGE_SECTION_ACTION,
     payload: {
       coursetable,
+      targetCourse,
       targetSection,
       toSection,
     },
   };
 }
 
-export function pushRemoveCourseAction(coursetable, targetSection) {
+export function pushRemoveCourseAction(coursetable, targetCourse, targetSection) {
   return {
     type: PUSH_ADD_COURSE_ACTION,
     payload: {
       coursetable,
+      targetCourse,
       targetSection,
     },
   };

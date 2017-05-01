@@ -2,6 +2,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
+import { AsyncCourseGroupPanel } from '../CourseGroupPanel';
 import { AsyncCourseListPanel } from '../CourseListPanel';
 import Main from '../Main';
 import { AsyncSearchCoursePanel } from '../SearchCoursePanel';
@@ -38,6 +39,7 @@ class Layout extends React.Component<ILayoutProps, void> {
           <Switch>
             <Route exact path="/coursetable/:id" component={AsyncCourseListPanel} />
             <Route exact path="/coursetable/:id/search" component={AsyncSearchCoursePanel} />
+            <Route exact path="/coursetable/:id/coursegroup/:gid" component={AsyncCourseGroupPanel} />
           </Switch>
         </Sidebar>
       </div>

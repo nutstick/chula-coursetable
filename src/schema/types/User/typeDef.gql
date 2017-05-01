@@ -13,6 +13,12 @@ type User implements Node {
   updateAt: Date!
   account: Account
 
+  faculty: String
+  department: String
+  enrollYear: Int
+
   coursetables(first: Int, after: ID): CourseTablePage
   coursetable(id: ID!): CourseTable
+
+  suggestCourseGroup: CourseGroup
 }

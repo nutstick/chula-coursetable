@@ -13,6 +13,13 @@ const resolver: IResolver<any, any> = {
       }
       return null;
     },
+    async suggestCourseGroup(root, _, { database }) {
+      return await database.CourseGroup.findOne({
+        department: root.department,
+        faculty: root.faculty,
+        year: (new Date()).getFullYear() - root.enrollYear,
+      });
+    },
   },
 };
 

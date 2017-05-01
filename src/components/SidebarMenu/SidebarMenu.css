@@ -5,6 +5,7 @@
 }
 
 .wrap {
+  width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -59,6 +60,11 @@
   font-weight: 600;
 }
 .profile > .name-wrapper > .second-line {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 80%;
+  margin: auto;
+  text-align: center;
   white-space: nowrap;
   font-size: 0.8rem;
   color: var(--grey);

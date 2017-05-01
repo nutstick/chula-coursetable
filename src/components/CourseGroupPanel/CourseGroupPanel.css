@@ -3,6 +3,8 @@
 .root {
   width: 300px;
   min-height: 100vh;
+  height: 100vh;
+  overflow: auto;
 
   > .wrap {
     display: flex;
@@ -18,7 +20,17 @@
       display: flex;
 
       > * {
+        padding: .75rem 0;
+      }
+      > .back {
         padding: .75rem;
+      }
+    }
+
+    > .sub-header {
+      > * {
+        padding: 0 .75rem;
+        color: var(--dark-grey);
       }
     }
 

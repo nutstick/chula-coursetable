@@ -15,6 +15,14 @@ const resolver: IResolver<any, any> = {
 
       return coursetable;
     },
+    async changeCourseTableName(_, { coursetable, name }, { database }) {
+      await database.CourseTable.update({ _id: coursetable }, {
+        $set: {
+          name,
+        },
+      });
+      return await database.CourseTable.findOne({ _id: coursetable });
+    },
     async addCourseToCourseTable(_, { coursetable, section }, { database }) {
       await database.CourseTable.update({ _id: coursetable }, {
         $push: {
@@ -92,10 +100,13 @@ const resolver: IResolver<any, any> = {
           break;
       }
 
-      console.log(args.timeIntervals);
-
       return await database.Section.insert({
         type: typeNumber,
+        ...args,
+      });
+    },
+    async createCourseGroup(_, args, { database }) {
+      return await database.CourseGroup.insert({
         ...args,
       });
     },

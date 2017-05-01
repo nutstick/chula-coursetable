@@ -31,7 +31,6 @@ class TimeInterval extends React.Component<ITimeIntervalProps, void> {
   }
 
   public render() {
-    console.log(this.props)
     // Extract variable
     const { start, end, size, position, color } = this.props;
     let { maxTime } = this.props;

@@ -46,16 +46,27 @@ export interface ICourse {
   credit?: string;
   exam?: string;
 
-  sections: ISectionPage;
+  sections?: ISectionPage;
+  __typename?: string;
 }
 
 export interface ICourseTableCourse {
   course?: ICourse;
   section?: ISection;
   color?: string;
+  __typename?: string;
 }
 
 export interface ICourseTable {
-  _id?: string;
+  _id: string;
+  name?: string;
   courses?: ICourseTableCourse[];
+  __typename?: string;
+}
+
+export interface ICourseGroup {
+  _id: string;
+  name?: string;
+  courses?: ICourse[];
+  __typename?: string;
 }
