@@ -95,3 +95,9 @@
   font-weight: 700;
   margin-top: 0.4rem;
 }
+
+.loading {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}

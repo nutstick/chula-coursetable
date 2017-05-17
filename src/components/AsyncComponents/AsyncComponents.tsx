@@ -47,7 +47,7 @@ export const asyncRoute = (getComponent: () => Promise<any>) => (
       if (Component !== null && process.env.BROWSER) {
         return (<Component {...this.props} />);
       }
-      return (<div>Loading..</div>);
+      return null;
     }
   }
 );

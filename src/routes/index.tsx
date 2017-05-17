@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Layout from '../components/Layout';
 import CourseTable from './CourseTable';
+import CourseTables from './CourseTables';
 import Home from './Home';
 import NotFound from './NotFound';
 
@@ -17,6 +18,7 @@ export default (props) => (
   <Layout>
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route exact path="/coursetable" component={CourseTables} />
       <Route path="/coursetable/:id" component={CourseTable} />
       <Route component={NotFound} />
     </Switch>

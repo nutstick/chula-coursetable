@@ -4,7 +4,8 @@ import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-import { Button } from 'semantic-ui-react';
+// import 'semantic-ui-css/components/button.css';
+import { Button, Dropdown } from 'semantic-ui-react';
 import BottomFloatingButton from '../../components/BottomFloatingButton';
 import CourseTable from '../../components/CourseTable';
 import { ICourse, ICourseTable, ICourseTableCourse } from '../../components/share';
@@ -21,6 +22,8 @@ import * as COURSETABLEQUERY from './CourseTableQuery.gql';
 const FaAngleLeft = require('react-icons/lib/fa/angle-left');
 // tslint:disable-next-line:no-var-requires
 const FaAngleRight = require('react-icons/lib/fa/angle-right');
+// tslint:disable-next-line:no-var-requires
+const FaCog = require('react-icons/lib/fa/cog');
 
 interface ICourseTablePageProp extends React.Props<any> {
   coursetable: ICourseTable;
@@ -60,7 +63,7 @@ const mapStateToProps = (state: IState, ownProps: ICourseTablePageProp): IConnec
 const mapDispatchToProps = (dispatch: redux.Dispatch<IState>): IConnectedDispatch => {
   return {
     onRightSidebarExpand: () => {
-      dispatch(rightSidebarExpand());
+      dispatch(rightSidebarExpand(true));
     },
     onToggleRightSidebar: () => {
       dispatch(rightSidebarToggle());
@@ -105,7 +108,16 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
     return (
       <div className={s.root}>
         {this.props.coursetable && <div>
-          <h2>{this.props.coursetable.name}</h2>
+          <h2 className={s.header}>
+            <span>{this.props.coursetable.name}</span>
+            <Dropdown icon="setting" floating button className="icon">
+              <Dropdown.Menu className={s.menu}>
+                <Dropdown.Item icon="table" text="Export to Excel" />
+                <Dropdown.Item icon="google" text="Export to Google" />
+                <Dropdown.Item icon="remove" text="Delete" />
+              </Dropdown.Menu>
+            </Dropdown>
+          </h2>
           <CourseTable
             className={s.courseTable}
             _id={this.props.coursetable._id}

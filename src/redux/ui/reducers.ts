@@ -1,11 +1,11 @@
 import {
   LEFT_SIDEBAR_EXPAND,
   LEFT_SIDEBAR_TOGGLE,
-  RIGHT_SIDEBAR_EXPAND,
   RIGHT_SIDEBAR_TOGGLE,
   SET_FLOATING_BUTTON_ACTIVE,
   SET_FLOATING_BUTTON_DEACTIVE,
   SET_FLOATING_BUTTON_TARGET,
+  SET_RIGHT_SIDEBAR_EXPAND,
   SET_SIDEBAR_EXPAND,
 } from './constants';
 
@@ -111,13 +111,13 @@ export const uiReducers = function ui(state: IUIState = null, action) {
       };
     }
 
-    case RIGHT_SIDEBAR_EXPAND: {
+    case SET_RIGHT_SIDEBAR_EXPAND: {
       return {
         ...state,
         sidebar: {
           expand: {
             left: state.sidebar.expand.left,
-            right: !state.sidebar.expand.right,
+            right: action.payload,
           },
         },
       };

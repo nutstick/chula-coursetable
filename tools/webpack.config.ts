@@ -56,6 +56,12 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
+        loader: ExtractTextPlugin.extract({ use: ['style-loader', 'css-loader'] }),
+        include: /node_modules/,
+        exclude: path.resolve(__dirname, '../src'),
+      },
+      {
+        test: /\.css$/,
         use: [
           {
             loader: 'isomorphic-style-loader',
@@ -75,22 +81,25 @@ const config: Configuration = {
           {
             loader: 'postcss-loader',
             options: {
-              config: path.resolve(__dirname, './postcss.config.js'),
+              config: {
+                path: './tools/postcss.config.js',
+              },
             },
           },
         ],
+        exclude: /node_modules/,
       },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            `css-loader?${JSON.stringify({ sourceMap: isDebug, minimize: !isDebug })}`,
-            'postcss-loader?pack=sass',
-            'sass-loader',
-          ],
-        }),
-      },
+      // {
+      //   test: /\.scss$/,
+      //   loader: ExtractTextPlugin.extract({
+      //     fallback: 'style-loader',
+      //     use: [
+      //       `css-loader?${JSON.stringify({ sourceMap: isDebug, minimize: !isDebug })}`,
+      //       'postcss-loader?pack=sass',
+      //       'sass-loader',
+      //     ],
+      //   }),
+      // },
       {
         test: /\.json$/,
         loader: 'json-loader',

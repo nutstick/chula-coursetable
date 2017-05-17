@@ -1,11 +1,11 @@
 import {
   LEFT_SIDEBAR_EXPAND,
   LEFT_SIDEBAR_TOGGLE,
-  RIGHT_SIDEBAR_EXPAND,
   RIGHT_SIDEBAR_TOGGLE,
   SET_FLOATING_BUTTON_ACTIVE,
   SET_FLOATING_BUTTON_DEACTIVE,
   SET_FLOATING_BUTTON_TARGET,
+  SET_RIGHT_SIDEBAR_EXPAND,
   SET_SIDEBAR_EXPAND,
 } from './constants';
 
@@ -42,9 +42,10 @@ export function setSidebarExpand(expand) {
   };
 }
 
-export function rightSidebarExpand() {
+export function rightSidebarExpand(expanded) {
   return {
-    type: RIGHT_SIDEBAR_EXPAND,
+    type: SET_RIGHT_SIDEBAR_EXPAND,
+    payload: expanded,
   };
 }
 

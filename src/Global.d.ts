@@ -71,6 +71,11 @@ declare module '*.scss' {
   export = _;
 }
 
+declare module '*.jpg' {
+  const _: any;
+  export = _;
+}
+
 declare module '*.png' {
   const _: any;
   export = _;

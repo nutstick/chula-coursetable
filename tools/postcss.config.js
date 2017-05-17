@@ -1,10 +1,10 @@
-module.exports = () => ({
+module.exports = ({ file }) => ({
   // The list of plugins for PostCSS
   // https://github.com/postcss/postcss
   plugins: [
     // Transfer @import rule by inlining content, e.g. @import 'normalize.css'
     // https://github.com/jonathantneal/postcss-partial-import
-    require('postcss-partial-import')(),
+    require('postcss-import')({ root: file.dirname }),
     // Allow you to fix url() according to postcss to and/or from options
     // https://github.com/postcss/postcss-url
     require('postcss-url')(),

@@ -4,22 +4,19 @@ import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { Feed, Icon, Loader } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
 import { ICourseTable } from '../../components/share';
 import { setFloatingButtonDeactive } from '../../redux/ui/actions';
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
+import * as s from './CourseTablesPage.css';
 import * as CREATECOURSETABLEMUTATION from './CreateCourseTableMutation.gql';
-import * as elliot from './elliot.jpg';
-import * as helen from './helen.jpg';
-import * as s from './Home.css';
-import * as image from './image.png';
 
 // TODO Use import
 // tslint:disable-next-line:no-var-requires
 const MdAdd = require('react-icons/lib/md/add');
 
-interface IHome extends React.Props<any> {
+interface ICourseTablesPage extends React.Props<any> {
   onCreateCourseTable: () => void;
   coursetables: ICourseTable[];
   formatMessage: intlShape;
@@ -42,8 +39,8 @@ interface IHome extends React.Props<any> {
 const messages = defineMessages({
   header: {
     id: 'home.header',
-    defaultMessage: 'News feed',
-    description: 'News feeds',
+    defaultMessage: 'My Coursetables',
+    description: 'View all Coursetable',
   },
   unname: {
     id: 'home.unname',
@@ -52,7 +49,7 @@ const messages = defineMessages({
   },
 });
 
-class Home extends React.Component<IHome, void> {
+class CourseTablesPage extends React.Component<ICourseTablesPage, void> {
   constructor(props) {
     super(props);
   }
@@ -72,45 +69,39 @@ class Home extends React.Component<IHome, void> {
     return (
       <div className={s.root}>
         <h3><FormattedMessage {...messages.header}/></h3>
-        <Feed>
-          <Feed.Event>
-            <Feed.Label>
-              <img src={elliot} />
-            </Feed.Label>
-            <Feed.Content>
-              <Feed.Summary>
-                <Feed.User>Chanathip Saetie</Feed.User> added you as a friend
-                <Feed.Date>1 Hour Ago</Feed.Date>
-              </Feed.Summary>
-              <Feed.Meta>
-                <Feed.Like>
-                  <Icon name="like" />
-                  4 Likes
-                </Feed.Like>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
-
-          <Feed.Event>
-            <Feed.Label image={helen} />
-            <Feed.Content>
-              <Feed.Summary>
-                <a>Jijy chanathip</a> added <a>2 new coursetable</a>
-                <Feed.Date>4 days ago</Feed.Date>
-              </Feed.Summary>
-              <Feed.Extra images>
-                <a><img src={image} /></a>
-                <a><img src={image} /></a>
-              </Feed.Extra>
-              <Feed.Meta>
-                <Feed.Like>
-                  <Icon name="like" />
-                  1 Like
-                </Feed.Like>
-              </Feed.Meta>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
+        <div className={s.container}>
+          {
+            me ? <div className={s.wrap}>
+              {
+                me.coursetables.edges.map((item) => (
+                <Link
+                  key={item.node._id}
+                  className={s.item}
+                  to={`coursetable/${item.node._id}`}
+                >
+                  <CourseTablePreview className={s.courseTable} {...item.node} />
+                  <div className={s.itemContent}>
+                    <h3>
+                      {item.node.name || (formatMessage && formatMessage(messages.unname)) || 'No name'}
+                    </h3>
+                  </div>
+                </Link>
+                ))
+              }
+              <a
+                className={cx(s.addCourseTable, s.item)}
+                onClick={this.props.onCreateCourseTable.bind(this)}
+              >
+                <div className={s.addCourseRoot}>
+                  <div className={s.fixAspect}></div>
+                  <div className={s.content}>
+                    <MdAdd size={36} />
+                  </div>
+                </div>
+              </a>
+            </div> : <div className={s.loading}><Loader active inline /></div>
+          }
+        </div>
       </div>
     );
   }
@@ -127,4 +118,4 @@ export default injectIntl(compose(
     }),
   }),
   graphql(COURSETABLEPREVIEWQUERY),
-)(Home));
+)(CourseTablesPage));

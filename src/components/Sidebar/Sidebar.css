@@ -2,6 +2,15 @@
 
 @import '../variables.css';
 
+@keyframes sidebarleft {
+  from {left: -100%;}
+  to {left: 0%;}
+}
+@keyframes sidebarright {
+  from {right: -100%;}
+  to {right: 0%;}
+}
+
 .root {
   position: fixed;
   top: 0;
@@ -11,6 +20,8 @@
 
   &.left {
     left: -100%;
+    animation: sidebarleft 1.33s 1;
+
     &.expanded {
       left: 0;
     }
@@ -18,6 +29,7 @@
 
   &.right {
     right: -100%;
+    animation: sidebarright 1.33s 1;
     &.expanded {
       right: 0;
     }

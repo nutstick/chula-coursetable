@@ -9,6 +9,7 @@ import { AsyncSearchCoursePanel } from '../SearchCoursePanel';
 import Sidebar from '../Sidebar';
 import SidebarMenu from '../SidebarMenu';
 import * as s from './Layout.css';
+import NoMatch from './NoMatch';
 
 // TODO not using required
 // tslint:disable-next-line:no-var-requires
@@ -31,7 +32,7 @@ class Layout extends React.Component<ILayoutProps, void> {
   public render() {
     return (
       <div>
-        <SidebarMenu expanded={this.props.expand.left} left></SidebarMenu>
+        <SidebarMenu key="sidebar-menu" expanded={this.props.expand.left} left></SidebarMenu>
         <Main expanded={this.props.expand}>
           {this.props.children}
         </Main>
@@ -40,6 +41,7 @@ class Layout extends React.Component<ILayoutProps, void> {
             <Route exact path="/coursetable/:id" component={AsyncCourseListPanel} />
             <Route exact path="/coursetable/:id/search" component={AsyncSearchCoursePanel} />
             <Route exact path="/coursetable/:id/coursegroup/:gid" component={AsyncCourseGroupPanel} />
+            <Route path="/" />
           </Switch>
         </Sidebar>
       </div>

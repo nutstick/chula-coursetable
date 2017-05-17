@@ -111,7 +111,9 @@ class SearchableCourseList extends
               index={node.sectionNo}
               onApply={this.props.onAddCourseActionTrigger
                 .bind(this, this.props.match.params.id, c._id, node._id)}
-              {...node}
+              teachers={node.teachers}
+              timeIntervals={node.timeIntervals}
+              type={node.type}
             />
           ))}
         </div>
@@ -120,13 +122,11 @@ class SearchableCourseList extends
 
     return (
       <div className={cx(s.root)}>
-        {this.props.search && <Accordion panels={renderPanels} styled fluid />}
-        {!this.props.search && this.props.text && (
-          <div>No results</div>
-        )}
-        {!this.props.search && !this.props.text && (
-          <div>Type to search...</div>
-        )}
+        {
+          this.props.search && this.props.search.length ? <Accordion panels={renderPanels} styled fluid /> :
+            this.props.text ? (<div className={s.text}>No results</div>) :
+              (<div className={s.text}>Type to search...</div>)
+        }
       </div>
     );
   }

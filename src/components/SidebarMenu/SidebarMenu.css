@@ -1,5 +1,6 @@
 @import '../variables.css';
 
+
 :global(.ui.button) {
   font-size: 0.75rem;
 }

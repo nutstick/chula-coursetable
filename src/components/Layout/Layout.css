@@ -1,6 +1,5 @@
 @import '../../../node_modules/normalize.css/normalize.css';
-
-/*! React Starter Kit | MIT License | https://www.reactstarterkit.com/ */
+/* @import '../../../node_modules/semantic-ui-css/semantic.css'; */
 
 @import '../variables.css';
 
@@ -15,7 +14,6 @@ html {
   font-family: var(--font-family-base);
   line-height: 1.375; /* ~22px */
   height: 100%;
-  background: #f6f9fc;
 }
 
 body {
@@ -176,18 +174,3 @@ textarea {
     page-break-after: avoid;
   }
 }
-
-
-/*:global .headroom {
-  transition: transform 200ms linear;
-  position: fixed;
-  right: -20px;
-  bottom: -50px;
-  zIndex: 1;
-}
-:global .headroom--pinned {
-  transform: translateY(-100%);
-}
-:global .headroom--unpinned {
-  transform: translateY(0%);
-}*/

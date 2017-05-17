@@ -1,5 +1,12 @@
 .root {
+  width: 300px;
   padding: 1rem;
+  > .text {
+    /* padding-right: 1.5rem; */
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+  }
 }
 
 .course-item {

@@ -18,3 +18,21 @@
     margin-right: 1rem;
   }
 }
+
+.setting {
+  float: left;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  > .setting {
+
+  }
+}
+
+.menu {
+  right: 0!important;
+  left: auto!important;
+}

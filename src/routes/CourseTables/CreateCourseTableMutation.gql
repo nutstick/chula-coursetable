@@ -1,0 +1,5 @@
+mutation CreateCourseTable {
+  createCourseTable {
+    _id
+  }
+}

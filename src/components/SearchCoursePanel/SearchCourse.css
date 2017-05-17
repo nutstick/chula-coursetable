@@ -26,10 +26,37 @@
       > * {
         padding: 0.75rem;
       }
+
+      &.subHeader {
+        flex-direction: column;
+        line-height: inherit;
+        font-size: inherit;
+
+        lost-utility: clearfix;
+        width: 300px;
+  
+        > .dropdown {
+          width: 17.25rem !important;
+          margin: 0 0.75rem;
+          lost-column: 1;
+        }
+        > div {
+
+          > .input {
+            lost-column: 1/2;
+            display: inline-block;
+          }
+        }
+      }
     }
   }
 }
 
 .back {
   padding: 1rem;
+}
+
+.button {
+  padding: 0.25rem !important;
+  box-shadow: none !important;
 }

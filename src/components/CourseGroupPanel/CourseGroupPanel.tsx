@@ -136,7 +136,9 @@ class CourseGroupPanel extends React.Component<IConnectionState & IConnectedDisp
                   applied={mySection === node._id || actionSection === node._id}
                   onApply={this.props.onAddCourseActionTrigger
                     .bind(this, this.props.match.params.id, c._id, node._id)}
-                  {...node}
+                  teachers={node.teachers}
+                  timeIntervals={node.timeIntervals}
+                  type={node.type}
                 />
               ))}
             </div>

@@ -136,15 +136,6 @@
     ]
   },
   {
-    "id": "sidebar.menu.search",
-    "description": "Search menu",
-    "defaultMessage": "Search",
-    "message": "",
-    "files": [
-      "src/components/SidebarMenu/SidebarMenu.tsx"
-    ]
-  },
-  {
     "id": "sidebar.courselist.or",
     "description": "Or word",
     "defaultMessage": "or",
@@ -213,6 +204,7 @@
     "defaultMessage": "My Coursetables",
     "message": "",
     "files": [
+      "src/routes/CourseTables/CourseTablesPage.tsx",
       "src/routes/Home/Home.tsx"
     ]
   },
@@ -222,7 +214,17 @@
     "defaultMessage": "No name",
     "message": "",
     "files": [
+      "src/routes/CourseTables/CourseTablesPage.tsx",
       "src/routes/Home/Home.tsx"
+    ]
+  },
+  {
+    "id": "sidebar.menu.newsfeed",
+    "description": "New feeds",
+    "defaultMessage": "Feed",
+    "message": "",
+    "files": [
+      "src/components/SidebarMenu/SidebarMenu.tsx"
     ]
   }
 ]

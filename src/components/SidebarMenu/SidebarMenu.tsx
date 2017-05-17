@@ -26,10 +26,10 @@ const messages = defineMessages({
     defaultMessage: 'Course Tables',
     description: 'My Course tables menu',
   },
-  search: {
-    id: 'sidebar.menu.search',
-    defaultMessage: 'Search',
-    description: 'Search menu',
+  newsfeed: {
+    id: 'sidebar.menu.newsfeed',
+    defaultMessage: 'Feed',
+    description: 'New feeds',
   },
   courses: {
     id: 'sidebar.menu.courses',
@@ -41,15 +41,17 @@ const messages = defineMessages({
 class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
   public render() {
     return (
-      <Sidebar {...this.props}>
+      <Sidebar className={s.root} {...this.props}>
         <div className={s.wrap}>
           <div className={s.logoWrapper}>
             <img className={s.logo} src={logoUrl} srcSet={`${logoUrl}`} alt="ChulaCoursetable" />
           </div>
           <div className={s.menu}>
             <nav className={s.nav}>
-              <NavLink to="/" activeClassName={s.active}><FormattedMessage {...messages.coursetables} /></NavLink>
-              <NavLink to="/search" activeClassName={s.active}><FormattedMessage {...messages.search} /></NavLink>
+              <NavLink to="/" activeClassName={s.active}><FormattedMessage {...messages.newsfeed} /></NavLink>
+              <NavLink to="/coursetable" activeClassName={s.active}>
+                <FormattedMessage {...messages.coursetables} />
+              </NavLink>
               <NavLink to="/courses" activeClassName={s.active}><FormattedMessage {...messages.courses} /></NavLink>
             </nav>
           </div>

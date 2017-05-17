@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as s from './Sidebar.css';
 
 export interface ISidebarProps extends React.Props<any> {
+  className?: string;
   expanded: boolean;
   left?: boolean;
   right?: boolean;
@@ -12,7 +13,7 @@ export interface ISidebarProps extends React.Props<any> {
 class Sidebar extends React.Component<ISidebarProps, void> {
   render() {
     return (
-      <div className={cx(s.root, {
+      <div className={cx(this.props.className, s.root, {
         [s.expanded]: this.props.expanded,
         [s.left]: this.props.left,
         [s.right]: this.props.right,
