@@ -4,7 +4,18 @@ import {
   SET_LOCALE_SUCCESS,
 } from './constants';
 
-export const intlReducers = function intl(state = null, action) {
+export interface IIntlState {
+  initialNow: Date;
+  locale: string;
+  newLocale: string;
+  messages: {
+    [key: string]: {
+      [key: string]: string,
+    },
+  };
+}
+
+export const intlReducers = function intl(state: IIntlState = null, action) {
   if (state === null) {
     return {
       initialNow: Date.now(),

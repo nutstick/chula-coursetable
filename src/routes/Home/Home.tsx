@@ -11,6 +11,7 @@ interface IHome extends React.Props<any> {
 
 class Home extends React.Component<IHome, void> {
   public render() {
+    console.log('p');
     if (!this.props.user) {
       return (<Route exact path="/" component={LandingPage} />);
     }
@@ -19,7 +20,7 @@ class Home extends React.Component<IHome, void> {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  user: state.user._id,
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(Home);

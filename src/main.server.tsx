@@ -97,6 +97,14 @@ database.connect((databaseError) => {
     },
   );
 
+  app.get('/logout', (req, res) => {
+    console.log(req.user);
+    res.cookie('id_token', null);
+    req.logout();
+    console.log(req.user);
+    res.redirect('/');
+  });
+
   /**
    * GraphQL Initialize
    */

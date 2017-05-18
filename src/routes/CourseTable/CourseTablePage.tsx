@@ -44,7 +44,7 @@ interface ICourseTablePageState {
 
 interface IConnectionState {
   show?: boolean;
-  actions?: List<IAction>;
+  actions?: Map<string, IAction>;
   rightSidebarExpand: boolean;
 }
 

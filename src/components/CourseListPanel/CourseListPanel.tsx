@@ -33,7 +33,7 @@ export interface ICourseList extends React.Props<any> {
 }
 
 interface IConnectionState {
-  actions?: IAction[];
+  actions?: Map<string, IAction>;
 }
 
 interface IConnectedDispatch {

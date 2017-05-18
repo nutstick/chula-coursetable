@@ -1,3 +1,14 @@
+import { IActionState } from './action/reducers';
+import { IIntlState } from './intl/reducers';
+import { IRuntimeState } from './runtime/reducers';
+import { IUIState } from './ui/reducers';
+import { IUserState } from './user/reducers';
+
 export interface IState {
-  [key: string]: any;
+  action?: IActionState;
+  routing?: any;
+  ui?: IUIState;
+  user?: IUserState;
+  runtime?: IRuntimeState;
+  intl?: IActionState;
 }

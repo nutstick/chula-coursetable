@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import * as Redux from 'redux';
 import { Button } from 'semantic-ui-react';
 import { IState } from '../../redux/IState';
+import { signOut } from '../../redux/user/actions';
 import Avartar from '../Avartar';
 import { ISidebarProps } from '../Sidebar';
 import Sidebar from '../Sidebar';
@@ -45,7 +46,7 @@ const messages = defineMessages({
   },
 });
 
-class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
+class SidebarMenu extends React.Component<ISidebarMenuProps & IConnectedDispatch, void> {
   public render() {
     return (
       <Sidebar className={s.root} {...this.props}>
@@ -77,7 +78,7 @@ class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
             </div>
             <div className={s.actionHolder}>
               <Button basic color="blue">Edit</Button>
-              <Button basic color="blue" onClick={this.props.signOut.bind(this)}>Sign out</Button>
+              <Button basic color="blue" onClick={this.props.onSignOut.bind(this)}>Sign out</Button>
             </div>
           </div>
         </div>
@@ -86,16 +87,15 @@ class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
-  return {
-    onAddCourseActionTrigger: (coursetable, course, target) => {
-      const self: any = this;
-      dispatch(pushAddCourseAction(coursetable, course, target));
-    },
-  };
-};
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => ({
+  onSignOut: () => {
+    dispatch(signOut());
+  },
+});
 
-export default withStyles(s)(compose(
+export default withStyles(s)(
+  compose(
+  connect(null, mapDispatchToProps),
   graphql(USERQUERY, {
     props(props) {
       const { data: { me, error, loading } } = props;
