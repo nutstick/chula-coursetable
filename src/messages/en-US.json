@@ -200,12 +200,12 @@
   },
   {
     "id": "home.header",
-    "description": "View all Coursetable",
-    "defaultMessage": "My Coursetables",
+    "description": "News feeds",
+    "defaultMessage": "News feed",
     "message": "",
     "files": [
       "src/routes/CourseTables/CourseTablesPage.tsx",
-      "src/routes/Home/Home.tsx"
+      "src/routes/NewsFeed/NewsFeed.tsx"
     ]
   },
   {
@@ -215,7 +215,7 @@
     "message": "",
     "files": [
       "src/routes/CourseTables/CourseTablesPage.tsx",
-      "src/routes/Home/Home.tsx"
+      "src/routes/NewsFeed/NewsFeed.tsx"
     ]
   },
   {

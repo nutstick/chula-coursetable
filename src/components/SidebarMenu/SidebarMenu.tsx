@@ -3,14 +3,21 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import * as Redux from 'redux';
 import { Button } from 'semantic-ui-react';
+import { IState } from '../../redux/IState';
 import Avartar from '../Avartar';
-import Sidebar from '../Sidebar';
 import { ISidebarProps } from '../Sidebar';
+import Sidebar from '../Sidebar';
 import * as logoUrl from './Logo-Black.png';
 import * as s from './SidebarMenu.css';
 import * as USERQUERY from './UserQuery.gql';
+
+interface IConnectedDispatch {
+  onSignOut?: () => void;
+}
 
 interface ISidebarMenuProps extends ISidebarProps {
   name: string;
@@ -70,7 +77,7 @@ class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
             </div>
             <div className={s.actionHolder}>
               <Button basic color="blue">Edit</Button>
-              <Button basic color="blue">Sign out</Button>
+              <Button basic color="blue" onClick={this.props.signOut.bind(this)}>Sign out</Button>
             </div>
           </div>
         </div>
@@ -78,6 +85,15 @@ class SidebarMenu extends React.Component<ISidebarMenuProps, void> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
+  return {
+    onAddCourseActionTrigger: (coursetable, course, target) => {
+      const self: any = this;
+      dispatch(pushAddCourseAction(coursetable, course, target));
+    },
+  };
+};
 
 export default withStyles(s)(compose(
   graphql(USERQUERY, {

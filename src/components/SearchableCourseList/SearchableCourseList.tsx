@@ -28,17 +28,6 @@ interface IConnectedDispatch {
   onAddCourseActionTrigger?: (coursetable: string, course, target) => void;
 }
 
-const mapStateToProps = (state: IState): IConnectionState => ({});
-
-const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
-  return {
-    onAddCourseActionTrigger: (coursetable, course, target) => {
-      const self: any = this;
-      dispatch(pushAddCourseAction(coursetable, course, target));
-    },
-  };
-};
-
 interface ISearchableCourseListProps extends React.Props<any> {
   text: string;
   search: Array<IEdge<ICourse | ICourseGroup>>;
@@ -131,6 +120,18 @@ class SearchableCourseList extends
     );
   }
 }
+
+const mapStateToProps = (state: IState): IConnectionState => ({});
+
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
+  return {
+    onAddCourseActionTrigger: (coursetable, course, target) => {
+      const self: any = this;
+      dispatch(pushAddCourseAction(coursetable, course, target));
+    },
+  };
+};
+
 export default withStyles(s)(
   compose(
   connect(mapStateToProps, mapDispatchToProps),

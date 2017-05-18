@@ -78,6 +78,10 @@ database.connect((databaseError) => {
   }));
   app.use(passport.initialize());
 
+  if (__DEV__) {
+    app.enable('trust proxy');
+  }
+
   app.get('/login/facebook',
     passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
   );
