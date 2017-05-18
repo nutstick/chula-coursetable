@@ -1,8 +1,8 @@
 # Chula Coursetable
 
-![Screenshot](https://raw.githubusercontent.com/nutstick/chula-coursetable/ss.png)
+![Screenshot](https://raw.githubusercontent.com/nutstick/chula-coursetable/master/ss.png)
 
-A coursetable management app for chulalongkorn university's students 
+A coursetable management app for chulalongkorn university's students
 build base on [Universal RetypeQL](https://github.com/nutstick/universal-retypeql).
 
 ## Demo
