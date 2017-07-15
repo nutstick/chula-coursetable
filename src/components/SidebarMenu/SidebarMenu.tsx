@@ -16,6 +16,10 @@ import * as logoUrl from './Logo-Black.png';
 import * as s from './SidebarMenu.css';
 import * as USERQUERY from './UserQuery.gql';
 
+interface IConnectedState {
+  expanded: boolean;
+}
+
 interface IConnectedDispatch {
   onSignOut?: () => void;
 }
@@ -46,10 +50,10 @@ const messages = defineMessages({
   },
 });
 
-class SidebarMenu extends React.Component<ISidebarMenuProps & IConnectedDispatch, void> {
+export class SidebarMenu extends React.Component<ISidebarMenuProps & IConnectedDispatch, void> {
   public render() {
     return (
-      <Sidebar className={s.root} {...this.props}>
+      <Sidebar className={s.root} expanded={this.props.expanded} left>
         <div className={s.wrap}>
           <div className={s.logoWrapper}>
             <img className={s.logo} src={logoUrl} srcSet={`${logoUrl}`} alt="ChulaCoursetable" />
@@ -87,15 +91,19 @@ class SidebarMenu extends React.Component<ISidebarMenuProps & IConnectedDispatch
   }
 }
 
+const mapStateToProps = (state: IState) => ({
+  expanded: state.ui.sidebar.expand.left,
+});
+
 const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => ({
   onSignOut: () => {
     dispatch(signOut());
   },
 });
 
-export default withStyles(s)(
-  compose(
+export default compose(
   connect(null, mapDispatchToProps),
+  withStyles(s),
   graphql(USERQUERY, {
     props(props) {
       const { data: { me, error, loading } } = props;
@@ -106,4 +114,4 @@ export default withStyles(s)(
       };
     },
   }),
-)(SidebarMenu));
+)(SidebarMenu);

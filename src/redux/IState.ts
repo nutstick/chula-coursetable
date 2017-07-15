@@ -4,6 +4,14 @@ import { IRuntimeState } from './runtime/reducers';
 import { IUIState } from './ui/reducers';
 import { IUserState } from './user/reducers';
 
+export {
+  IActionState,
+  IIntlState,
+  IRuntimeState,
+  IUIState,
+  IUserState,
+};
+
 export interface IState {
   action?: IActionState;
   routing?: any;

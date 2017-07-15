@@ -6,6 +6,7 @@
     "quotemark": [ true, "single", "jsx-double" ],
     "variable-name": false,
     "member-access": false,
-    "member-ordering": [false]
+    "member-ordering": [false],
+    "no-namespace": [false]
   }
 }

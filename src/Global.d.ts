@@ -80,3 +80,11 @@ declare module '*.png' {
   const _: any;
   export = _;
 }
+
+declare module 'isomorphic-style-loader/lib/withStyles' {
+  type ConstructClass<P> = ComponentClass<P> | StatelessComponent<P>;
+  export interface WrapWithStyles {
+    <P>(component: ConstructClass<P>): ConstructClass<P>;
+  }
+  export default function withStyles(styles?: Object): WrapWithStyles;
+}

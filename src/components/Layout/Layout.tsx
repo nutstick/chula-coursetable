@@ -2,6 +2,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
+import { compose } from 'redux';
+import { IState, IUserState } from '../../redux/IState';
 import { AsyncCourseGroupPanel } from '../CourseGroupPanel';
 import { AsyncCourseListPanel } from '../CourseListPanel';
 import Main from '../Main';
@@ -15,24 +17,26 @@ import NoMatch from './NoMatch';
 // tslint:disable-next-line:no-var-requires
 const MdAdd = require('react-icons/lib/md/add');
 
-interface ILayoutProps extends React.Props<any> {
-  children?: React.ReactNode;
+interface IConnectionState {
+  user: IUserState;
   expand: {
     left: boolean,
     right: boolean,
   };
   floatingButton: {
     show: boolean,
-    to?: string,
-    icon?: string,
+    to: string,
+    icon: string,
   };
 }
 
-class Layout extends React.Component<ILayoutProps, void> {
+class Layout extends React.Component<React.Props<any> & IConnectionState, void> {
   public render() {
     return (
       <div>
-        <SidebarMenu key="sidebar-menu" expanded={this.props.expand.left} left></SidebarMenu>
+        {
+          this.props.user && <SidebarMenu key="sidebar-menu"></SidebarMenu>
+        }
         <Main expanded={this.props.expand}>
           {this.props.children}
         </Main>
@@ -49,9 +53,13 @@ class Layout extends React.Component<ILayoutProps, void> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: IState) => ({
   expand: state.ui.sidebar.expand,
+  user: state.user,
   floatingButton: state.ui.floatingButton,
 });
 
-export default withStyles(s)(connect(mapStateToProps)(Layout));
+export default compose(
+  withStyles(s),
+  connect(mapStateToProps),
+)(Layout);

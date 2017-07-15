@@ -1,10 +1,11 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { compose } from 'redux';
 // import 'semantic-ui-css/components/card.css';
 // import 'semantic-ui-css/components/divider.css';
 // import 'semantic-ui-css/components/label.css';
@@ -15,9 +16,9 @@ import * as SUGGESTCOURSEGROUPQUERY from './SuggestCourseGroupQuery.gql';
 
 export interface INoCourseProps extends React.Props<any> {
   id: string;
-  suggestCourseGroup: ICourseGroup;
-  loading: boolean;
-  error: Error;
+  suggestCourseGroup?: ICourseGroup;
+  loading?: boolean;
+  error?: Error;
 }
 
 const messages = defineMessages({
@@ -99,7 +100,9 @@ class NoCourse extends React.Component<INoCourseProps, void> {
   }
 }
 
-export default withStyles(s)(graphql(SUGGESTCOURSEGROUPQUERY, {
+const x = compose(
+  withStyles(s),
+  graphql(SUGGESTCOURSEGROUPQUERY, {
     props(props) {
       const { data: { me, error, loading }, actions } = props;
       return {
@@ -108,4 +111,19 @@ export default withStyles(s)(graphql(SUGGESTCOURSEGROUPQUERY, {
         error,
       };
     },
-  })(NoCourse));
+  }),
+)(NoCourse);
+
+export default compose(
+  withStyles(s),
+  graphql(SUGGESTCOURSEGROUPQUERY, {
+    props(props) {
+      const { data: { me, error, loading }, actions } = props;
+      return {
+        suggestCourseGroup: me && me.suggestCourseGroup,
+        loading,
+        error,
+      };
+    },
+  }),
+)(NoCourse);
