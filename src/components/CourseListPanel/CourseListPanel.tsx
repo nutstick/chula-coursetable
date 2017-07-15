@@ -2,43 +2,55 @@ import * as cx from 'classnames';
 import { Map } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Redux from 'redux';
+import { Accordion, Checkbox, Label } from 'semantic-ui-react';
+import { pushChangeSectionAction, pushRemoveCourseAction } from '../../redux/action/actions';
+import NoCourse from '../NoCourse';
+
 // import 'semantic-ui-css/components/accordion.css';
 // import 'semantic-ui-css/components/checkbox.css';
 // import 'semantic-ui-css/components/label.css';
-import { Accordion, Checkbox, Label } from 'semantic-ui-react';
-import { pushChangeSectionAction, pushRemoveCourseAction } from '../../redux/action/actions';
-import { IAction } from '../../redux/action/reducers';
-import { IState } from '../../redux/IState';
-import NoCourse from '../NoCourse';
-import { ICourse, ICourseTableCourse } from '../share';
 import * as COURSEINACTIONQUERY from './CourseInActionQuery.gql';
 import * as s from './CourseListPanel.css';
 import * as COURSELISTQUERY from './CoursesListQuery.gql';
 
-export interface ICourseList extends React.Props<any> {
-  courses?: Map<string, ICourseTableCourse>;
-  actionCourses?: Map<string, ICourseTableCourse>;
-  loading: boolean;
-  error: Error;
-  match: {
-    params: {
-      id: string,
-    },
-  };
-}
+import { IAction } from '../../redux/action/reducers';
+import { IState } from '../../redux/IState';
+import { ICourseTableCourse } from '../../schema/types/CourseTable';
+import { IUser } from '../../schema/types/User';
 
-interface IConnectionState {
-  actions?: Map<string, IAction>;
-}
+namespace CourseListPanel {
+  export interface IProps extends React.Props<any> {
+    match: {
+      params: {
+        id: string,
+      },
+    };
+  }
 
-interface IConnectedDispatch {
-  onChangeSectionActionTrigger?: (coursetable: string, course, target, to) => void;
-  onRemoveCourseActionTrigger?: (coursetable: string, course, target) => void;
+  export interface ICourseInActionQuery {
+    courses: ICourseTableCourse[];
+  }
+
+  export interface ICourseListQuery {
+    me: IUser;
+  }
+
+  export interface IConnectedState {
+    actions?: Map<string, IAction>;
+  }
+
+  export interface IConnectedDispatch {
+    onChangeSectionActionTrigger?: (coursetable: string, course, target, to) => void;
+    onRemoveCourseActionTrigger?: (coursetable: string, course, target) => void;
+  }
+
+  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectedState,
+                            ICourseListQuery & ICourseInActionQuery>;
 }
 
 const messages = defineMessages({
@@ -64,18 +76,16 @@ const messages = defineMessages({
   },
 });
 
-const mapStateToProps = (state: IState, ownProps): IConnectionState => ({
+const mapStateToProps = (state: IState, ownProps): CourseListPanel.IConnectedState => ({
   actions: state.action.get(ownProps.match.params.id),
 });
 
-const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => {
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): CourseListPanel.IConnectedDispatch => {
   return {
     onChangeSectionActionTrigger: (coursetable, course, target, to) => {
-      const self: any = this;
       dispatch(pushChangeSectionAction(coursetable, course, target, to));
     },
     onRemoveCourseActionTrigger: (coursetable, course, target) => {
-      const self: any = this;
       dispatch(pushRemoveCourseAction(coursetable, course, target));
     },
   };
@@ -108,17 +118,26 @@ const SectionItem = ({ index, teachers, timeIntervals, type, applied, onApply })
   </div>);
 };
 
-class CourseListPanel extends React.Component<IConnectionState & IConnectedDispatch & ICourseList, void> {
-  constructor(props) {
-    super(props);
+class CourseListPanel extends React.Component<CourseListPanel.Props, void> {
+  // TODO Merge class with CourseGroupPanel
+  private getMyCourse(courses: ICourseTableCourse[], actions: Map<string, IAction>) {
+    return courses.filter((c) => !actions || !(actions.valueSeq()
+        .find((a) => (a.type === 'REMOVE') && a.target === c.section._id)),
+      ).reduce((m, c) => m.set(c.course._id, {
+        ...c,
+      }), Map<string, ICourseTableCourse>());
   }
-
   public render() {
-    const mergeCourses = this.props.courses && this.props.courses
-      .merge(this.props.actionCourses)
-      .valueSeq();
+    const { data: { me }, actions } = this.props;
+    const courses = me && me.coursetable && this.getMyCourse(me.coursetable.courses, actions);
+    const actionCourses = this.props.data.courses && this.props.data.courses
+      .reduce((m, c) => m.set(c.course._id, {
+        ...c,
+      }), Map<string, ICourseTableCourse>());
 
-    const renderPanels = mergeCourses && mergeCourses
+    const mergedCourses = courses && courses.merge(actionCourses).valueSeq();
+
+    const renderPanels = mergedCourses && mergedCourses
       .toJS()
       .map((c) => ({
         key: `course-${c.course._id}`,
@@ -146,8 +165,8 @@ class CourseListPanel extends React.Component<IConnectionState & IConnectedDispa
             <FormattedMessage {...messages.header} />
           </div>
           {
-            this.props.loading ? <div className={s.loading}>loading...</div> :
-              mergeCourses && mergeCourses.count() ? (<div className={s.body}>
+            this.props.data.loading ? <div className={s.loading}>loading...</div> :
+              mergedCourses && mergedCourses.count() ? (<div className={s.body}>
                 <Accordion panels={renderPanels} styled fluid />
                 <Link className={s.add} to={`/coursetable/${this.props.match.params.id}/search`}>
                   <FormattedMessage {...messages.addCourse} />
@@ -162,8 +181,7 @@ class CourseListPanel extends React.Component<IConnectionState & IConnectedDispa
 
 export default compose(
   withStyles(s),
-  connect(mapStateToProps, mapDispatchToProps),
-  graphql(COURSEINACTIONQUERY, {
+  graphql<CourseListPanel.ICourseInActionQuery, CourseListPanel.Props>(COURSEINACTIONQUERY, {
     options(props) {
       return {
         variables: {
@@ -172,38 +190,11 @@ export default compose(
         },
       };
     },
-    props(props) {
-      const { data: { courses, error, loading } } = props;
-      return {
-        loading,
-        error,
-        actionCourses: courses && courses.reduce((m, c) => m.set(c.course._id, {
-          ...c,
-        }), Map<string, ICourseTableCourse>()),
-      };
-    },
   }),
-  graphql(COURSELISTQUERY, {
+  graphql<CourseListPanel.ICourseListQuery, CourseListPanel.Props>(COURSELISTQUERY, {
     options(props) {
-      return {
-        variables: {
-          coursetable: props.match.params.id,
-        },
-      };
-    },
-    props(props) {
-      const { data: { me, error, loading }, actions } = props;
-      return {
-        courses: me && me.coursetable && me.coursetable.courses
-          .filter((c) => !actions || !(actions.valueSeq()
-            .find((a) => (a.type === 'REMOVE') && a.target === c.section._id)),
-          )
-          .reduce((m, c) => m.set(c.course._id, {
-            ...c,
-          }), Map<string, ICourseTableCourse>()),
-        loading,
-        error,
-      };
+      return { variables: { coursetable: props.match.params.id } };
     },
   }),
+  connect(mapStateToProps, mapDispatchToProps),
 )(CourseListPanel);

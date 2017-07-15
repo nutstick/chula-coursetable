@@ -15,8 +15,21 @@ interface ICourse {
   __typename?: string;
 }
 
+interface IGenedCourse extends ICourse {
+  type?: string;
+  genedSections?: IPage<ISection>;
+}
+
+interface IApprovedCourse extends ICourse {
+  faculty?: string;
+  department?: string;
+  approvedSections?: IPage<ISection>;
+}
+
 export {
   resolver,
   type,
   ICourse,
+  IGenedCourse,
+  IApprovedCourse,
 };

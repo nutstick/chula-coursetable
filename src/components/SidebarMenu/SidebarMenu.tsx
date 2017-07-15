@@ -1,35 +1,44 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as Redux from 'redux';
 import { Button } from 'semantic-ui-react';
-import { IState } from '../../redux/IState';
 import { signOut } from '../../redux/user/actions';
 import Avartar from '../Avartar';
-import { ISidebarProps } from '../Sidebar';
 import Sidebar from '../Sidebar';
 import * as logoUrl from './Logo-Black.png';
 import * as s from './SidebarMenu.css';
 import * as USERQUERY from './UserQuery.gql';
 
-interface IConnectedState {
-  expanded: boolean;
-}
+import { IState } from '../../redux/IState';
+import { IUser } from '../../schema/types/User';
 
-interface IConnectedDispatch {
-  onSignOut?: () => void;
-}
+namespace SidebarMenu {
+  export interface IProps extends Sidebar.Props {
+    name: string;
+    avatar: string;
+    faculty: string;
+    department: string;
+    enrollYear: string;
+  }
 
-interface ISidebarMenuProps extends ISidebarProps {
-  name: string;
-  avatar: string;
-  faculty: string;
-  department: string;
-  enrollYear: string;
+  export interface IUserQuery {
+    me: IUser;
+  }
+
+  export interface IConnectedState {
+    expanded: boolean;
+  }
+
+  export interface IConnectedDispatch {
+    onSignOut?: () => void;
+  }
+
+  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectedState, IUserQuery>;
 }
 
 const messages = defineMessages({
@@ -50,7 +59,8 @@ const messages = defineMessages({
   },
 });
 
-export class SidebarMenu extends React.Component<ISidebarMenuProps & IConnectedDispatch, void> {
+// TODO SidebarMenu should extends Sidebar class
+class SidebarMenu extends React.Component<SidebarMenu.Props> {
   public render() {
     return (
       <Sidebar className={s.root} expanded={this.props.expanded} left>
@@ -95,7 +105,7 @@ const mapStateToProps = (state: IState) => ({
   expanded: state.ui.sidebar.expand.left,
 });
 
-const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatch => ({
+const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): SidebarMenu.IConnectedDispatch => ({
   onSignOut: () => {
     dispatch(signOut());
   },
@@ -104,14 +114,5 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): IConnectedDispatc
 export default compose(
   connect(null, mapDispatchToProps),
   withStyles(s),
-  graphql(USERQUERY, {
-    props(props) {
-      const { data: { me, error, loading } } = props;
-      return {
-        error,
-        loading,
-        ...me,
-      };
-    },
-  }),
+  graphql<SidebarMenu.IUserQuery, SidebarMenu.Props>(USERQUERY),
 )(SidebarMenu);

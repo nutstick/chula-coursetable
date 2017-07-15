@@ -1,4 +1,3 @@
-import { ICourse } from '../share';
 import { default as CourseTablePreview } from './CourseTablePreview';
 import * as t from './CourseTablePreview';
 

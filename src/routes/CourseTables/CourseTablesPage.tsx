@@ -1,39 +1,38 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
-import { ICourseTable } from '../../components/share';
 import { setFloatingButtonDeactive } from '../../redux/ui/actions';
+
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
 import * as s from './CourseTablesPage.css';
 import * as CREATECOURSETABLEMUTATION from './CreateCourseTableMutation.gql';
+
+import { ICourseTable } from '../../schema/types/CourseTable';
+import { IUser } from '../../schema/types/User';
 
 // TODO Use import
 // tslint:disable-next-line:no-var-requires
 const MdAdd = require('react-icons/lib/md/add');
 
-interface ICourseTablesPage extends React.Props<any> {
-  onCreateCourseTable: () => void;
-  coursetables: ICourseTable[];
-  formatMessage: intlShape;
-  data: {
-    me: {
-      coursetables: {
-        edges: Array<{
-          node: ICourseTable,
-        }>,
-        pageInfo: {
-          endCursor: string,
-        },
-      },
-    },
-    error: any,
-    loading: boolean;
-  };
+namespace CourseTablesPage {
+  export interface IProps extends React.Props<any> {
+    formatMessage: intlShape;
+  }
+
+  export interface ICreateCourseTableMutation {
+    onCreateCourseTable: () => void;
+  }
+
+  export interface ICoursetablePreviewQuery {
+    me: IUser;
+  }
+
+  export type Props = DefaultChildProps<IProps & ICreateCourseTableMutation, ICoursetablePreviewQuery>;
 }
 
 const messages = defineMessages({
@@ -49,7 +48,7 @@ const messages = defineMessages({
   },
 });
 
-class CourseTablesPage extends React.Component<ICourseTablesPage, void> {
+class CourseTablesPage extends React.Component<CourseTablesPage.Props> {
   constructor(props) {
     super(props);
   }
@@ -107,15 +106,15 @@ class CourseTablesPage extends React.Component<ICourseTablesPage, void> {
   }
 }
 
-export default injectIntl(compose(
+export default compose(
+  injectIntl,
   withStyles(s),
-  graphql(CREATECOURSETABLEMUTATION, {
+  graphql<CourseTablesPage.ICreateCourseTableMutation, CourseTablesPage.Props>(CREATECOURSETABLEMUTATION, {
     props: ({ mutate }) => ({
       onCreateCourseTable: async () => {
-        const coursetable = await mutate();
-        // TODO Redirect
+        const coursetable = await mutate({});
       },
     }),
   }),
-  graphql(COURSETABLEPREVIEWQUERY),
-)(CourseTablesPage));
+  graphql<CourseTablesPage.ICoursetablePreviewQuery, CourseTablesPage.Props>(COURSETABLEPREVIEWQUERY),
+)(CourseTablesPage);

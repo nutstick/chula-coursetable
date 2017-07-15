@@ -1,21 +1,24 @@
 import { List, Map } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-// import 'semantic-ui-css/components/button.css';
 import { Button, Dropdown } from 'semantic-ui-react';
 import BottomFloatingButton from '../../components/BottomFloatingButton';
 import CourseTable from '../../components/CourseTable';
-import { ICourse, ICourseTable, ICourseTableCourse } from '../../components/share';
 import { clearActions, execActions } from '../../redux/action/actions';
-import { IAction } from '../../redux/action/reducers';
-import { IState } from '../../redux/IState';
 import { rightSidebarExpand, rightSidebarToggle } from '../../redux/ui/actions';
+
+// import 'semantic-ui-css/components/button.css';
 import * as COURSEINACTIONQUERY from './CourseInActionQuery.gql';
 import * as s from './CourseTablePage.css';
 import * as COURSETABLEQUERY from './CourseTableQuery.gql';
+
+import { IAction } from '../../redux/action/reducers';
+import { IState } from '../../redux/IState';
+import { ICourseTableCourse } from '../../schema/types/CourseTable';
+import { IUser } from '../../schema/types/User';
 
 // TODO Use import
 // tslint:disable-next-line:no-var-requires
@@ -25,42 +28,51 @@ const FaAngleRight = require('react-icons/lib/fa/angle-right');
 // tslint:disable-next-line:no-var-requires
 const FaCog = require('react-icons/lib/fa/cog');
 
-interface ICourseTablePageProp extends React.Props<any> {
-  coursetable: ICourseTable;
-  courses?: Map<string, ICourseTableCourse>;
-  actionCourses?: Map<string, ICourseTableCourse>;
-  loading: boolean;
-  error: Error;
-  match: {
-    params: {
-      id: string;
-    },
-  };
+namespace CourseTablePage {
+  export interface IProps extends React.Props<any> {
+    match: {
+      params: {
+        id: string,
+      },
+    };
+  }
+
+  export interface ICourseTableQuery {
+    me: IUser;
+  }
+
+  export interface ICourseInActionsQuery {
+    courses: ICourseTableCourse[];
+  }
+
+  export interface IConnectedState {
+    show?: boolean;
+    actions?: Map<string, IAction>;
+    rightSidebarExpand: boolean;
+  }
+
+  export interface IConnectedDispatch {
+    onRightSidebarExpand?: (e?) => void;
+    onToggleRightSidebar?: (e?) => void;
+    onExecuteAction?: (e) => void;
+    onClearAction?: (e) => void;
+  }
+
+  interface IStateType {
+    search: boolean;
+  }
+
+  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectedState,
+                            ICourseTableQuery & ICourseInActionsQuery>;
+  export type State = IStateType;
 }
 
-interface ICourseTablePageState {
-  search: boolean;
-}
-
-interface IConnectionState {
-  show?: boolean;
-  actions?: Map<string, IAction>;
-  rightSidebarExpand: boolean;
-}
-
-interface IConnectedDispatch {
-  onRightSidebarExpand?: (e?) => void;
-  onToggleRightSidebar?: (e?) => void;
-  onExecuteAction?: (e) => void;
-  onClearAction?: (e) => void;
-}
-
-const mapStateToProps = (state: IState, ownProps: ICourseTablePageProp): IConnectionState => ({
+const mapStateToProps = (state: IState, ownProps: CourseTablePage.IProps): CourseTablePage.IConnectedState => ({
   actions: state.action.get(ownProps.match.params.id),
   rightSidebarExpand: state.ui.sidebar.expand.right,
 });
 
-const mapDispatchToProps = (dispatch: redux.Dispatch<IState>): IConnectedDispatch => {
+const mapDispatchToProps = (dispatch: redux.Dispatch<IState>): CourseTablePage.IConnectedDispatch => {
   return {
     onRightSidebarExpand: () => {
       dispatch(rightSidebarExpand(true));
@@ -77,23 +89,28 @@ const mapDispatchToProps = (dispatch: redux.Dispatch<IState>): IConnectedDispatc
   };
 };
 
-class CourseTablePage extends React.Component<IConnectionState & IConnectedDispatch & ICourseTablePageProp,
-  ICourseTablePageState> {
+class CourseTablePage extends React.Component<CourseTablePage.Props, CourseTablePage.State> {
   constructor(props) {
     super(props);
     this.state = { search: false };
   }
-
   public componentWillMount() {
     this.props.onRightSidebarExpand();
   }
-
   public shouldComponentUpdate(nextProps, nextState) {
     return true;
   }
-
   private _onClickFloatingButton = (e?) => {
     this.props.onToggleRightSidebar(e);
+  }
+  private getMyCourse(courses: ICourseTableCourse[], actions: Map<string, IAction>) {
+    return courses.filter((c) => !actions || !(actions.valueSeq()
+        .find((a) => (a.type === 'REMOVE' || a.type === 'CHANGE') && a.target === c.section._id
+          && a.to !== c.section._id)),
+      )
+      .reduce((m, c) => m.set(c.course._id, {
+        ...c,
+      }), Map<string, ICourseTableCourse>());
   }
 
   public render() {
@@ -101,15 +118,21 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
       marginRight: 20,
     };
 
-    const courses = this.props.courses && this.props.courses
-      .merge(this.props.actionCourses)
-      .valueSeq();
+    const { data: { me }, actions } = this.props;
+    const courses = me && me.coursetable && this.getMyCourse(me.coursetable.courses, actions);
+    const actionCourses = this.props.data.courses && this.props.data.courses
+      .reduce((m, c) => m.set(c.course._id, {
+        color: 'PREVIEW',
+        ...c,
+      }), Map<string, ICourseTableCourse>());
+
+    const mergedCourses = courses && courses.merge(actionCourses).valueSeq();
 
     return (
       <div className={s.root}>
-        {this.props.coursetable && <div>
+        {me.coursetable && <div>
           <h2 className={s.header}>
-            <span>{this.props.coursetable.name}</span>
+            <span>{me.coursetable.name}</span>
             <Dropdown icon="setting" floating button className="icon">
               <Dropdown.Menu className={s.menu}>
                 <Dropdown.Item icon="table" text="Export to Excel" />
@@ -120,11 +143,11 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
           </h2>
           <CourseTable
             className={s.courseTable}
-            _id={this.props.coursetable._id}
-            courses={courses}
+            _id={me.coursetable._id}
+            courses={mergedCourses}
           ></CourseTable>
         </div>}
-        {this.props.loading && <div>Loading</div>}
+        {this.props.data.loading && <div>Loading</div>}
         {this.props.actions && <div className={s.actionHolder}>
           <Button.Group>
             <Button
@@ -151,8 +174,7 @@ class CourseTablePage extends React.Component<IConnectionState & IConnectedDispa
 
 export default compose(
   withStyles(s),
-  connect(mapStateToProps, mapDispatchToProps),
-  graphql(COURSEINACTIONQUERY, {
+  graphql<CourseTablePage.ICourseInActionsQuery, CourseTablePage.Props>(COURSEINACTIONQUERY, {
     options(props) {
       return {
         variables: {
@@ -161,45 +183,11 @@ export default compose(
         },
       };
     },
-    props(props) {
-      const { data: { courses, error, loading } } = props;
-      return {
-        loading_: loading && props.loading,
-        error,
-        actionCourses: courses && courses.reduce((m, c) => m.set(c.course._id, {
-          color: 'PREVIEW',
-          ...c,
-        }), Map<string, ICourseTableCourse>()),
-      };
-    },
   }),
   graphql(COURSETABLEQUERY, {
     options(props) {
-      return {
-        variables: {
-          id: props.match.params.id,
-        },
-      };
-    },
-    props(props) {
-      const { data: { me, error, loading }, actions } = props;
-      let coursetable = null;
-      if (!loading) {
-        coursetable = me.coursetable;
-      }
-      return {
-        coursetable,
-        courses: coursetable && coursetable.courses
-          .filter((c) => !actions || !(actions.valueSeq()
-            .find((a) => (a.type === 'REMOVE' || a.type === 'CHANGE') && a.target === c.section._id
-              && a.to !== c.section._id)),
-          )
-          .reduce((m, c) => m.set(c.course._id, {
-            ...c,
-          }), Map<string, ICourseTableCourse>()),
-        loading,
-        error,
-      };
+      return { variables: { id: props.match.params.id } };
     },
   }),
+  connect(mapStateToProps, mapDispatchToProps),
 )(CourseTablePage);

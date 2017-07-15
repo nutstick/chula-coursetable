@@ -3,10 +3,11 @@ import { List, Map, Seq } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { IAction } from '../../redux/action/reducers';
-import { ICourseTableCourse, ITimeInterval } from '../share';
 import TimeInterval from '../TimeInterval';
-import { ITimeIntervalProps } from '../TimeInterval/TimeInterval';
 import * as s from './CourseTablePreview.css';
+
+import { ICourseTableCourse } from '../../schema/types/CourseTable';
+import { ITimeInterval } from '../../schema/types/TimeInterval';
 
 interface IEventPoint {
   // Interval Index in Day base list
@@ -24,7 +25,7 @@ export interface ICourseTablePreview {
 }
 
 export class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
-  public coursetable: Array<Seq.Indexed<ITimeIntervalProps>>;
+  public coursetable: Array<Seq.Indexed<TimeInterval.Props>>;
   public maxTime: number;
 
   public componentWillMount() {
@@ -74,7 +75,7 @@ export class CourseTablePreview extends React.Component<ICourseTablePreview, voi
     // Day list
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     // Day base course list
-    const ct: ITimeIntervalProps[][] = [[], [], [], [], []];
+    const ct: TimeInterval.Props[][] = [[], [], [], [], []];
 
     // Convert course list to day base course list.
     courses.forEach((({ section: { timeIntervals, ...section }, course, color }) => {
@@ -161,7 +162,7 @@ export class CourseTablePreview extends React.Component<ICourseTablePreview, voi
         }
       }, {
         avaliablePosition: List<number>(),
-        positionIndex: Map<number, ITimeIntervalProps>(),
+        positionIndex: Map<number, TimeInterval.Props>(),
       });
 
       return p.valueSeq();

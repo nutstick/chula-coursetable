@@ -1,4 +1,3 @@
-import Sidebar from './Sidebar';
+import { Sidebar } from './Sidebar';
 
-export { ISidebarProps } from './Sidebar';
 export default Sidebar;

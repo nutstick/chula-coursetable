@@ -1,5 +1,3 @@
-import { default as TimeInterval } from './TimeInterval';
-import * as t from './TimeInterval';
+import { TimeInterval } from './TimeInterval';
 
-export type ITimeIntervalProps = t.ITimeIntervalProps;
 export default TimeInterval;

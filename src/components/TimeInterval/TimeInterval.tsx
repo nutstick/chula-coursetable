@@ -1,30 +1,36 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { ITimeInterval } from '../share';
 import * as s from './TimeInterval.css';
 
-export interface ITimeIntervalProps extends ITimeInterval {
-  start: string;
-  end: string;
-  size?: number;
-  position?: number;
-  maxTime?: number;
-  ID?: string;
+import { ITimeInterval } from '../../schema/types/TimeInterval';
 
-  courseID?: string;
-  name?: string;
-  credit?: string;
+export namespace TimeInterval {
+  export interface IProps extends ITimeInterval, React.Props<any> {
+    start: string;
+    end: string;
+    size?: number;
+    position?: number;
+    maxTime?: number;
+    ID?: string;
 
-  sectionNo?: string;
-  building?: string;
-  classroom?: string;
-  type?: string;
+    courseID?: string;
+    name?: string;
+    credit?: string;
 
-  color: string;
+    sectionNo?: string;
+    building?: string;
+    classroom?: string;
+    type?: string;
+
+    color: string;
+  }
+
+  export type Props = IProps;
 }
 
-class TimeInterval extends React.Component<ITimeIntervalProps, void> {
+@withStyles(s)
+export class TimeInterval extends React.Component<TimeInterval.Props> {
   public convertTimeToInt(time: string) {
     const [h, m] = time.split(':');
     return parseInt(h, 10) * 60 + parseInt(m, 10);
@@ -37,10 +43,12 @@ class TimeInterval extends React.Component<ITimeIntervalProps, void> {
     const start_ = this.convertTimeToInt(start);
     const end_ = this.convertTimeToInt(end);
 
-    // Set time range of showed timetable
-    // 8:00 = 8 * 60 = 480
-    // 16:00 = 16 * 60 = 960
-    // 21:00 = 21 * 60 = 1260
+    /**
+     * Set time range of showed timetable
+     * 8:00 = 8 * 60 = 480
+     * 16:00 = 16 * 60 = 960
+     * 21:00 = 21 * 60 = 1260
+     */
     const minTime = 480;
     maxTime = maxTime > 960 ? 1260 : 960;
 
@@ -67,5 +75,3 @@ class TimeInterval extends React.Component<ITimeIntervalProps, void> {
     );
   }
 }
-
-export default withStyles(s)(TimeInterval);

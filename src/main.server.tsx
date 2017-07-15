@@ -189,7 +189,6 @@ database.connect((databaseError) => {
       client: apolloClient,
     };
 
-
     const component = (
       <App context={context}>
         <StaticRouter location={req.url} context={context}>

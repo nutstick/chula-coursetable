@@ -10,7 +10,7 @@ interface IBottomFloatingButton extends React.Props<any> {
   to?: string;
 }
 
-class BottomFloatingButton extends React.Component<IBottomFloatingButton, void> {
+class BottomFloatingButton extends React.Component<IBottomFloatingButton> {
   public render() {
     const { show, onClick, to } = this.props;
     return (

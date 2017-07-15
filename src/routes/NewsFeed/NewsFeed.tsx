@@ -1,13 +1,13 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Feed, Icon, Loader } from 'semantic-ui-react';
 import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
-import { ICourseTable } from '../../components/share';
 import { setFloatingButtonDeactive } from '../../redux/ui/actions';
+
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
 import * as CREATECOURSETABLEMUTATION from './CreateCourseTableMutation.gql';
 import * as elliot from './elliot.jpg';
@@ -15,28 +15,27 @@ import * as helen from './helen.jpg';
 import * as image from './image.png';
 import * as s from './NewsFeed.css';
 
+import { ICourseTable } from '../../schema/types/CourseTable';
+import { IUser } from '../../schema/types/User';
+
 // TODO Use import
 // tslint:disable-next-line:no-var-requires
 const MdAdd = require('react-icons/lib/md/add');
 
-interface INewsFeed extends React.Props<any> {
-  onCreateCourseTable: () => void;
-  coursetables: ICourseTable[];
-  formatMessage: intlShape;
-  data: {
-    me: {
-      coursetables: {
-        edges: Array<{
-          node: ICourseTable,
-        }>,
-        pageInfo: {
-          endCursor: string,
-        },
-      },
-    },
-    error: any,
-    loading: boolean;
-  };
+namespace NewsFeed {
+  export interface IProps extends React.Props<any> {
+    formatMessage: intlShape;
+  }
+
+  export interface ICreateCourseTableMutation {
+    onCreateCourseTable: () => void;
+  }
+
+  export interface ICoursetablePreviewQuery {
+    me: IUser;
+  }
+
+  export type Props = DefaultChildProps<IProps, ICoursetablePreviewQuery>;
 }
 
 const messages = defineMessages({
@@ -52,11 +51,7 @@ const messages = defineMessages({
   },
 });
 
-class NewsFeed extends React.Component<INewsFeed, void> {
-  constructor(props) {
-    super(props);
-  }
-
+class NewsFeed extends React.Component<NewsFeed.Props> {
   public shouldComponentUpdate(nextProps, nextState) {
     return true;
   }
@@ -116,15 +111,16 @@ class NewsFeed extends React.Component<INewsFeed, void> {
   }
 }
 
-export default injectIntl(compose(
+export default compose(
+  injectIntl,
   withStyles(s),
-  graphql(CREATECOURSETABLEMUTATION, {
+  graphql<NewsFeed.ICreateCourseTableMutation, NewsFeed.Props>(CREATECOURSETABLEMUTATION, {
     props: ({ mutate }) => ({
       onCreateCourseTable: async () => {
-        const coursetable = await mutate();
+        const coursetable = await mutate({});
         // TODO Redirect
       },
     }),
   }),
-  graphql(COURSETABLEPREVIEWQUERY),
-)(NewsFeed));
+  graphql<NewsFeed.ICoursetablePreviewQuery, NewsFeed.Props>(COURSETABLEPREVIEWQUERY),
+)(NewsFeed);

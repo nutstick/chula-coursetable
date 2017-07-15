@@ -2,10 +2,10 @@ import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
 import { CourseTablePreview, ICourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
-import { ICourse } from '../share';
 import TimeInterval from '../TimeInterval';
 import * as s from './CourseTable.css';
 
+import { ICourse } from '../../schema/types/Course';
 
 class CourseTable extends CourseTablePreview {
   public componentWillMount() {

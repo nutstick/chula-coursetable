@@ -1,9 +1,11 @@
+import { IApprovedCourse, ICourse, IGenedCourse } from '../Course';
 import resolver from './resolver';
 import * as type from './typeDef.gql';
 
-// TODO Define Type for Search Result
+type ISearchResult = ICourse | IGenedCourse | IApprovedCourse;
 
 export {
   resolver,
   type,
+  ISearchResult,
 };

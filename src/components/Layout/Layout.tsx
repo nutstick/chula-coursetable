@@ -17,20 +17,24 @@ import NoMatch from './NoMatch';
 // tslint:disable-next-line:no-var-requires
 const MdAdd = require('react-icons/lib/md/add');
 
-interface IConnectionState {
-  user: IUserState;
-  expand: {
-    left: boolean,
-    right: boolean,
-  };
-  floatingButton: {
-    show: boolean,
-    to: string,
-    icon: string,
-  };
+namespace Layout {
+  export interface IConnectedState {
+    user: IUserState;
+    expand: {
+      left: boolean,
+      right: boolean,
+    };
+    floatingButton: {
+      show: boolean,
+      to: string,
+      icon: string,
+    };
+  }
+
+  export type Props = IConnectedState;
 }
 
-class Layout extends React.Component<React.Props<any> & IConnectionState, void> {
+class Layout extends React.Component<Layout.Props> {
   public render() {
     return (
       <div>
@@ -53,7 +57,7 @@ class Layout extends React.Component<React.Props<any> & IConnectionState, void> 
   }
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: IState): Layout.IConnectedState => ({
   expand: state.ui.sidebar.expand,
   user: state.user,
   floatingButton: state.ui.floatingButton,
@@ -61,5 +65,5 @@ const mapStateToProps = (state: IState) => ({
 
 export default compose(
   withStyles(s),
-  connect(mapStateToProps),
+  connect(mapStateToProps, {}),
 )(Layout);

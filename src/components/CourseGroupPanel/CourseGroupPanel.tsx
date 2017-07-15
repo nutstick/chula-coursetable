@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import * as Redux from 'redux';
 import { Accordion, Checkbox, Label } from 'semantic-ui-react';
 import { pushAddCourseAction, pushChangeSectionAction, pushRemoveCourseAction } from '../../redux/action/actions';
+
 import * as s from './CourseGroupPanel.css';
 import * as COURSEGROUPQUERY from './CourseGroupQuery.gql';
 import * as COURSELISTQUERY from './CoursesListQuery.gql';
@@ -24,7 +25,7 @@ import { IUser } from '../../schema/types/User';
 const MdArrowBack = require('react-icons/lib/md/arrow-back');
 
 namespace CourseGroupPanel {
-  export interface IProps {
+  export interface IProps extends React.Props<any> {
     match: {
       params: {
         id: string,
@@ -40,7 +41,7 @@ namespace CourseGroupPanel {
     coursegroup: ICourseGroup;
   }
 
-  export interface IConnectionState {
+  export interface IConnectedState {
     actions?: Map<string, IAction>;
   }
 
@@ -50,7 +51,7 @@ namespace CourseGroupPanel {
     onRemoveCourseActionTrigger?: (coursetable: string, course, target) => void;
   }
 
-  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectionState,
+  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectedState,
                             ICourseListQuery & ICourseGroupQuery>;
 }
 
@@ -67,7 +68,7 @@ const messages = defineMessages({
   },
 });
 
-const mapStateToProps = (state: IState, ownProps): CourseGroupPanel.IConnectionState => ({
+const mapStateToProps = (state: IState, ownProps): CourseGroupPanel.IConnectedState => ({
   actions: state.action.get(ownProps.match.params.id),
 });
 
@@ -136,11 +137,11 @@ class CourseGroupPanel extends React.Component<CourseGroupPanel.Props, any> {
   }
   public render() {
     const { data: { coursegroup }, actions } = this.props;
-    const mycourses = this.getMyCourse(coursegroup.courses, actions);
+    const courses = this.getMyCourse(coursegroup.courses, actions);
 
     const renderPanels = coursegroup && coursegroup.courses
       .map((c) => {
-        const mySection = mycourses.getIn([c._id, 'section']);
+        const mySection = courses.getIn([c._id, 'section']);
         const actionSection = this.sectionTarget(c._id);
         return {
           key: `course-${c._id}`,
@@ -197,38 +198,11 @@ export default compose(
     options(props) {
       return { variables: { id: props.match.params.id } };
     },
-    // props(props) {
-    //   const { data: { coursegroup, error, loading }, ownProps: { actions } } = props;
-    //   if (!coursegroup) {
-    //     return { loading, error };
-    //   }
-
-    //   const { courses, ...detail } = coursegroup;
-    //   return {
-    //     coursegroup,
-    //     loading: loading && props.ownProps.loading,
-    //     error: error && props.ownProps.error,
-    //   };
-    // },
   }),
   graphql<CourseGroupPanel.ICourseListQuery, CourseGroupPanel.Props>(COURSELISTQUERY, {
     options(props) {
       return { variables: { coursetable: props.match.params.id } };
     },
-    // props(props) {
-    //   const { data: { me, error, loading }, ownProps: { actions } } = props;
-    //   return {
-    //     mycourses: me && me.coursetable && me.coursetable.courses
-    //       .filter((c) => !actions || !(actions.valueSeq()
-    //         .find((a) => (a.type === 'REMOVE') && a.target === c.section._id)),
-    //       )
-    //       .reduce((m, c) => m.set(c.course._id, {
-    //         ...c,
-    //       }), Map<string, ICourseTableCourse>()),
-    //     loading,
-    //     error,
-    //   };
-    // },
   }),
   connect(mapStateToProps, mapDispatchToProps),
 )(CourseGroupPanel);

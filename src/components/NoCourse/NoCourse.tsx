@@ -1,24 +1,32 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import { compose } from 'redux';
+import { Card, Divider, Label } from 'semantic-ui-react';
+
 // import 'semantic-ui-css/components/card.css';
 // import 'semantic-ui-css/components/divider.css';
 // import 'semantic-ui-css/components/label.css';
-import { Card, Divider, Label } from 'semantic-ui-react';
-import { ICourse, ICourseGroup, ICourseTableCourse } from '../share';
 import * as s from './NoCourse.css';
 import * as SUGGESTCOURSEGROUPQUERY from './SuggestCourseGroupQuery.gql';
 
-export interface INoCourseProps extends React.Props<any> {
-  id: string;
-  suggestCourseGroup?: ICourseGroup;
-  loading?: boolean;
-  error?: Error;
+import { IState } from '../../redux/IState';
+import { ICourseGroup } from '../../schema/types/CourseGroup';
+import { ICourseTableCourse } from '../../schema/types/CourseTable';
+import { IUser } from '../../schema/types/User';
+
+namespace NoCourse {
+  export interface IProps extends React.Props<any> {
+    id: string;
+  }
+
+  export interface ISuggestCourseGroupQuery {
+    me: IUser;
+  }
+
+  export type Props = DefaultChildProps<IProps, ISuggestCourseGroupQuery>;
 }
 
 const messages = defineMessages({
@@ -68,11 +76,7 @@ const SuggestCourseGroup = ({ id, suggestCourseGroup }) => (
   </Link>
 );
 
-class NoCourse extends React.Component<INoCourseProps, void> {
-  constructor(props) {
-    super(props);
-  }
-
+class NoCourse extends React.Component<NoCourse.Props> {
   public render() {
     return (
       <div className={s.nocourse}>
@@ -88,10 +92,10 @@ class NoCourse extends React.Component<INoCourseProps, void> {
         </Label>
         <div>
           {
-            this.props.loading ? <FormattedMessage {...messages.loading} /> :
-            this.props.suggestCourseGroup && <SuggestCourseGroup
+            this.props.data.loading ? <FormattedMessage {...messages.loading} /> :
+            this.props.data.me.suggestCourseGroup && <SuggestCourseGroup
               id={this.props.id}
-              suggestCourseGroup={this.props.suggestCourseGroup}
+              suggestCourseGroup={this.props.data.me.suggestCourseGroup}
             />
           }
         </div>
@@ -100,30 +104,7 @@ class NoCourse extends React.Component<INoCourseProps, void> {
   }
 }
 
-const x = compose(
-  withStyles(s),
-  graphql(SUGGESTCOURSEGROUPQUERY, {
-    props(props) {
-      const { data: { me, error, loading }, actions } = props;
-      return {
-        suggestCourseGroup: me && me.suggestCourseGroup,
-        loading,
-        error,
-      };
-    },
-  }),
-)(NoCourse);
-
 export default compose(
   withStyles(s),
-  graphql(SUGGESTCOURSEGROUPQUERY, {
-    props(props) {
-      const { data: { me, error, loading }, actions } = props;
-      return {
-        suggestCourseGroup: me && me.suggestCourseGroup,
-        loading,
-        error,
-      };
-    },
-  }),
+  graphql<NoCourse.ISuggestCourseGroupQuery, NoCourse.Props>(SUGGESTCOURSEGROUPQUERY),
 )(NoCourse);
