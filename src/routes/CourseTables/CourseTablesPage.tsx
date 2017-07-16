@@ -5,7 +5,7 @@ import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
-import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
+import CourseTablePreview from '../../components/CourseTablePreview';
 import { setFloatingButtonDeactive } from '../../redux/ui/actions';
 
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';
@@ -78,7 +78,7 @@ class CourseTablesPage extends React.Component<CourseTablesPage.Props> {
                   className={s.item}
                   to={`coursetable/${item.node._id}`}
                 >
-                  <CourseTablePreview className={s.courseTable} {...item.node} />
+                  <CourseTablePreview className={s.courseTable} {...item.node} loading={this.props.data.loading} />
                   <div className={s.itemContent}>
                     <h3>
                       {item.node.name || (formatMessage && formatMessage(messages.unname)) || 'No name'}

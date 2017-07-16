@@ -2,6 +2,7 @@ import * as cx from 'classnames';
 import { List, Map, Seq } from 'immutable';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
+import { Loader } from 'semantic-ui-react';
 import { IAction } from '../../redux/action/reducers';
 import TimeInterval from '../TimeInterval';
 import * as s from './CourseTablePreview.css';
@@ -18,29 +19,37 @@ interface IEventPoint {
   timestamp: number;
 }
 
-export interface ICourseTablePreview {
-  _id: string;
-  className?: string;
-  courses: ICourseTableCourse[];
+export namespace CourseTablePreview {
+  interface IProps extends React.Props<any> {
+    _id: string;
+    className?: string;
+    courses?: ICourseTableCourse[];
+    loading?: boolean;
+    error?: string;
+  }
+
+  export type Props = IProps;
 }
 
-export class CourseTablePreview extends React.Component<ICourseTablePreview, void> {
-  public coursetable: Array<Seq.Indexed<TimeInterval.Props>>;
-  public maxTime: number;
+export class CourseTablePreview extends React.Component<CourseTablePreview.Props> {
+  protected coursetable: Array<Seq.Indexed<TimeInterval.Props>>;
+  protected maxTime: number;
 
   public componentWillMount() {
     this.generateCourseTable({ courses: this.props.courses });
   }
 
-  public componentWillReceiveProps({ courses }) {
-    this.generateCourseTable({ courses });
+  public componentWillReceiveProps(props) {
+    this.generateCourseTable({ courses: props.courses });
   }
 
   public render() {
     const maxTime = this.maxTime;
+    // TODO Error handling
     return (
       <div className={cx(s.root, s.table, this.props.className)}>
         <div className={s.fixAspect} />
+        {this.props.loading && <Loader>Loading</Loader>}
         <div className={s.content}>
           {['M', 'T', 'W', 'TH', 'F', 'S'].map((day, index) => (
             <div className={cx(s.day, s.tableRow)} key={day}>
@@ -61,13 +70,13 @@ export class CourseTablePreview extends React.Component<ICourseTablePreview, voi
     );
   }
 
-  public convertTimeToInt(time: string) {
+  private convertTimeToInt(time: string) {
     const [h, m] = time.split(':');
     return parseInt(h, 10) * 60 + parseInt(m, 10);
   }
 
   /* Calculate interval size for rendering cousetable correctly */
-  public generateCourseTable({ courses }: { courses: ICourseTableCourse[] }) {
+  protected generateCourseTable({ courses }: { courses?: ICourseTableCourse[] }) {
     if (!courses) {
       this.coursetable = [null, null, null, null, null, null];
       return;

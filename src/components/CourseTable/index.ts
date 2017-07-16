@@ -1,4 +1,3 @@
-import { ICourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
-import * as t from './CourseTable';
+import { CourseTable } from './CourseTable';
 
-export default t.default;
+export default CourseTable;

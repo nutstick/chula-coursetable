@@ -18,14 +18,6 @@ import { IState } from '../../redux/IState';
 import { IUser } from '../../schema/types/User';
 
 namespace SidebarMenu {
-  export interface IProps extends Sidebar.Props {
-    name: string;
-    avatar: string;
-    faculty: string;
-    department: string;
-    enrollYear: string;
-  }
-
   export interface IUserQuery {
     me: IUser;
   }
@@ -38,7 +30,7 @@ namespace SidebarMenu {
     onSignOut?: () => void;
   }
 
-  export type Props = DefaultChildProps<IProps & IConnectedDispatch & IConnectedState, IUserQuery>;
+  export type Props = DefaultChildProps<IConnectedDispatch & IConnectedState, IUserQuery>;
 }
 
 const messages = defineMessages({
@@ -81,13 +73,13 @@ class SidebarMenu extends React.Component<SidebarMenu.Props> {
             <div className={s.profile}>
               <Avartar
                 className={s.avatar}
-                src={`${this.props.avatar}`}
-                alt="Cat"
+                src={`${this.props.data.me.avatar}`}
+                alt="Profile picture"
                 size={60}>
               </Avartar>
               <div className={s.nameWrapper}>
-                <div className={s.firstLine}>{this.props.name}</div>
-                <div className={s.secondLine}>{this.props.faculty}, {this.props.department}</div>
+                <div className={s.firstLine}>{this.props.data.me.name}</div>
+                <div className={s.secondLine}>{this.props.data.me.faculty}, {this.props.data.me.department}</div>
               </div>
             </div>
             <div className={s.actionHolder}>
@@ -112,7 +104,7 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<IState>): SidebarMenu.IConn
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(s),
   graphql<SidebarMenu.IUserQuery, SidebarMenu.Props>(USERQUERY),
 )(SidebarMenu);

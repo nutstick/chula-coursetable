@@ -5,7 +5,6 @@ import { compose, DefaultChildProps, graphql } from 'react-apollo';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Feed, Icon, Loader } from 'semantic-ui-react';
-import { default as CourseTablePreview, ICourseTablePreview } from '../../components/CourseTablePreview';
 import { setFloatingButtonDeactive } from '../../redux/ui/actions';
 
 import * as COURSETABLEPREVIEWQUERY from './CourseTablePreviewQuery.gql';

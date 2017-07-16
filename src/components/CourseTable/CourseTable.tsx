@@ -1,13 +1,14 @@
 import * as cx from 'classnames';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import * as React from 'react';
-import { CourseTablePreview, ICourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
+import { CourseTablePreview } from '../CourseTablePreview/CourseTablePreview';
 import TimeInterval from '../TimeInterval';
 import * as s from './CourseTable.css';
 
 import { ICourse } from '../../schema/types/Course';
 
-class CourseTable extends CourseTablePreview {
+@withStyles(s)
+export class CourseTable extends CourseTablePreview {
   public componentWillMount() {
     this.generateCourseTable({ courses: this.props.courses });
   }
@@ -40,5 +41,3 @@ class CourseTable extends CourseTablePreview {
     );
   }
 }
-
-export default withStyles(s)(CourseTable);

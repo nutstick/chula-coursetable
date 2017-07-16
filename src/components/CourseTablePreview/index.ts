@@ -1,5 +1,3 @@
-import { default as CourseTablePreview } from './CourseTablePreview';
-import * as t from './CourseTablePreview';
+import StyledCourseTablePreview from './CourseTablePreview';
 
-export type ICourseTablePreview = t.ICourseTablePreview;
-export default CourseTablePreview;
+export default StyledCourseTablePreview;

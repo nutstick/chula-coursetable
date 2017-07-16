@@ -117,8 +117,7 @@ class CourseTablePage extends React.Component<CourseTablePage.Props, CourseTable
     const style = {
       marginRight: 20,
     };
-
-    const { data: { me }, actions } = this.props;
+    const { data: { me, loading, error }, actions } = this.props;
     const courses = me && me.coursetable && this.getMyCourse(me.coursetable.courses, actions);
     const actionCourses = this.props.data.courses && this.props.data.courses
       .reduce((m, c) => m.set(c.course._id, {
@@ -126,13 +125,13 @@ class CourseTablePage extends React.Component<CourseTablePage.Props, CourseTable
         ...c,
       }), Map<string, ICourseTableCourse>());
 
-    const mergedCourses = courses && courses.merge(actionCourses).valueSeq();
+    const mergedCourses = courses && courses.merge(actionCourses).valueSeq().toArray();
 
     return (
       <div className={s.root}>
-        {me.coursetable && <div>
+        {<div>
           <h2 className={s.header}>
-            <span>{me.coursetable.name}</span>
+            {me && <span>{me.coursetable.name}</span>}
             <Dropdown icon="setting" floating button className="icon">
               <Dropdown.Menu className={s.menu}>
                 <Dropdown.Item icon="table" text="Export to Excel" />
@@ -143,11 +142,11 @@ class CourseTablePage extends React.Component<CourseTablePage.Props, CourseTable
           </h2>
           <CourseTable
             className={s.courseTable}
-            _id={me.coursetable._id}
+            _id={me && me.coursetable._id}
             courses={mergedCourses}
+            loading={loading}
           ></CourseTable>
         </div>}
-        {this.props.data.loading && <div>Loading</div>}
         {this.props.actions && <div className={s.actionHolder}>
           <Button.Group>
             <Button
